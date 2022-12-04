@@ -1,0 +1,63 @@
+{'algo': 'ppo', 'env1': 'MiniGrid-WallGapS6-v0', 'env2': 'MiniGrid-DoorKey-6x6-v0', 'model': 'MiniGrid-WallGapS6-v0_alt_MiniGrid-DoorKey-6x6-v0_metaRIMs_6_4_proc_16_RMSProp_lr_7e4_gae_099_inputvalue_64_inputheads_4_batch_256_nxt_MiniGrid-RedBlueDoors-6x6-v0_1M_mid', 'interlaced': True, 'early_stop': False, 'seed': 1, 'log_interval': 1, 'save_interval': 10, 'procs': 16, 'frames': 1000000.0, 'epochs': 4, 'batch_size': 256, 'frames_per_proc': 128, 'discount': 0.99, 'lr': 0.0007, 'gae_lambda': 0.99, 'entropy_coef': 0.01, 'value_loss_coef': 0.5, 'max_grad_norm': 0.5, 'optim_eps': 1e-08, 'optim_alpha': 0.99, 'clip_eps': 0.2, 'recurrence': 32, 'text': False, 'use_rim': True, 'mem': True, 'num_units': 6, 'k': 4, 'input_heads': 4}
+
+Device: cpu
+
+{'algo': 'ppo', 'env': 'MiniGrid-RedBlueDoors-6x6-v0', 'model': 'MiniGrid-WallGapS6-v0_alt_MiniGrid-DoorKey-6x6-v0_metaRIMs_6_4_proc_16_RMSProp_lr_7e4_gae_099_inputvalue_64_inputheads_4_batch_256_nxt_MiniGrid-RedBlueDoors-6x6-v0_end', 'seed': 1, 'log_interval': 1, 'save_interval': 10, 'procs': 16, 'frames': 2000000.0, 'epochs': 4, 'batch_size': 256, 'frames_per_proc': 128, 'discount': 0.99, 'lr': 0.0007, 'gae_lambda': 0.99, 'entropy_coef': 0.01, 'value_loss_coef': 0.5, 'max_grad_norm': 0.5, 'optim_eps': 1e-08, 'optim_alpha': 0.99, 'clip_eps': 0.2, 'recurrence': 32, 'text': False, 'use_rim': True, 'mem': True, 'num_units': 6, 'k': 4}
+
+Device: cpu
+
+Environments loaded
+
+Training status loaded
+
+Observations preprocessor loaded
+{'algo': 'ppo', 'env': 'MiniGrid-RedBlueDoors-6x6-v0', 'model': 'MiniGrid-WallGapS6-v0_alt_MiniGrid-DoorKey-6x6-v0_metaRIMs_6_4_proc_16_RMSProp_lr_7e4_gae_099_inputvalue_64_inputheads_4_batch_256_nxt_MiniGrid-RedBlueDoors-6x6-v0_end', 'seed': 1, 'log_interval': 1, 'save_interval': 10, 'procs': 16, 'frames': 3000000.0, 'epochs': 4, 'batch_size': 256, 'frames_per_proc': 128, 'discount': 0.99, 'lr': 0.0007, 'gae_lambda': 0.99, 'entropy_coef': 0.01, 'value_loss_coef': 0.5, 'max_grad_norm': 0.5, 'optim_eps': 1e-08, 'optim_alpha': 0.99, 'clip_eps': 0.2, 'recurrence': 32, 'text': False, 'use_rim': True, 'mem': True, 'num_units': 6, 'k': 4, 'input_heads': 4}
+
+Device: cpu
+
+Environments loaded
+
+Training status loaded
+
+Observations preprocessor loaded
+Model loaded
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(3, 16, kernel_size=(2, 2), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(2, 2), stride=(2, 2), padding=0, dilation=1, ceil_mode=False)
+    (3): Conv2d(16, 32, kernel_size=(2, 2), stride=(1, 1))
+    (4): ReLU()
+    (5): Conv2d(32, 64, kernel_size=(2, 2), stride=(1, 1))
+    (6): ReLU()
+  )
+  (memory_rnn): RIMCell(
+    (key): Linear(in_features=64, out_features=256, bias=True)
+    (value): Linear(in_features=64, out_features=256, bias=True)
+    (rnn): GroupLSTMCell(
+      (i2h): GroupLinearLayer()
+      (h2h): GroupLinearLayer()
+    )
+    (query): GroupLinearLayer()
+    (query_): GroupLinearLayer()
+    (key_): GroupLinearLayer()
+    (value_): GroupLinearLayer()
+    (comm_attention_output): GroupLinearLayer()
+    (comm_dropout): Dropout(p=0.1, inplace=False)
+    (input_dropout): Dropout(p=0.1, inplace=False)
+  )
+  (actor): Sequential(
+    (0): Linear(in_features=60, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=7, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=60, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+Optimizer loaded
+

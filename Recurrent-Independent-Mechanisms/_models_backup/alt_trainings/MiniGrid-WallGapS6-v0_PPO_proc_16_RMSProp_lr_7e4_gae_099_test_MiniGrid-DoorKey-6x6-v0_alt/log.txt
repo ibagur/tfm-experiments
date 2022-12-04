@@ -1,0 +1,4 @@
+{'algo': 'ppo', 'env1': 'MiniGrid-WallGapS6-v0', 'env2': 'MiniGrid-DoorKey-6x6-v0', 'model': 'MiniGrid-WallGapS6-v0_PPO_proc_16_RMSProp_lr_7e4_gae_099_test_MiniGrid-DoorKey-6x6-v0_alt', 'seed': 1, 'log_interval': 1, 'save_interval': 10, 'procs': 16, 'frames': 1000000.0, 'epochs': 4, 'batch_size': 256, 'frames_per_proc': 128, 'discount': 0.99, 'lr': 0.0007, 'gae_lambda': 0.99, 'entropy_coef': 0.01, 'value_loss_coef': 0.5, 'max_grad_norm': 0.5, 'optim_eps': 1e-08, 'optim_alpha': 0.99, 'clip_eps': 0.2, 'recurrence': 1, 'text': False, 'use_rim': False, 'mem': False}
+
+Device: cpu
+

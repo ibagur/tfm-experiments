@@ -23,7 +23,9 @@ def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log
 
             obs = eval_envs.reset()
             obs_shape_real = eval_envs.observation_space.shape
-            current_obs = torch.zeros(num_processes, *obs_shape).cuda()
+            #current_obs = torch.zeros(num_processes, *obs_shape).cuda()
+            # Make it dependant on device type
+            current_obs = torch.zeros(num_processes, *obs_shape, device=device)
             #### reshape for training ##############
             current_obs[:, :obs_shape_real[0]] = obs
             ########################################

@@ -18,6 +18,11 @@ def train_ppo(actor_critic, agent, rollouts, task_idx, env_name, task_sequences,
     print ('len task_sequences : ', len(task_sequences))
     for idx in range(len(task_sequences)):
         te_reward_arr['mean']['task' + str(idx)].append((eval_episode_mean_rewards[idx]))
+
+    # create results_data folder in case it does not exist
+    if not os.path.exists("./result_data/"):
+        os.makedirs("./result_data/")
+
     sio.savemat('./result_data/'+log_name + '_result.mat',{'tr_reward_arr':np.array(tr_reward_arr),
                                                                      'te_reward_arr':np.array(te_reward_arr)})
 
@@ -100,7 +105,7 @@ def train_ppo(actor_critic, agent, rollouts, task_idx, env_name, task_sequences,
                     and (j+1) % args.eval_interval == 0):
             ob_rms = None
             eval_episode_mean_rewards = evaluate(actor_critic, ob_rms, task_sequences, args.seed,
-                            10, args.log_dir, device, obs_shape, task_idx, args.gamma)
+                            10, args.log_dir, device, obs_shape, task_idx, args.gamma, wrapper_class)
 
             print ('len task_sequences : ', len(task_sequences))
             for idx in range(len(task_sequences)):

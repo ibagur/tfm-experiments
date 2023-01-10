@@ -10,11 +10,11 @@ from .a2c_ppo_acktr import utils
 from .evaluation import evaluate
 
 def train_ppo(actor_critic, agent, rollouts, task_idx, env_name, task_sequences, envs, obs_shape, args,
-              episode_rewards, tr_reward_arr, te_reward_arr, num_updates, log_name, device):
+              episode_rewards, tr_reward_arr, te_reward_arr, num_updates, log_name, device, wrapper_class=None):
     # evaluate here so that we can conveniently plot
     ob_rms = None
     eval_episode_mean_rewards = evaluate(actor_critic, ob_rms, task_sequences, args.seed,
-                            10, args.log_dir, device, obs_shape, task_idx, args.gamma)
+                            10, args.log_dir, device, obs_shape, task_idx, args.gamma, wrapper_class)
     print ('len task_sequences : ', len(task_sequences))
     for idx in range(len(task_sequences)):
         te_reward_arr['mean']['task' + str(idx)].append((eval_episode_mean_rewards[idx]))

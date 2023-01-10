@@ -5,7 +5,7 @@ from .a2c_ppo_acktr import utils
 from .a2c_ppo_acktr.envs import make_vec_envs
 
 def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log_dir,
-             device, obs_shape, current_task_idx, gamma):
+             device, obs_shape, current_task_idx, gamma, wrapper_class=None):
 
     eval_episode_rewards_arr = []
 
@@ -16,8 +16,9 @@ def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log
             # eval_envs = make_vec_envs(task_name, seed + num_processes, num_processes,
             #                           gamma, eval_log_dir, device, False)
 
+            # add wrapper_class for MiniGrid
             eval_envs = make_vec_envs(task_name, seed + num_processes, num_processes,
-                                      gamma, eval_log_dir, device, False)                                      
+                                      gamma, eval_log_dir, device, False, wrapper_class=wrapper_class)                                      
             eval_episode_rewards = deque(maxlen=10)
 
             obs = eval_envs.reset()

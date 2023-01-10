@@ -63,7 +63,11 @@ parser.add_argument("--text", action="store_true", default=False,
                     help="add a GRU to the model to handle text input")
 
 ## Model Parameters
-parser.add_argument('--use_rim', action = 'store_true', default = False)
+parser.add_argument('--use-rim', action = 'store_true', default = False)
+
+## Policy consolidation parameters
+parser.add_argument('--cascade-depth', type=int, default = 1)
+
 
 args = parser.parse_args()
 
@@ -125,7 +129,7 @@ if "vocab" in status:
     preprocess_obss.vocab.load_vocab(status["vocab"])
 txt_logger.info("Observations preprocessor loaded")
 
-# Load model
+# Create main model
 
 acmodel = ACModel(obs_space, envs[0].action_space, args.mem, args.text, args.use_rim)
 if "model_state" in status:
@@ -133,6 +137,25 @@ if "model_state" in status:
 acmodel.to(device)
 txt_logger.info("Model loaded\n")
 txt_logger.info("{}\n".format(acmodel))
+
+
+# Create hidden policies
+acmodels = [acmodel]
+
+# Create hidden policies
+for k in range(1, args.cascade_depth):
+    hidden_acmodel = ACModel(obs_space, envs[0].action_space, args.mem, args.text, args.use_rim)
+    acmodels.append(hidden_acmodel)
+
+
+if isinstance(args.lr, float):
+    if args.lr_decay:
+        lrs = decayfn_arr(lr,1.0/args.mesh_factor, args.cascade_depth) # learning rates exponentially smaller for deeper policies in cascade
+    else:
+        lrs = constfn_arr(args.lr,args.cascade_depth)
+else: assert callable(args.lr)
+if isinstance(args.cliprange, float): clipranges = decayfn_arr(args.cliprange,1.0/args.mesh_factor, args.cascade_depth)
+else: assert callable(args.cliprange)
 
 # Load algo
 

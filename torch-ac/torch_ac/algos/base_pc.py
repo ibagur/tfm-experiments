@@ -8,14 +8,9 @@ class BaseAlgoPC(ABC):
     """The base class for RL algorithms."""
 
     def __init__(self, envs, acmodels, device, num_frames_per_proc, discount, lr, gae_lambda, entropy_coef,
-                 value_loss_coef, max_grad_norm, recurrence, preprocess_obss, reshape_reward, 
+                 value_loss_coef, max_grad_norm, recurrence, preprocess_obss, 
                  cascade_depth, 
-                 lr_decay, 
-                 mesh_factor, 
-                 cliprange, 
-                 flow_factor, 
-                 value_cascade, 
-                 kl_beta
+                 reshape_reward
                  ):
         """
         Initializes a `BaseAlgo` instance.
@@ -108,9 +103,9 @@ class BaseAlgoPC(ABC):
         self.log_probs = torch.zeros(*shape, device=self.device)
 
         # Tensor lists for storing cascade policies parameters
-        self.actions_cascade = [self.actions.detach().clone() for i in range(cascade_depth)]
-        self.values_cascade = [self.values.detach().clone() for i in range(cascade_depth)]   
-        self.log_probs_cascade = [self.log_probs.detach().clone() for i in range(cascade_depth)]     
+        self.actions_cascade = [torch.zeros(*shape, device=self.device, dtype=torch.int) for i in range(cascade_depth)]
+        self.values_cascade = [torch.zeros(*shape, device=self.device) for i in range(cascade_depth)]   
+        self.log_probs_cascade = [torch.zeros(*shape, device=self.device) for i in range(cascade_depth)]     
 
         # Initialize log values
 
@@ -149,7 +144,7 @@ class BaseAlgoPC(ABC):
 
             preprocessed_obs = self.preprocess_obss(self.obs, device=self.device)
             
-            actions = []
+            #actions = []
             
             for j in range(self.cascade_depth):
                 with torch.no_grad():
@@ -158,30 +153,36 @@ class BaseAlgoPC(ABC):
                         dist, value, memory = self.acmodels[j](preprocessed_obs, self.memory * self.mask.unsqueeze(1))
                     else:
                         dist, value = self.acmodels[j](preprocessed_obs)
-                action = dist.sample()
-                actions.append(action)
+                # get sample of actions from visible policy
+                if j==0:
+                    action = dist.sample()
+                    #actions.append(action)
 
-                self.actions_cascade[j][i] = action
+                #self.actions_cascade[j][i] = action
                 self.values_cascade[j][i] = value
+                # Get the logprob of the visible policy actions using each policy distribution
                 self.log_probs_cascade[j][i] = dist.log_prob(action)                
 
-            obs, reward, done, _ = self.env.step(actions[0].cpu().numpy())
+            #obs, reward, done, _ = self.env.step(actions[0].cpu().numpy())
+            obs, reward, done, _ = self.env.step(action.cpu().numpy())
 
             # Update experiences values
 
             self.obss[i] = self.obs
             self.obs = obs
             #TODO Review for recurrent
-            if self.acmodel.recurrent:
+            if self.acmodels[0].recurrent:
                 self.memories[i] = self.memory
                 self.memory = memory
             self.masks[i] = self.mask
             self.mask = 1 - torch.tensor(done, device=self.device, dtype=torch.float)
+            self.actions[i] = action
         
             if self.reshape_reward is not None:
                 self.rewards[i] = torch.tensor([
                     self.reshape_reward(obs_, action_, reward_, done_)
-                    for obs_, action_, reward_, done_ in zip(obs, actions[0], reward, done)
+                    #for obs_, action_, reward_, done_ in zip(obs, actions[0], reward, done)
+                    for obs_, action_, reward_, done_ in zip(obs, action, reward, done)
                 ], device=self.device)
             else:
                 self.rewards[i] = torch.tensor(reward, device=self.device)
@@ -208,10 +209,10 @@ class BaseAlgoPC(ABC):
         preprocessed_obs = self.preprocess_obss(self.obs, device=self.device)
         with torch.no_grad():
             #TODO Review for recurrent
-            if self.acmodel.recurrent:
-                _, next_value, _ = self.acmodel(preprocessed_obs, self.memory * self.mask.unsqueeze(1))
+            if self.acmodels[0].recurrent:
+                _, next_value, _ = self.acmodels[0](preprocessed_obs, self.memory * self.mask.unsqueeze(1))
             else:
-                _, next_value = self.acmodel(preprocessed_obs)
+                _, next_value = self.acmodels[0](preprocessed_obs)
 
         for i in reversed(range(self.num_frames_per_proc)):
             next_mask = self.masks[i+1] if i < self.num_frames_per_proc - 1 else self.mask
@@ -234,25 +235,36 @@ class BaseAlgoPC(ABC):
                     for j in range(self.num_procs)
                     for i in range(self.num_frames_per_proc)]
         #TODO Review for recurrent            
-        if self.acmodel.recurrent:
+        if self.acmodels[0].recurrent:
             # T x P x D -> P x T x D -> (P * T) x D
             exps.memory = self.memories.transpose(0, 1).reshape(-1, *self.memories.shape[2:])
             # T x P -> P x T -> (P * T) x 1
             exps.mask = self.masks.transpose(0, 1).reshape(-1).unsqueeze(1)
         
-        
+        #exps.actions_cascade = []
+        exps.values_cascade = []
+        exps.log_probs_cascade = []
+        exps.cumlog_probs_cascade = []
+
         # Cascade actions, values, log_probs, cumlog_probs 
         for j in range(self.cascade_depth):
             # for all tensors below, T x P -> P x T -> P * T
-            exps.actions_cascade[j] = self.actions_cascade[j].transpose(0, 1).reshape(-1)
-            exps.values_cascade[j] = self.values_cascade[j].transpose(0, 1).reshape(-1)
-            exps.log_probs_cascade[j] = self.log_probs_cascade[j].transpose(0, 1).reshape(-1)
+            #exps.actions_cascade.append(self.actions_cascade[j].transpose(0, 1).reshape(-1))
+            exps.values_cascade.append(self.values_cascade[j].transpose(0, 1).reshape(-1))
+            exps.log_probs_cascade.append(self.log_probs_cascade[j].transpose(0, 1).reshape(-1))
             # add cumulative log_probs cascade
-            exps.cumlog_prob_cascade[j] = torch.cumsum(exps.log_probs_cascade[j], dim=0)
+            exps.cumlog_probs_cascade.append(torch.cumsum(exps.log_probs_cascade[j], dim=0))
 
+        exps.action = self.actions.transpose(0, 1).reshape(-1)
         exps.reward = self.rewards.transpose(0, 1).reshape(-1)
         exps.advantage = self.advantages.transpose(0, 1).reshape(-1)
-        exps.returnn = exps.value + exps.advantage
+        exps.returnn = exps.values_cascade[0] + exps.advantage
+
+        # Stack cascade tensors to facilitate sub-batch indexing with DictList
+        #exps.actions_cascade = torch.stack(exps.actions_cascade, dim=1)
+        exps.values_cascade = torch.stack(exps.values_cascade, dim=1)
+        exps.log_probs_cascade = torch.stack(exps.log_probs_cascade, dim=1)
+        exps.cumlog_probs_cascade = torch.stack(exps.cumlog_probs_cascade, dim=1)
 
         # Preprocess experiences
 

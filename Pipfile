@@ -15,6 +15,7 @@ pyglet = "*"
 tqdm = "*"
 gym = {version = "==0.21", extras = ["atari"]}
 autorom = "*"
+array2gif = "*"
 
 [dev-packages]
 

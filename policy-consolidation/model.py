@@ -40,6 +40,9 @@ class ACModel(nn.Module, torch_ac.RecurrentACModel):
         # Define memory
         if self.use_memory:
             self.memory_rnn = nn.LSTMCell(self.image_embedding_size, self.semi_memory_size)
+        else:
+            # enforce non recurrent if use_memory=False
+            self.recurrent = False
 
         # Define text embedding
         if self.use_text:
@@ -78,7 +81,7 @@ class ACModel(nn.Module, torch_ac.RecurrentACModel):
     def semi_memory_size(self):
         return self.image_embedding_size
 
-    def forward(self, obs, memory):
+    def forward(self, obs, memory=None):
         x = obs.image.transpose(1, 3).transpose(2, 3)
         x = self.image_conv(x)
         x = x.reshape(x.shape[0], -1)
@@ -101,7 +104,10 @@ class ACModel(nn.Module, torch_ac.RecurrentACModel):
         x = self.critic(embedding)
         value = x.squeeze(1)
 
-        return dist, value, memory
+        if memory is None:
+            return dist, value
+        else:
+            return dist, value, memory
 
     def _get_embed_text(self, text):
         _, hidden = self.text_rnn(self.word_embedding(text))

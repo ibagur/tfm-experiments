@@ -63,8 +63,8 @@ def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log
 
             eval_envs.close()
 
-            print(" Evaluation using {} episodes: mean reward {:.5f} \n".format(
-                len(eval_episode_rewards), np.mean(eval_episode_rewards)))
+            print("Task {}: Evaluation using {} episodes: mean reward {:.5f} \n".format(
+                task_idx, len(eval_episode_rewards), np.mean(eval_episode_rewards)))
         else:
             eval_episode_rewards_arr.append(0)
 

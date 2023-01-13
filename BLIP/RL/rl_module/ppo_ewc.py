@@ -18,7 +18,8 @@ class PPO_EWC():
                  use_clipped_value_loss=True,
                  ewc_epoch = 1,
                  ewc_lambda = 5000,
-                 online = False):
+                 online = False,
+                 optimizer='Adam'):
 
         self.actor_critic = actor_critic
 
@@ -44,8 +45,16 @@ class PPO_EWC():
         self.divide_factor = 0
         self.online = online
 
+        self.optimizer_type = optimizer
+
     def renew_optimizer(self):
-        self.optimizer = optim.Adam(self.actor_critic.parameters(), lr=self.lr, eps=self.eps)
+        #self.optimizer = optim.Adam(self.actor_critic.parameters(), lr=self.lr, eps=self.eps)
+        if self.optimizer_type == 'Adam':
+            self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps)
+        elif self.optimizer_type == 'RMSProp':
+            self.optimizer = optim.RMSprop(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps)
+        else:
+            self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps) 
 
     def update(self, rollouts, task_num):
         advantages = rollouts.returns[:-1] - rollouts.value_preds[:-1]

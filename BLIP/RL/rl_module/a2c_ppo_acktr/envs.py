@@ -68,11 +68,11 @@ def make_env(env_id, seed, rank, log_dir, allow_early_resets, wrapper_class=None
                     env = FireResetEnv(env)
                 env = WarpFrame(env, width=84, height=84)
                 env = ClipRewardEnv(env)
-        elif len(env.observation_space.shape) == 3:
-            raise NotImplementedError(
-                "CNN models work only for atari,\n"
-                "please use a custom wrapper for a custom pixel input env.\n"
-                "See wrap_deepmind for an example.")
+        # elif len(env.observation_space.shape) == 3:
+        #     raise NotImplementedError(
+        #         "CNN models work only for atari,\n"
+        #         "please use a custom wrapper for a custom pixel input env.\n"
+        #         "See wrap_deepmind for an example.")
 
         # If the input has shape (W,H,3), wrap for PyTorch convolutions
         obs_shape = env.observation_space.shape

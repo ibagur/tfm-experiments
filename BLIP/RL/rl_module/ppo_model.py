@@ -28,7 +28,8 @@ class Policy(nn.Module):
             else:
                 raise NotImplementedError
 
-        self.features = base(obs_shape[0], **base_kwargs)
+        #self.features = base(obs_shape[0], **base_kwargs)
+        self.features = base(obs_shape, **base_kwargs)
 
         # value critic for each task
         self.critic = nn.ModuleList()
@@ -179,11 +180,29 @@ class CNNBase(NNBase):
         init_ = lambda m: init(m, nn.init.orthogonal_, lambda x: nn.init.
                                constant_(x, 0), nn.init.calculate_gain('relu'))
 
-        self.main = nn.Sequential(
-            init_(nn.Conv2d(num_inputs, 32, 8, stride=4)), nn.ReLU(),
-            init_(nn.Conv2d(32, 64, 4, stride=2)), nn.ReLU(),
-            init_(nn.Conv2d(64, 128, 3, stride=1)), nn.ReLU(), Flatten(),
-            init_(nn.Linear(128 * 7 * 7, hidden_size)), nn.ReLU())
+        # self.main = nn.Sequential(
+        #     init_(nn.Conv2d(num_inputs, 32, 8, stride=4)), nn.ReLU(),
+        #     init_(nn.Conv2d(32, 64, 4, stride=2)), nn.ReLU(),
+        #     init_(nn.Conv2d(64, 128, 3, stride=1)), nn.ReLU(), Flatten(),
+        #     init_(nn.Linear(128 * 7 * 7, hidden_size)), nn.ReLU())
+
+        # for MiniGrid ImgObsWrapper 
+ 
+        self.cnn = nn.Sequential(
+            init_(nn.Conv2d(num_inputs[0], 32, kernel_size=8, stride=4, padding=0)),
+            nn.ReLU(),
+            init_(nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=0)),
+            nn.ReLU(),
+            init_(nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=0)),
+            nn.ReLU(),
+            nn.Flatten(),
+        )
+
+        # Compute shape by doing one forward pass
+        with torch.no_grad():
+            n_flatten = self.cnn(torch.zeros(1, *num_inputs).float()).shape[1]
+
+        self.linear = nn.Sequential(init_(nn.Linear(n_flatten, hidden_size)), nn.ReLU())
 
         # init_ = lambda m: init(m, nn.init.orthogonal_, lambda x: nn.init.
         #                        constant_(x, 0))
@@ -193,7 +212,8 @@ class CNNBase(NNBase):
         self.train()
 
     def forward(self, inputs, rnn_hxs, masks):
-        x = self.main(inputs / 255.0)
+        #x = self.main(inputs / 255.0)
+        x = self.linear(self.cnn(inputs / 255.0))
 
         if self.is_recurrent:
             x, rnn_hxs = self._forward_gru(x, rnn_hxs, masks)
@@ -345,9 +365,9 @@ class QMLPBase(NNBase):
             Linear_Q(num_inputs, hidden_size, F_prior=F_prior), nn.Tanh(),
             Linear_Q(hidden_size, hidden_size, F_prior=F_prior), nn.Tanh())
 
-        self.critic = nn.Sequential(
-            Linear_Q(num_inputs, hidden_size, F_prior=F_prior), nn.Tanh(),
-            Linear_Q(hidden_size, hidden_size, F_prior=F_prior), nn.Tanh())
+        # self.critic = nn.Sequential(
+        #     Linear_Q(num_inputs, hidden_size, F_prior=F_prior), nn.Tanh(),
+        #     Linear_Q(hidden_size, hidden_size, F_prior=F_prior), nn.Tanh())
 
         self.train()
 
@@ -357,7 +377,7 @@ class QMLPBase(NNBase):
         if self.is_recurrent:
             x, rnn_hxs = self._forward_gru(x, rnn_hxs, masks)
 
-        hidden_critic = self.critic(x)
+        # hidden_critic = self.critic(x)
         hidden_actor = self.actor(x)
 
         return hidden_actor, rnn_hxs

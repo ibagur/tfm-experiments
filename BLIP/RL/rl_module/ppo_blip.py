@@ -18,7 +18,8 @@ class PPO_BLIP():
                  lr=None,
                  eps=None,
                  max_grad_norm=None,
-                 use_clipped_value_loss=True):
+                 use_clipped_value_loss=True,
+                 optimizer='Adam'):
 
         self.actor_critic = actor_critic
 
@@ -36,9 +37,17 @@ class PPO_BLIP():
         self.eps = eps
         self.EWC_task_count = 0
 
-    def renew_optimizer(self):
-        self.optimizer = optim.Adam(self.actor_critic.parameters(), lr=self.lr, eps=self.eps)
+        self.optimizer_type = optimizer
 
+    def renew_optimizer(self):
+        #self.optimizer = optim.Adam(self.actor_critic.parameters(), lr=self.lr, eps=self.eps)
+        if self.optimizer_type == 'Adam':
+            self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps)
+        elif self.optimizer_type == 'RMSProp':
+            self.optimizer = optim.RMSprop(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps)
+        else:
+            self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps) 
+            
     def update(self, rollouts, task_num):
         advantages = rollouts.returns[:-1] - rollouts.value_preds[:-1]
         advantages = (advantages - advantages.mean()) / (
@@ -122,7 +131,7 @@ class PPO_BLIP():
         advantages = (advantages - advantages.mean()) / (
             advantages.std() + 1e-5)
 
-        def _save_state(module, input, results):
+        def _save_state(module, input, results):        
             module._state = input[0].clone()
 
         def _save_costate(module, grad_input, grad_output):
@@ -133,6 +142,7 @@ class PPO_BLIP():
             if isinstance(m, Linear_Q) or isinstance(m, Conv2d_Q):
                 m.handle_forward = m.register_forward_hook(_save_state)
                 m.handle_backward = m.register_backward_hook(_save_costate)
+                #m.handle_backward = m.register_full_backward_hook(_save_costate)
 
         self.actor_critic.eval()
         

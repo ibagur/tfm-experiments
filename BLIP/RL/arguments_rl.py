@@ -1,5 +1,5 @@
 import argparse
-
+from datetime import date
 import torch
 
 
@@ -14,11 +14,12 @@ def get_args():
                              'blip'], 
                     help='(default=%(default)s)')
     parser.add_argument('--experiment', default='atari', type=str, required=True,
-                choices=['atari', ], 
+                help='Name of the experiment')
+    parser.add_argument('--wrapper', default='flat', type=str, required=False,
+                choices=['flat', 'img'], 
                 help='(default=%(default)s)')
-    
     parser.add_argument('--optimizer', default='Adam', type=str, required=False,
-                choices=['Adam', ], 
+                choices=['Adam', 'RMSProp'], 
                 help='(default=%(default)s)')
     parser.add_argument(
         '--gail',
@@ -37,11 +38,11 @@ def get_args():
     parser.add_argument(
         '--gail-epoch', type=int, default=5, help='gail epochs (default: 5)')
     parser.add_argument(
-        '--lr', type=float, default=7e-4, help='learning rate (default: 3e-4)')
+        '--lr', type=float, default=2.5e-4, help='learning rate (default: 3e-4)')
     parser.add_argument(
         '--eps',
         type=float,
-        default=1e-5,
+        default=1e-8,
         help='RMSprop optimizer epsilon (default: 1e-5)')
     parser.add_argument(
         '--alpha',
@@ -160,7 +161,7 @@ def get_args():
     parser.add_argument(
         '--use-linear-lr-decay',
         action='store_true',
-        default=True,
+        default=False,
         help='use a linear schedule on the learning rate')
     parser.add_argument(
         '--ewc-lambda',
@@ -187,7 +188,7 @@ def get_args():
         help='savename for tensorboard')
     parser.add_argument(
         '--date',
-        default=None,
+        default=date.today(),
         help='savename for tensorboard')
     parser.add_argument(
         '--task_id',
@@ -202,7 +203,7 @@ def get_args():
     parser.add_argument(
         '--F-prior',
         type=float,
-        default=1e-15,
+        default=5e-18, #1e-15,
         help='prior of Fisher information')
 
     parser.add_argument('--input-padding', action='store_true', default=False, help='apply no sampling')
@@ -214,6 +215,8 @@ def get_args():
     parser.add_argument('--render-task-idx',         default=0,     type=int, help='render task idx')
     parser.add_argument('--num-render-traj',        default=1000,  type=int, help='number of steps rendered')
 
+    # evaluation arguments
+    parser.add_argument('--num-eval-episodes',        default=30,  type=int, help='number of episodes for evaluation')
 
     args = parser.parse_args()
 

@@ -5,9 +5,13 @@ from .a2c_ppo_acktr import utils
 from .a2c_ppo_acktr.envs import make_vec_envs
 
 def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log_dir,
-             device, obs_shape, current_task_idx, gamma, wrapper_class=None, episodes=10):
+             device, obs_shape, current_task_idx, gamma, wrapper_class=None, episodes=30):
 
     eval_episode_rewards_arr = []
+    eval_episode_rewards_min_arr = []
+    eval_episode_rewards_max_arr = []
+    eval_episode_rewards_std_arr = []
+    eval_episode_rewards_dict = {}
 
     for task_idx,task_name in task_sequences:
 
@@ -60,12 +64,20 @@ def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log
                         eval_episode_rewards.append(info['episode']['r'])
 
             eval_episode_rewards_arr.append(np.mean(eval_episode_rewards))
+            eval_episode_rewards_min_arr.append(np.min(eval_episode_rewards))
+            eval_episode_rewards_max_arr.append(np.max(eval_episode_rewards))
+            eval_episode_rewards_std_arr.append(np.std(eval_episode_rewards))
 
             eval_envs.close()
 
-            print("Task {}: Evaluation using {} episodes: mean reward {:.5f} \n".format(
-                task_idx, len(eval_episode_rewards), np.mean(eval_episode_rewards)))
+            print("Task {}: Evaluation using {} episodes: mean reward {:.5f}, std {:.5f} \n".format(
+                task_idx, len(eval_episode_rewards), np.mean(eval_episode_rewards), np.std(eval_episode_rewards)))
         else:
             eval_episode_rewards_arr.append(0)
 
-    return eval_episode_rewards_arr
+        eval_episode_rewards_dict['mean'] = eval_episode_rewards_arr
+        eval_episode_rewards_dict['min'] = eval_episode_rewards_min_arr
+        eval_episode_rewards_dict['max'] = eval_episode_rewards_max_arr
+        eval_episode_rewards_dict['std'] = eval_episode_rewards_std_arr
+
+    return eval_episode_rewards_dict

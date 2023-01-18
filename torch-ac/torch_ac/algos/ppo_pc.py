@@ -36,16 +36,21 @@ class PPOPCAlgo(BaseAlgoPC):
         self.epochs = epochs
         self.batch_size = batch_size
         self.optim_eps = adam_eps
+        # for use in renew_optimizer()
+        self.optimizer_type = optimizer_type
+        self.lrs = lrs
 
         assert self.batch_size % self.recurrence == 0
 
-        if optimizer_type == 'adam':
-            self.optimizer = torch.optim.Adam(self.acmodels[0].parameters(), lr=lrs[0], eps=self.optim_eps)
-        elif optimizer_type == 'rmsprop':
-            self.optimizer = torch.optim.RMSprop(self.acmodels[0].parameters(), lr=lrs[0], eps=self.optim_eps)
-        for i in range(1,self.cascade_depth):
-            self.optimizer.add_param_group({'params': [*self.acmodels[i].parameters()], 'lr':lrs[i], 'eps':self.optim_eps})
-        self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.optimizer, gamma=0.9)
+        # Move optimizer initialization to renew_optimizer()
+
+        # if optimizer_type == 'adam':
+        #     self.optimizer = torch.optim.Adam(self.acmodels[0].parameters(), lr=lrs[0], eps=self.optim_eps)
+        # elif optimizer_type == 'rmsprop':
+        #     self.optimizer = torch.optim.RMSprop(self.acmodels[0].parameters(), lr=lrs[0], eps=self.optim_eps)
+        # for i in range(1,self.cascade_depth):
+        #     self.optimizer.add_param_group({'params': [*self.acmodels[i].parameters()], 'lr':lrs[i], 'eps':self.optim_eps})
+        # self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.optimizer, gamma=0.9)
 
         # create cascade of optimizers and schedulers for each policy
         # optimizers = []
@@ -73,6 +78,17 @@ class PPOPCAlgo(BaseAlgoPC):
         self.clipranges = torch.tensor(clipranges)
         self.scheduler_flag = scheduler_flag
 
+    # Added renew_optimizer between tasks
+    def renew_optimizer(self):
+        # self.optimizer = optim.Adam(self.actor_critic.parameters(), lr=self.lr, eps=self.eps)
+        if self.optimizer_type == 'adam':
+            self.optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, self.acmodels[0].parameters()), lr=self.lrs[0], eps=self.optim_eps)
+        elif self.optimizer_type == 'rmsprop':
+            self.optimizer = torch.optim.RMSprop(filter(lambda p: p.requires_grad, self.acmodels[0].parameters()), lr=self.lrs[0], eps=self.optim_eps)
+        for i in range(1,self.cascade_depth):
+            self.optimizer.add_param_group({'params': [*filter(lambda p: p.requires_grad, self.acmodels[i].parameters())], 'lr':self.lrs[i], 'eps':self.optim_eps})
+        self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.optimizer, gamma=0.9)
+    
     def update_parameters_cascade(self, exps):
         # Collect experiences
 

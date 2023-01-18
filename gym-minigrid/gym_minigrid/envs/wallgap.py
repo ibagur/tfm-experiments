@@ -49,11 +49,7 @@ class WallGapEnv(MiniGridEnv):
         # on the left side of the splitting wall
         self.place_agent(size=(self.gap_pos[0], height))        
 
-        self.mission = (
-            "avoid the lava and get to the green goal square"
-            if self.obstacle_type == Lava
-            else "find the opening and get to the green goal square"
-        )
+        self.mission = "find the opening and get to the green goal square"
 
 class WallGapS5Env(WallGapEnv):
     def __init__(self):

@@ -29,7 +29,7 @@ def train_ppo(actor_critic, agent, rollouts, task_idx, env_name, task_sequences,
 
     sio.savemat('./result_data/'+log_name + '_result.mat',{'tr_reward_arr':np.array(tr_reward_arr),
                                                                      'te_reward_arr':np.array(te_reward_arr)})
-
+    current_total_num_steps = 0
     start = time.time()
     for j in tqdm(range(num_updates)):
 
@@ -121,7 +121,7 @@ def train_ppo(actor_critic, agent, rollouts, task_idx, env_name, task_sequences,
             total_num_steps = (j + 1) * args.num_processes * args.num_steps
             ob_rms = None
             eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, task_sequences, args.seed,
-                            args.num_processes, args.log_dir, device, obs_shape, task_idx, args.gamma, wrapper_class, num_eval_episodes)
+                            args.num_processes, args.log_dir, device, obs_shape, task_idx, args.gamma, wrapper_class, args.num_eval_episodes)
 
             for idx in range(len(task_sequences)): 
                 te_reward_arr['mean']['task' + str(idx)].append((eval_episode_mean_rewards_dict['mean'][idx]))

@@ -74,6 +74,9 @@ def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log
                 task_idx, len(eval_episode_rewards), np.mean(eval_episode_rewards), np.std(eval_episode_rewards)))
         else:
             eval_episode_rewards_arr.append(0)
+            eval_episode_rewards_min_arr.append(0)
+            eval_episode_rewards_max_arr.append(0)
+            eval_episode_rewards_std_arr.append(0)
 
         eval_episode_rewards_dict['mean'] = eval_episode_rewards_arr
         eval_episode_rewards_dict['min'] = eval_episode_rewards_min_arr

@@ -1,3 +1,4 @@
-#{"t_start": 1674129602.236099, "env_id": "MiniGrid-DoorKey-6x6-v0"}
+#{"t_start": 1674130563.732172, "env_id": "MiniGrid-RedBlueDoors-6x6-v0"}
 r,l,t
-0.9525,19,0.114585
+0,720,3.534726
+0,720,6.456941

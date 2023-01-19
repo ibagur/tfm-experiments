@@ -19,3 +19,4 @@ python main_rl_minigrid.py --algo ppo --use-gae \
     --num-processes 16 --num-steps 128 --num-mini-batch 256 \
     --log-interval 10 --eval-interval 10 \
     --entropy-coef 0.01 --approach ewc --ewc-lambda 5000 --ewc-online True --seed 3
+    

@@ -151,5 +151,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 .tmp.driveupload/
-*monitor.csv
+pytorch-a2c-ppo-acktr-gail/logs/*
+pytorch-a2c-ppo-acktr-gail/time_limit_logs/*
+
 

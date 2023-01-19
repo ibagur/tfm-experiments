@@ -14,6 +14,7 @@ from collections import deque
 from rl_module.a2c_ppo_acktr.envs import make_vec_envs
 from rl_module.a2c_ppo_acktr.storage import RolloutStorage
 from rl_module.evaluation import evaluate
+from rl_module.ppo_model import QPolicy, Policy
 from stable_baselines3.common.utils import set_random_seed
 
 # Gym MiniGrid specific
@@ -71,7 +72,6 @@ def main():
         wrapper_class = ImgRGBImgPartialObsWrapper
         obs_shape = (12, 56, 56)
 
-
     # Evaluate
     ########################################################################################################################
     print('Experiment: ', args.experiment)
@@ -100,7 +100,8 @@ def main():
         elif args.approach == 'blip':
             log_name = '{}_{}_{}_{}_F_prior_{}'.format(args.date, args.experiment, args.approach, seed_list[i], args.F_prior)
 
-        actor_critic = torch.load(os.path.join(save_path, log_name + '_fullmodel_task_' + str(task_idx) + ".pth"))    
+        actor_critic = torch.load(os.path.join(save_path, log_name + '_fullmodel_task_' + str(task_idx) + ".pth"))
+        actor_critic.to(device)
 
         eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, task_sequences, seed_list[i],
                                     args.num_processes, args.log_dir, device, obs_shape, task_idx, args.gamma, wrapper_class=wrapper_class, episodes=args.num_eval_episodes)

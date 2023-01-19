@@ -12,7 +12,6 @@ def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log
     eval_episode_rewards_max_arr = []
     eval_episode_rewards_std_arr = []
     eval_episode_rewards_dict = {}
-    print("Model on cuda: ",next(actor_critic.parameters()).is_cuda)
 
     for task_idx,task_name in task_sequences:
 

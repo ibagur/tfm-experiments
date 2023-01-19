@@ -38,13 +38,18 @@ def main():
 
     # Inits
     ########################################################################################################################
+
     print('Inits...')
     if args.cuda:
+        print('[CUDA available]')
         torch.set_default_tensor_type('torch.cuda.FloatTensor')
     else:
+        print('[CUDA unavailable]')
         torch.set_default_tensor_type('torch.FloatTensor')
 
-    device = torch.device("cuda" if args.cuda else "cpu")
+    device = torch.device("cuda:0" if args.cuda else "cpu")
+
+    print('Device: ', device)
 
     task_sequences = [
         (0, 'MiniGrid-DoorKey-6x6-v0'), 

@@ -55,6 +55,7 @@ def main():
     # Seed
     set_random_seed(args.seed)
     if torch.cuda.is_available():
+        print('[CUDA available]')
         torch.cuda.manual_seed(args.seed)
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
@@ -68,7 +69,7 @@ def main():
     else:
         torch.set_default_tensor_type('torch.FloatTensor')
 
-    device = torch.device("cuda" if args.cuda else "cpu")
+    device = torch.device("cuda:0" if args.cuda else "cpu")
 
     taskcla = [(0,7), (1,7), (2,7), (3,7)]
     task_sequences = [
@@ -150,7 +151,9 @@ def main():
 
     ########################################################################################################################
 
+    print('Device: ', device)
     print('Approach: ', args.approach)
+    print('Date: ', args.date)
     print('Experiment: ', log_name)
     print('Length task sequence: ', len(task_sequences))
     print('Tasks: ', task_sequences, '\n')

@@ -155,7 +155,4 @@ pytorch-a2c-ppo-acktr-gail/logs/*
 pytorch-a2c-ppo-acktr-gail/time_limit_logs/*
 *monitor.csv
 
-
-
-
-
+*.zip

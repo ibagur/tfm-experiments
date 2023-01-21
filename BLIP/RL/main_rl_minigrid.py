@@ -72,11 +72,18 @@ def main():
     device = torch.device("cuda:0" if args.cuda else "cpu")
 
     taskcla = [(0,7), (1,7), (2,7), (3,7)]
+    # task_sequences = [
+    #     (0, 'MiniGrid-DoorKey-6x6-v0'), 
+    #     (1, 'MiniGrid-WallGapS6-v0'), 
+    #     (2, 'MiniGrid-LavaGapS6-v0'),
+    #     (3, 'MiniGrid-RedBlueDoors-6x6-v0')
+    #     ]
+
     task_sequences = [
-        (0, 'MiniGrid-DoorKey-6x6-v0'), 
-        (1, 'MiniGrid-WallGapS6-v0'), 
-        (2, 'MiniGrid-LavaGapS6-v0'),
-        (3, 'MiniGrid-RedBlueDoors-6x6-v0')
+        (0, 'MiniGrid-RedBlueDoors-6x6-v0'), 
+        (1, 'MiniGrid-LavaGapS6-v0'), 
+        (2, 'MiniGrid-DoorKey-6x6-v0'),
+        (3, 'MiniGrid-WallGapS6-v0')
         ]
 
     # for FlatObsWrapper Minigrid environment

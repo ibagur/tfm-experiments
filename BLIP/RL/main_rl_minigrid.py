@@ -99,7 +99,7 @@ def main():
     task_sequences = [
         (0, 'MiniGrid-LavaGapS6-v0'),
         (1, 'MiniGrid-DoorKey-6x6-v0'), 
-        (2, 'MiniGrid-Empty-Random-6x6-v0') 
+        (2, 'MiniGrid-Empty-Random-6x6-v0'), 
         (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
         (4, 'MiniGrid-WallGapS6-v0')
         ]

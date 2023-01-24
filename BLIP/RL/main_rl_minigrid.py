@@ -73,14 +73,14 @@ def main():
 
     ## Experiment 1
     # taskcla = [(0,7), (1,7), (2,7), (3,7)]
-    # task_sequences = [
+    # tasks_sequence = [
     #     (0, 'MiniGrid-DoorKey-6x6-v0'), 
     #     (1, 'MiniGrid-WallGapS6-v0'), 
     #     (2, 'MiniGrid-LavaGapS6-v0'),
     #     (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
     #     ]
     ## Experiment 2
-    # task_sequences = [
+    # tasks_sequence = [
     #     (0, 'MiniGrid-RedBlueDoors-6x6-v0'), 
     #     (1, 'MiniGrid-LavaGapS6-v0'), 
     #     (2, 'MiniGrid-DoorKey-6x6-v0'),
@@ -88,7 +88,7 @@ def main():
     #     ]
     ## Experiment 3
     taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7)]
-    # task_sequences = [
+    # tasks_sequence = [
     #     (0, 'MiniGrid-DoorKey-6x6-v0'), 
     #     (1, 'MiniGrid-WallGapS6-v0'), 
     #     (2, 'MiniGrid-LavaGapS6-v0'),
@@ -96,7 +96,7 @@ def main():
     #     (4, 'MiniGrid-Empty-Random-6x6-v0')        
     #     ]
     ## Experiment 4
-    task_sequences = [
+    tasks_sequence = [
         (0, 'MiniGrid-LavaGapS6-v0'),
         (1, 'MiniGrid-DoorKey-6x6-v0'), 
         (2, 'MiniGrid-Empty-Random-6x6-v0'), 
@@ -180,8 +180,8 @@ def main():
     print('Approach: ', args.approach)
     print('Date: ', args.date)
     print('Experiment: ', log_name)
-    print('Length task sequence: ', len(task_sequences))
-    print('Tasks: ', task_sequences, '\n')
+    print('Length task sequence: ', len(tasks_sequence))
+    print('Tasks: ', tasks_sequence, '\n')
 
     tr_reward_arr = []
     te_reward_arr = {}
@@ -208,7 +208,7 @@ def main():
 
     prev_total_num_steps = 0    
     
-    for task_idx,env_name in task_sequences:
+    for task_idx,env_name in tasks_sequence:
         print('Training task '+str(task_idx)+': '+env_name)
         # renew optimizer
         agent.renew_optimizer()
@@ -227,7 +227,7 @@ def main():
         episode_rewards = deque(maxlen=10)
         num_updates = int(args.num_env_steps) // args.num_steps // args.num_processes
 
-        current_total_num_steps = train_ppo(actor_critic, agent, rollouts, task_idx, env_name, task_sequences, envs,  obs_shape, args, episode_rewards, tr_reward_arr, te_reward_arr, tb_logger_train, tb_logger_eval, num_updates, log_name, device, prev_total_num_steps, wrapper_class=wrapper_class)
+        current_total_num_steps = train_ppo(actor_critic, agent, rollouts, task_idx, env_name, tasks_sequence, envs,  obs_shape, args, episode_rewards, tr_reward_arr, te_reward_arr, tb_logger_train, tb_logger_eval, num_updates, log_name, device, prev_total_num_steps, wrapper_class=wrapper_class)
 
         prev_total_num_steps = current_total_num_steps
 

@@ -4,7 +4,7 @@ from collections import deque
 from .a2c_ppo_acktr import utils
 from .a2c_ppo_acktr.envs import make_vec_envs
 
-def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log_dir,
+def evaluate(actor_critic, ob_rms, tasks_sequence, seed, num_processes, eval_log_dir,
              device, obs_shape, current_task_idx, gamma, wrapper_class=None, episodes=30):
 
     eval_episode_rewards_arr = []
@@ -13,7 +13,7 @@ def evaluate(actor_critic, ob_rms, task_sequences, seed, num_processes, eval_log
     eval_episode_rewards_std_arr = []
     eval_episode_rewards_dict = {}
 
-    for task_idx,task_name in task_sequences:
+    for task_idx,task_name in tasks_sequence:
 
         if task_idx <= current_task_idx:
 

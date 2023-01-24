@@ -166,7 +166,7 @@ def get_args():
     parser.add_argument(
         '--ewc-lambda',
         type=float,
-        default=5000,
+        default=5000.0,
         help='lambda for EWC')
     parser.add_argument(
         '--ewc-online',

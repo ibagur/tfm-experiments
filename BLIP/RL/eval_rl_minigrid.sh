@@ -1,3 +1,9 @@
-python evaluate_rl_minigrid.py --algo ppo --approach blip --date 2023-01-19 \
-    --experiment minigrid-tb-blip-5e5-doorkey-wallgap-lavagap-redbluedoor \
+python evaluate_rl_minigrid.py --algo ppo --approach blip --date 2023-01-21 \
+    --experiment minigrid_5e5_redbluedoor-lavagap-doorkey-wallgap \
+    --num-eval-episodes 30 && \
+python evaluate_rl_minigrid.py --algo ppo --approach ewc --date 2023-01-21 \
+    --experiment minigrid_5e5_redbluedoor-lavagap-doorkey-wallgap \
+    --num-eval-episodes 30 && \
+python evaluate_rl_minigrid.py --algo ppo --approach fine-tuning --date 2023-01-21 \
+    --experiment minigrid_5e5_redbluedoor-lavagap-doorkey-wallgap \
     --num-eval-episodes 30

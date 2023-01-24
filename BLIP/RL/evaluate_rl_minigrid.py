@@ -52,14 +52,41 @@ def main():
 
     print('Device: ', device)
 
-    task_sequences = [
-        (0, 'MiniGrid-DoorKey-6x6-v0'), 
-        (1, 'MiniGrid-WallGapS6-v0'), 
-        (2, 'MiniGrid-LavaGapS6-v0'),
-        (3, 'MiniGrid-RedBlueDoors-6x6-v0')
+    # # 4 Tasks sequence 0
+    # tasks_sequence = [
+    #     (0, 'MiniGrid-DoorKey-6x6-v0'), 
+    #     (1, 'MiniGrid-WallGapS6-v0'), 
+    #     (2, 'MiniGrid-LavaGapS6-v0'),
+    #     (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
+    #     ]
+
+    # 4 Tasks sequence 1
+    tasks_sequence = [
+        (0, 'MiniGrid-RedBlueDoors-6x6-v0'), 
+        (1, 'MiniGrid-LavaGapS6-v0'), 
+        (2, 'MiniGrid-DoorKey-6x6-v0'), 
+        (3, 'MiniGrid-WallGapS6-v0')
         ]
+
+    # # 5 Tasks sequence 2
+    # tasks_sequence = [
+    #     (0, 'MiniGrid-DoorKey-6x6-v0'), 
+    #     (1, 'MiniGrid-WallGapS6-v0'), 
+    #     (2, 'MiniGrid-LavaGapS6-v0'),
+    #     (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
+    #     (4, 'MiniGrid-Empty-Random-6x6-v0')        
+    #     ]
+
+    # # 5 Tasks sequence 3
+    # tasks_sequence = [
+    #     (0, 'MiniGrid-LavaGapS6-v0'),
+    #     (1, 'MiniGrid-DoorKey-6x6-v0'), 
+    #     (2, 'MiniGrid-Empty-Random-6x6-v0'), 
+    #     (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
+    #     (4, 'MiniGrid-WallGapS6-v0')
+    #     ]
     
-    task_idx = task_sequences[-1][0]
+    task_idx = tasks_sequence[-1][0]
 
     save_path = os.path.join(args.save_dir, args.algo)
 
@@ -74,8 +101,9 @@ def main():
 
     # Evaluate
     ########################################################################################################################
+    print('Approach: ', args.approach.upper())
     print('Experiment: ', args.experiment)
-    print('Tasks: ', task_sequences)
+    print('Tasks: ', tasks_sequence)
     ob_rms = None
     seed_list = [1,2,3]
 
@@ -103,7 +131,7 @@ def main():
         actor_critic = torch.load(os.path.join(save_path, log_name + '_fullmodel_task_' + str(task_idx) + ".pth"))
         actor_critic.to(device)
 
-        eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, task_sequences, seed_list[i],
+        eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, tasks_sequence, seed_list[i],
                                     args.num_processes, args.log_dir, device, obs_shape, task_idx, args.gamma, wrapper_class=wrapper_class, episodes=args.num_eval_episodes)
         tot_eval_episode_mean_rewards.append(eval_episode_mean_rewards_dict['mean'])
         tot_eval_episode_std_rewards.append(eval_episode_mean_rewards_dict['std'])

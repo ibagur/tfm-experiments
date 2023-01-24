@@ -10,14 +10,14 @@ from .a2c_ppo_acktr import utils
 from .evaluation import evaluate
 
 
-def train_ppo(actor_critic, agent, rollouts, task_idx, env_name, task_sequences, envs, obs_shape, args,
+def train_ppo(actor_critic, agent, rollouts, task_idx, env_name, tasks_sequence, envs, obs_shape, args,
               episode_rewards, tr_reward_arr, te_reward_arr, tb_logger_train, tb_logger_eval, num_updates, log_name, device, prev_total_num_steps=0, wrapper_class=None):
     # evaluate here so that we can conveniently plot
     ob_rms = None
-    eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, task_sequences, args.seed,
+    eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, tasks_sequence, args.seed,
                             args.num_processes, args.log_dir, device, obs_shape, task_idx, args.gamma, wrapper_class, args.num_eval_episodes)
     
-    for idx in range(len(task_sequences)):
+    for idx in range(len(tasks_sequence)):
         te_reward_arr['mean']['task' + str(idx)].append((eval_episode_mean_rewards_dict['mean'][idx]))
         te_reward_arr['min']['task' + str(idx)].append((eval_episode_mean_rewards_dict['min'][idx]))   
         te_reward_arr['max']['task' + str(idx)].append((eval_episode_mean_rewards_dict['max'][idx]))
@@ -120,10 +120,10 @@ def train_ppo(actor_critic, agent, rollouts, task_idx, env_name, task_sequences,
                     and (j+1) % args.eval_interval == 0):
             total_num_steps = (j + 1) * args.num_processes * args.num_steps
             ob_rms = None
-            eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, task_sequences, args.seed,
+            eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, tasks_sequence, args.seed,
                             args.num_processes, args.log_dir, device, obs_shape, task_idx, args.gamma, wrapper_class, args.num_eval_episodes)
 
-            for idx in range(len(task_sequences)): 
+            for idx in range(len(tasks_sequence)): 
                 te_reward_arr['mean']['task' + str(idx)].append((eval_episode_mean_rewards_dict['mean'][idx]))
                 te_reward_arr['min']['task' + str(idx)].append((eval_episode_mean_rewards_dict['min'][idx]))   
                 te_reward_arr['max']['task' + str(idx)].append((eval_episode_mean_rewards_dict['max'][idx]))

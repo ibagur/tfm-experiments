@@ -52,39 +52,43 @@ def main():
 
     print('Device: ', device)
 
+    tasks_sequences = []
+
     # # 4 Tasks sequence 0
-    # tasks_sequence = [
-    #     (0, 'MiniGrid-DoorKey-6x6-v0'), 
-    #     (1, 'MiniGrid-WallGapS6-v0'), 
-    #     (2, 'MiniGrid-LavaGapS6-v0'),
-    #     (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
-    #     ]
+    tasks_sequences.append( [
+        (0, 'MiniGrid-DoorKey-6x6-v0'), 
+        (1, 'MiniGrid-WallGapS6-v0'), 
+        (2, 'MiniGrid-LavaGapS6-v0'),
+        (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
+        ])
 
     # 4 Tasks sequence 1
-    tasks_sequence = [
+    tasks_sequences.append( [
         (0, 'MiniGrid-RedBlueDoors-6x6-v0'), 
         (1, 'MiniGrid-LavaGapS6-v0'), 
         (2, 'MiniGrid-DoorKey-6x6-v0'), 
         (3, 'MiniGrid-WallGapS6-v0')
-        ]
+        ])
 
     # # 5 Tasks sequence 2
-    # tasks_sequence = [
-    #     (0, 'MiniGrid-DoorKey-6x6-v0'), 
-    #     (1, 'MiniGrid-WallGapS6-v0'), 
-    #     (2, 'MiniGrid-LavaGapS6-v0'),
-    #     (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
-    #     (4, 'MiniGrid-Empty-Random-6x6-v0')        
-    #     ]
+    tasks_sequences.append( [
+        (0, 'MiniGrid-DoorKey-6x6-v0'), 
+        (1, 'MiniGrid-WallGapS6-v0'), 
+        (2, 'MiniGrid-LavaGapS6-v0'),
+        (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
+        (4, 'MiniGrid-Empty-Random-6x6-v0')        
+        ])
 
     # # 5 Tasks sequence 3
-    # tasks_sequence = [
-    #     (0, 'MiniGrid-LavaGapS6-v0'),
-    #     (1, 'MiniGrid-DoorKey-6x6-v0'), 
-    #     (2, 'MiniGrid-Empty-Random-6x6-v0'), 
-    #     (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
-    #     (4, 'MiniGrid-WallGapS6-v0')
-    #     ]
+    tasks_sequences.append( [
+        (0, 'MiniGrid-LavaGapS6-v0'),
+        (1, 'MiniGrid-DoorKey-6x6-v0'), 
+        (2, 'MiniGrid-Empty-Random-6x6-v0'), 
+        (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
+        (4, 'MiniGrid-WallGapS6-v0')
+        ])
+    
+    tasks_sequence = tasks_sequences[args.tasks_sequence]
     
     task_idx = tasks_sequence[-1][0]
 

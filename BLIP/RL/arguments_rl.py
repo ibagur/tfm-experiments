@@ -217,6 +217,7 @@ def get_args():
 
     # evaluation arguments
     parser.add_argument('--num-eval-episodes',        default=30,  type=int, help='number of episodes for evaluation')
+    parser.add_argument('--tasks-sequence',        default=0,  type=int, help='Tasks sequence ID')
 
     args = parser.parse_args()
 

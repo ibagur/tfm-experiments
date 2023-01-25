@@ -1,0 +1,13 @@
+---
+- name: Run Eval shell scripts
+  hosts: localhost
+  tasks:
+    - name: Eval experiment 0
+      command: sh ./eval_rl_minigrid_0.sh
+      register: eval_rl_minigrid_0_output
+      args:
+        stdout: true
+    - name: Print output of eval_rl_minigrid_0
+      debug:
+        msg: "{{ eval_rl_minigrid_0_output.stdout }}"
+

@@ -71,38 +71,53 @@ def main():
 
     device = torch.device("cuda:0" if args.cuda else "cpu")
 
-    ## Experiment 1
-    # taskcla = [(0,7), (1,7), (2,7), (3,7)]
-    # tasks_sequence = [
-    #     (0, 'MiniGrid-DoorKey-6x6-v0'), 
-    #     (1, 'MiniGrid-WallGapS6-v0'), 
-    #     (2, 'MiniGrid-LavaGapS6-v0'),
-    #     (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
-    #     ]
-    ## Experiment 2
-    # tasks_sequence = [
-    #     (0, 'MiniGrid-RedBlueDoors-6x6-v0'), 
-    #     (1, 'MiniGrid-LavaGapS6-v0'), 
-    #     (2, 'MiniGrid-DoorKey-6x6-v0'),
-    #     (3, 'MiniGrid-WallGapS6-v0')
-    #     ]
-    ## Experiment 3
-    taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7)]
-    # tasks_sequence = [
-    #     (0, 'MiniGrid-DoorKey-6x6-v0'), 
-    #     (1, 'MiniGrid-WallGapS6-v0'), 
-    #     (2, 'MiniGrid-LavaGapS6-v0'),
-    #     (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
-    #     (4, 'MiniGrid-Empty-Random-6x6-v0')        
-    #     ]
-    ## Experiment 4
-    tasks_sequence = [
-        (0, 'MiniGrid-LavaGapS6-v0'),
-        (1, 'MiniGrid-DoorKey-6x6-v0'), 
-        (2, 'MiniGrid-Empty-Random-6x6-v0'), 
-        (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
-        (4, 'MiniGrid-WallGapS6-v0')
-        ]
+    if args.tasks_sequence == 0:
+        ## Experiment 0
+        taskcla = [(0,7), (1,7), (2,7), (3,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-DoorKey-6x6-v0'), 
+            (1, 'MiniGrid-WallGapS6-v0'), 
+            (2, 'MiniGrid-LavaGapS6-v0'),
+            (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
+            ]
+    elif args.tasks_sequence == 1:
+        ## Experiment 1
+        taskcla = [(0,7), (1,7), (2,7), (3,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-RedBlueDoors-6x6-v0'), 
+            (1, 'MiniGrid-LavaGapS6-v0'), 
+            (2, 'MiniGrid-DoorKey-6x6-v0'),
+            (3, 'MiniGrid-WallGapS6-v0')
+            ]
+    elif args.tasks_sequence == 2:
+        ## Experiment 2
+        taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-DoorKey-6x6-v0'), 
+            (1, 'MiniGrid-WallGapS6-v0'), 
+            (2, 'MiniGrid-LavaGapS6-v0'),
+            (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
+            (4, 'MiniGrid-Empty-Random-6x6-v0')        
+            ]
+    elif args.tasks_sequence == 3:    
+        ## Experiment 3
+        taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-LavaGapS6-v0'),
+            (1, 'MiniGrid-DoorKey-6x6-v0'), 
+            (2, 'MiniGrid-Empty-Random-6x6-v0'), 
+            (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
+            (4, 'MiniGrid-WallGapS6-v0')
+            ]
+    else:
+        ## Experiment 0
+        taskcla = [(0,7), (1,7), (2,7), (3,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-DoorKey-6x6-v0'), 
+            (1, 'MiniGrid-WallGapS6-v0'), 
+            (2, 'MiniGrid-LavaGapS6-v0'),
+            (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
+            ]        
 
     # for FlatObsWrapper Minigrid environment
     if args.wrapper == 'flat':

@@ -17,6 +17,7 @@ from rl_module.evaluation import evaluate
 from rl_module.ppo_model import QPolicy, Policy
 from stable_baselines3.common.utils import set_random_seed
 
+
 # Gym MiniGrid specific
 import gym
 from gym import spaces
@@ -54,42 +55,61 @@ def main():
 
     tasks_sequences = []
 
-    # # 4 Tasks sequence 0
-    tasks_sequences.append( [
-        (0, 'MiniGrid-DoorKey-6x6-v0'), 
-        (1, 'MiniGrid-WallGapS6-v0'), 
-        (2, 'MiniGrid-LavaGapS6-v0'),
-        (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
-        ])
+    # for FlatObsWrapper Minigrid environment
+    if args.wrapper == 'flat':
+        obs_shape = (2739,)
+    # for ImgRGBImgPartialObsWrapper Minigrid environment
+    elif args.wrapper == 'img':
+        obs_shape = (12, 56, 56)
 
-    # 4 Tasks sequence 1
-    tasks_sequences.append( [
-        (0, 'MiniGrid-RedBlueDoors-6x6-v0'), 
-        (1, 'MiniGrid-LavaGapS6-v0'), 
-        (2, 'MiniGrid-DoorKey-6x6-v0'), 
-        (3, 'MiniGrid-WallGapS6-v0')
-        ])
+    if args.tasks_sequence == 0:
+        ## Experiment 0
+        taskcla = [(0,7), (1,7), (2,7), (3,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-DoorKey-6x6-v0'), 
+            (1, 'MiniGrid-WallGapS6-v0'), 
+            (2, 'MiniGrid-LavaGapS6-v0'),
+            (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
+            ]
+    elif args.tasks_sequence == 1:
+        ## Experiment 1
+        taskcla = [(0,7), (1,7), (2,7), (3,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-RedBlueDoors-6x6-v0'), 
+            (1, 'MiniGrid-LavaGapS6-v0'), 
+            (2, 'MiniGrid-DoorKey-6x6-v0'),
+            (3, 'MiniGrid-WallGapS6-v0')
+            ]
+    elif args.tasks_sequence == 2:
+        ## Experiment 2
+        taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-DoorKey-6x6-v0'), 
+            (1, 'MiniGrid-WallGapS6-v0'), 
+            (2, 'MiniGrid-LavaGapS6-v0'),
+            (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
+            (4, 'MiniGrid-Empty-Random-6x6-v0')        
+            ]
+    elif args.tasks_sequence == 3:    
+        ## Experiment 3
+        taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-LavaGapS6-v0'),
+            (1, 'MiniGrid-DoorKey-6x6-v0'), 
+            (2, 'MiniGrid-Empty-Random-6x6-v0'), 
+            (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
+            (4, 'MiniGrid-WallGapS6-v0')
+            ]
+    else:
+        ## Experiment 0
+        taskcla = [(0,7), (1,7), (2,7), (3,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-DoorKey-6x6-v0'), 
+            (1, 'MiniGrid-WallGapS6-v0'), 
+            (2, 'MiniGrid-LavaGapS6-v0'),
+            (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
+            ]  
 
-    # # 5 Tasks sequence 2
-    tasks_sequences.append( [
-        (0, 'MiniGrid-DoorKey-6x6-v0'), 
-        (1, 'MiniGrid-WallGapS6-v0'), 
-        (2, 'MiniGrid-LavaGapS6-v0'),
-        (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
-        (4, 'MiniGrid-Empty-Random-6x6-v0')        
-        ])
-
-    # # 5 Tasks sequence 3
-    tasks_sequences.append( [
-        (0, 'MiniGrid-LavaGapS6-v0'),
-        (1, 'MiniGrid-DoorKey-6x6-v0'), 
-        (2, 'MiniGrid-Empty-Random-6x6-v0'), 
-        (3, 'MiniGrid-RedBlueDoors-6x6-v0'),
-        (4, 'MiniGrid-WallGapS6-v0')
-        ])
-    
-    tasks_sequence = tasks_sequences[args.tasks_sequence]
-    
     task_idx = tasks_sequence[-1][0]
 
     save_path = os.path.join(args.save_dir, args.algo)
@@ -131,8 +151,18 @@ def main():
             log_name = '{}_{}_{}_{}_lamb_{}'.format(args.date, args.experiment, args.approach, seed_list[i], args.ewc_lambda)
         elif args.approach == 'blip':
             log_name = '{}_{}_{}_{}_F_prior_{}'.format(args.date, args.experiment, args.approach, seed_list[i], args.F_prior)
-
-        actor_critic = torch.load(os.path.join(save_path, log_name + '_fullmodel_task_' + str(task_idx) + ".pth"))
+        # in case loading full final model
+        if args.task_state is None:
+            model_path = os.path.join(save_path, log_name + '_fullmodel_task_' + str(task_idx) + ".pth")
+            actor_critic = torch.load(model_path, map_location=torch.device(device))
+        # in case loading state-dict at a given task, including final task
+        else:
+            model_path = os.path.join(save_path, log_name + '_task_' + str(args.task_state) + ".pth") 
+            actor_critic = Policy(obs_shape, taskcla, base_kwargs={'recurrent': args.recurrent_policy}).to(device)
+            # force strict=false to avoid errors with loading EWC state-dict          
+            actor_critic.load_state_dict(torch.load(model_path, map_location=torch.device(device)), strict=False)     
+        
+        print('Model: ', model_path)
         actor_critic.to(device)
 
         eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, tasks_sequence, seed_list[i],

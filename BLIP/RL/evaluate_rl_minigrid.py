@@ -1,5 +1,7 @@
 import sys, os, time
 import numpy as np
+import pandas as pd
+import pickle
 import torch.nn as nn
 import torch.nn.init as init
 import torch.nn.functional as F
@@ -123,11 +125,14 @@ def main():
         wrapper_class = ImgRGBImgPartialObsWrapper
         obs_shape = (12, 56, 56)
 
+    # dataframe to store results per task
+    df = pd.DataFrame(columns=['tr','te','median_reward','std'])
+
     # Evaluate
     ########################################################################################################################
-    print('Approach: ', args.approach.upper())
-    print('Experiment: ', args.experiment)
-    print('Tasks: ', tasks_sequence)
+    print('Approach:', args.approach.upper())
+    print('Experiment:', args.experiment)
+    print('Tasks:', tasks_sequence)
     ob_rms = None
     seed_list = [1,2,3]
 
@@ -162,7 +167,7 @@ def main():
             # force strict=false to avoid errors with loading EWC state-dict          
             actor_critic.load_state_dict(torch.load(model_path, map_location=torch.device(device)), strict=False)     
         
-        print('Model: ', model_path)
+        print('Model:', model_path)
         actor_critic.to(device)
 
         eval_episode_mean_rewards_dict = evaluate(actor_critic, ob_rms, tasks_sequence, seed_list[i],
@@ -180,11 +185,32 @@ def main():
     # tot_eval_episode_mean_rewards_std = np.sqrt(np.mean(np.array(tot_eval_episode_std_rewards, ndmin=2)**2, axis=0))
 
     print('Final evaluation')
+
+    if args.task_state is None:
+        task_state = task_idx
+    else:
+        task_state = args.task_state
+
     for i, val_median in enumerate(tot_eval_episode_mean_rewards_median):
         # get index of median value in main array
         index = np.where(tot_eval_episode_mean_rewards_arr==val_median)
+        std_median = tot_eval_episode_std_rewards_arr[index[0][0]][index[1][0]]
         print("Task {}: Evaluation (3 seeds) using {} episodes: median reward {:.5f}, std {:.5f} \n".format(
-        i, args.num_eval_episodes, val_median, tot_eval_episode_std_rewards_arr[index[0][0]][index[1][0]]))
+        i, args.num_eval_episodes, val_median, std_median))
+        new_row = [task_state, i, val_median, std_median]
+        df = df.append(pd.Series(new_row, index=df.columns), ignore_index=True)
 
+    df[['tr', 'te']] = df[['tr','te']].astype(int)
+    # create name of data export file
+    if args.approach == 'fine-tuning' or args.approach == 'ft-fix':
+        exp_name = '{}_{}_{}_tr_{}'.format(args.date, args.experiment, args.approach, task_state)
+    elif args.approach == 'ewc' in args.approach:
+        exp_name = '{}_{}_{}_{}_lamb_{}_tr_{}'.format(args.date, args.experiment, args.approach, args.ewc_lambda, task_state)
+    elif args.approach == 'blip':
+        exp_name = '{}_{}_{}_F_prior_{}_tr_{}'.format(args.date, args.experiment, args.approach, args.F_prior, task_state)
+
+    df_file = os.path.join(args.metrics_dir, exp_name + ".pkl")
+    df.to_pickle(df_file)
+    
 if __name__ == '__main__':
     main()

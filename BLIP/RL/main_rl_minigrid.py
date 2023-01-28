@@ -110,10 +110,21 @@ def main():
             (4, 'MiniGrid-WallGapS6-v0')
             ]
     elif args.tasks_sequence == 4:    
-        ## Experiment 3
+        ## Experiment 4
         taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7), (5,7)]
         tasks_sequence = [
             (0, 'MiniGrid-UnlockPickup-v0'), 
+            (1, 'MiniGrid-DoorKey-6x6-v0'), 
+            (2, 'MiniGrid-WallGapS6-v0'), 
+            (3, 'MiniGrid-LavaGapS6-v0'),
+            (4, 'MiniGrid-RedBlueDoors-6x6-v0'),
+            (5, 'MiniGrid-Empty-Random-6x6-v0')        
+            ]
+    elif args.tasks_sequence == 5:    
+        ## Experiment 5
+        taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7), (5,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-DistShift1-v0'), 
             (1, 'MiniGrid-DoorKey-6x6-v0'), 
             (2, 'MiniGrid-WallGapS6-v0'), 
             (3, 'MiniGrid-LavaGapS6-v0'),

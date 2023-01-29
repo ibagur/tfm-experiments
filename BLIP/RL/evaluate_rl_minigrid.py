@@ -113,6 +113,27 @@ def main():
             (4, 'MiniGrid-RedBlueDoors-6x6-v0'),
             (5, 'MiniGrid-Empty-Random-6x6-v0')        
             ]
+    elif args.tasks_sequence == 5:    
+        ## Experiment 5
+        taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7), (5,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-DistShift1-v0'), 
+            (1, 'MiniGrid-DoorKey-6x6-v0'), 
+            (2, 'MiniGrid-WallGapS6-v0'), 
+            (3, 'MiniGrid-LavaGapS6-v0'),
+            (4, 'MiniGrid-RedBlueDoors-6x6-v0'),
+            (5, 'MiniGrid-Empty-Random-6x6-v0')        
+            ]
+    elif args.tasks_sequence == 6:    
+        ## Experiment 5
+        taskcla = [(0,7), (1,7), (2,7), (3,7), (4,7)]
+        tasks_sequence = [
+            (0, 'MiniGrid-DoorKeyLava-6x6-v0'), 
+            (1, 'MiniGrid-DoorKey-6x6-v0'), 
+            (2, 'MiniGrid-WallGapS6-v0'), 
+            (3, 'MiniGrid-LavaGapS6-v0'),
+            (4, 'MiniGrid-RedBlueDoors-6x6-v0')        
+            ]
     else:
         ## Experiment 0
         taskcla = [(0,7), (1,7), (2,7), (3,7)]
@@ -215,7 +236,7 @@ def main():
     # create name of data export file
     if args.approach == 'fine-tuning' or args.approach == 'ft-fix':
         exp_name = '{}_{}_{}_tr_{}'.format(args.date, args.experiment, args.approach, task_state)
-    elif args.approach == 'ewc' in args.approach:
+    elif args.approach == 'ewc':
         exp_name = '{}_{}_{}_{}_lamb_{}_tr_{}'.format(args.date, args.experiment, args.approach, args.ewc_lambda, task_state)
     elif args.approach == 'blip':
         exp_name = '{}_{}_{}_F_prior_{}_tr_{}'.format(args.date, args.experiment, args.approach, args.F_prior, task_state)

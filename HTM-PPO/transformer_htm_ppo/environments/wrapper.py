@@ -1,6 +1,7 @@
 import numpy as np
 from gym.spaces import Box
-from gymnasium import spaces
+#from gymnasium import spaces
+from gym import spaces
 
 class PyTorchEnv():
     """This wrapper reshapes the visual observation to the needs of PyTorch. (W x H x C -> C x W x H)"""

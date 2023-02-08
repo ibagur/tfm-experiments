@@ -1,10 +1,12 @@
-import gymnasium as gym
+#import gymnasium as gym
+import gym
 import os
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import memory_gym
 
 from random import randint
-from gymnasium import spaces
+#from gymnasium import spaces
+from gym import spaces
 
 class MemoryGymWrapper():
     """

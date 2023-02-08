@@ -4,6 +4,8 @@ from torch import nn
 from einops import rearrange
 from utils import Module
 
+from htm_pytorch import HTMAttention, HTMBlock, HTMBlockReLU
+
 class MultiHeadAttention(nn.Module):
     """Multi Head Attention without dropout inspired by https://github.com/aladdinpersson/Machine-Learning-Collection
     https://youtu.be/U0s0f995w14"""
@@ -84,7 +86,7 @@ class MultiHeadAttention(nn.Module):
 
         return out, attention
         
-class TransformerBlock(Module):
+class HTMTransformerBlock(Module):
     def __init__(self, embed_dim, num_heads, config):
         """Transformer Block made of LayerNorms, Multi Head Attention and one fully connected feed forward projection.
         
@@ -94,7 +96,7 @@ class TransformerBlock(Module):
             attention_norm {str} -- Whether to apply LayerNorm "pre" or "post" attention
             projection_norm {str} -- Whether to apply LayerNorm "pre" or "post" the feed forward projection
         """
-        super(TransformerBlock, self).__init__()
+        super(HTMTransformerBlock, self).__init__()
 
         # Attention
         self.attention = MultiHeadAttention(embed_dim, num_heads)
@@ -107,7 +109,34 @@ class TransformerBlock(Module):
             self.norm_kv = nn.LayerNorm(embed_dim)
 
         # Feed forward projection
-        self.fc = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.ReLU())
+        self.fc = nn.Sequential(
+            nn.Linear(embed_dim, embed_dim), 
+            nn.ReLU(),
+            nn.Linear(embed_dim, embed_dim),
+            )
+
+        # Use ReLU for Identity Map Reordering (Parisotto et al., 2019)
+        self.imr = config["identity_map_reordering"]
+
+        # HTM Block
+
+        if self.imr == True:
+            self.htmblock = HTMBlockReLU(
+                dim = embed_dim,
+                topk_mems = config["topk_mems"],
+                mem_chunk_size = config["mem_chunk_size"],
+                heads = num_heads
+            )
+        else:
+            self.htmblock = HTMBlock(
+                dim = embed_dim,
+                topk_mems = config["topk_mems"],
+                mem_chunk_size = config["mem_chunk_size"],
+                heads = num_heads
+            )           
+
+        # ReLU activation 
+        self.relu = nn.ReLU()
 
     def forward(self, value, key, query, mask):
         """
@@ -135,12 +164,20 @@ class TransformerBlock(Module):
         attention, attention_weights = self.attention(value, key, query_, mask)
 
         # Add skip connection and run through normalization
-        h = attention + query
+        if self.layer_norm == "pre" and self.imr == True:
+            # we insert ReLU as we have 2 consecutive linear transformations
+            h = self.relu(attention) + query
+        else:
+            h = attention + query
         
         # Apply post-layer norm across the attention output (i.e. projection input)
         if self.layer_norm == "post":
             h = self.norm1(h)
 
+        ##TODO Add here the HTM Block. Find what exactly put under 'memories'
+        #TODO check if ReLU needed in htmblock skip connection
+        h = self.htmblock(h, h, mask = mask)
+ 
         # Apply pre-layer norm across the projection input (i.e. attention output)
         if self.layer_norm == "pre":
             h_ = self.norm2(h)
@@ -151,7 +188,10 @@ class TransformerBlock(Module):
         forward = self.fc(h_)
 
         # Add skip connection and run through normalization
-        out = forward + h
+        if self.layer_norm == "pre" and self.imr == True:
+            out = self.relu(forward) + h
+        else:
+            out = forward + h
         
         # Apply post-layer norm across the projection output
         if self.layer_norm == "post":
@@ -173,7 +213,7 @@ class SinusoidalPosition(nn.Module):
         pos_emb = torch.cat((sinusoidal_inp.sin(), sinusoidal_inp.cos()), dim = -1)
         return pos_emb
 
-class Transformer(nn.Module):
+class HTMTransformer(nn.Module):
     """Transformer encoder architecture without dropout. Positional encoding can be either "relative", "learned" or "" (none)."""
     def __init__(self, config, input_dim, max_episode_steps) -> None:
         """Sets up the input embedding, positional encoding and the transformer blocks.
@@ -203,15 +243,15 @@ class Transformer(nn.Module):
             pass    # No positional encoding is used
         
         # Instantiate transformer blocks
-        self.transformer_blocks = nn.ModuleList([
-            TransformerBlock(self.embed_dim, self.num_heads, config) 
+        self.htmtransformer_blocks = nn.ModuleList([
+            HTMTransformerBlock(self.embed_dim, self.num_heads, config) 
             for _ in range(self.num_blocks)])
 
     def forward(self, h, memories, mask, memory_indices):
         """
         Arguments:
             h {torch.tensor} -- Input (query)
-            memories {torch.tesnor} -- Whole episoded memories of shape (N, L, num blocks, D)
+            memories {torch.tensor} -- Whole episoded memories of shape (N, L, num blocks, D)
             mask {torch.tensor} -- Attention mask (dtype: bool) of shape (N, L)
             memory_indices {torch.tensor} -- Memory window indices (dtype: long) of shape (N, L)
         Returns:
@@ -232,7 +272,7 @@ class Transformer(nn.Module):
 
         # Forward transformer blocks
         out_memories = []
-        for i, block in enumerate(self.transformer_blocks):
+        for i, block in enumerate(self.htmtransformer_blocks):
             out_memories.append(h.detach())
             h, attention_weights = block(memories[:, :, i], memories[:, :, i], h.unsqueeze(1), mask) # args: value, key, query, mask
             h = h.squeeze()

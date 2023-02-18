@@ -98,8 +98,18 @@ class HTMTransformerBlock(Module):
         """
         super(HTMTransformerBlock, self).__init__()
 
-        # Attention
-        self.attention = MultiHeadAttention(embed_dim, num_heads)
+        # Select input sub-layer architecture
+        self.input_attention = config["input_attention"]
+        if self.input_attention:
+            # Attention
+            self.attention = MultiHeadAttention(embed_dim, num_heads)
+        else:
+            # Input Feed forward projection (to replace Input Attention)
+            self.fc_input = nn.Sequential(
+                nn.Linear(embed_dim, embed_dim), 
+                nn.ReLU(),
+                nn.Linear(embed_dim, embed_dim),
+                )  
 
         # LayerNorms
         self.layer_norm = config["layer_norm"]
@@ -120,7 +130,6 @@ class HTMTransformerBlock(Module):
         self.imr = config["identity_map_reordering"]
 
         # HTM Block
-
         if self.imr:
             self.htmblock = HTMBlockReLU(
                 dim = embed_dim,
@@ -135,7 +144,9 @@ class HTMTransformerBlock(Module):
                 mem_chunk_size = config["mem_chunk_size"],
                 heads = num_heads
             )
-
+        
+        # Script test selection
+        self.script_test = config["script_test"]
 
     #def forward(self, query, memories, mask):
     def forward(self, value, key, query, mask):
@@ -158,25 +169,45 @@ class HTMTransformerBlock(Module):
         else:
             query_ = query
 
-        # Forward MultiHeadAttention
-        attention, attention_weights = self.attention(query_, query_, query_, mask)
-
-        # Add skip connection and run through normalization
-        if self.layer_norm == "pre":
-            if self.imr:
-                # we insert ReLU as we have 2 consecutive linear transformations
-                h = F.relu(attention) + query
+        if self.input_attention:
+            # Forward MultiHeadAttention
+            if self.script_test == 2:
+                attention, attention_weights = self.attention(value, key, query_, mask)
             else:
-                h = attention + query
+                attention, attention_weights = self.attention(query_, query_, query_, mask)
+
+            # Add skip connection and run through normalization
+            if self.layer_norm == "pre":
+                if self.imr:
+                    # we insert ReLU as we have 2 consecutive linear transformations
+                    h = F.relu(attention) + query
+                else:
+                    h = attention + query
+            else:
+                h = attention + query 
         else:
-            h = attention + query         
+            # Forward FC input          
+            forward_input = self.fc_input(query_)
+
+            # Add skip connection and run through normalization
+            if self.layer_norm == "pre":
+                if self.imr:
+                    # we insert ReLU as we have 2 consecutive linear transformations
+                    h = F.relu(forward_input) + query
+                else:
+                    h = forward_input + query
+            else:
+                h = forward_input + query      
         
         # Apply post-layer norm across the attention output (i.e. projection input)
         if self.layer_norm == "post":
             h = self.norm1(h)
 
         #Add here the HTM Block. Check if memories should come from the input to the block or not
-        h = self.htmblock(h, memories, mask = mask)
+        if self.script_test == 2:
+            h = self.htmblock(h, h, mask = mask)
+        else:
+            h = self.htmblock(h, memories, mask = mask)
 
         # Apply pre-layer norm across the projection input (i.e. attention output)
         if self.layer_norm == "pre":

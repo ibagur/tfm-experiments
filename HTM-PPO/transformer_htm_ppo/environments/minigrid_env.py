@@ -6,7 +6,7 @@ from gym import spaces
 from gym_minigrid.wrappers import *
 
 class Minigrid:
-    def __init__(self, name):
+    def __init__(self, name, wrapper = ""):
         self._env = gym.make(name)
         # Decrease the agent's view size to raise the agent's memory challenge
         # On MiniGrid-Memory-S7-v0, the default view size is too large to actually demand a recurrent policy.
@@ -25,16 +25,19 @@ class Minigrid:
             self.max_episode_steps = self._env.max_steps
             #self.max_episode_steps = 64
             self._action_space = self._env.action_space
-            self._env = ViewSizeWrapper(self._env, view_size)
-            self._env = RGBImgPartialObsWrapper(self._env, tile_size = self.tile_size)
+            if wrapper == "flat":
+                self._env = FlatObsWrapper(self._env)
+            else:
+                self._env = ViewSizeWrapper(self._env, view_size)
+                self._env = RGBImgPartialObsWrapper(self._env, tile_size = self.tile_size)
 
-        self._env = ImgObsWrapper(self._env)
-
-        self._observation_space = spaces.Box(
-                low = 0,
-                high = 1.0,
-                shape = (3, hw, hw),
-                dtype = np.float32)
+        if wrapper != "flat":
+            self._env = ImgObsWrapper(self._env)
+            self._observation_space = spaces.Box(
+                    low = 0,
+                    high = 1.0,
+                    shape = (3, hw, hw),
+                    dtype = np.float32)
 
     @property
     def observation_space(self):

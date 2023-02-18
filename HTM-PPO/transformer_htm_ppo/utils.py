@@ -1,36 +1,33 @@
-import torch
-from torch import nn
 import numpy as np
+import torch
+
+from torch import nn
+
 from environments.cartpole_env import CartPole
+from environments.memory_gym_env import MemoryGymWrapper
 from environments.minigrid_env import Minigrid
 from environments.poc_memory_env import PocMemoryEnv
-from environments.mortar_env import MortarABEnv, MortarBEnv
-from environments.memory_gym_env import MemoryGymWrapper
-from environments.wrapper import PyTorchEnv
 
-def create_env(config:dict):
+def create_env(config:dict, render:bool=False):
     """Initializes an environment based on the provided environment name.
     
     Arguments:
         env_name {str}: Name of the to be instantiated environment
+        render {bool}: Whether to instantiate the environment in render mode. (default: {False})
 
     Returns:
         {env}: Returns the selected environment instance.
     """
-    if config["env"] == "PocMemoryEnv":
+    if config["type"] == "PocMemoryEnv":
         return PocMemoryEnv(glob=False, freeze=True, max_episode_steps=32)
-    if config["env"] == "CartPole":
+    if config["type"] == "CartPole":
         return CartPole(mask_velocity=False)
-    if config["env"] == "CartPoleMasked":
+    if config["type"] == "CartPoleMasked":
         return CartPole(mask_velocity=True)
-    if config["env"] == "Minigrid":
+    if config["type"] == "Minigrid":
         return Minigrid(config["name"])
-    if config["env"] == "MortarAB":
-        return MortarABEnv()
-    if config["env"] == "MortarB":
-        return MortarBEnv()
-    if config["env"] in ["SearingSpotlights", "MortarMayhem", "MortarMayhem-Grid", "MysteryPath", "MysteryPath-Grid"]:
-        return PyTorchEnv(MemoryGymWrapper(config["env"] + "-v0"))
+    if config["type"] in ["SearingSpotlights", "MortarMayhem", "MortarMayhem-Grid", "MysteryPath", "MysteryPath-Grid"]:
+        return MemoryGymWrapper(env_name = config["name"], reset_params=config["reset_params"], realtime_mode=render)
 
 def polynomial_decay(initial:float, final:float, max_decay_steps:int, power:float, current_step:int) -> float:
     """Decays hyperparameters polynomially. If power is set to 1.0, the decay behaves linearly. 
@@ -53,6 +50,21 @@ def polynomial_decay(initial:float, final:float, max_decay_steps:int, power:floa
         return  ((initial - final) * ((1 - current_step / max_decay_steps) ** power) + final)
     
 def batched_index_select(input, dim, index):
+    """
+    Selects values from the input tensor at the given indices along the given dimension.
+    This function is similar to torch.index_select, but it supports batched indices.
+    The input tensor is expected to be of shape (batch_size, ...), where ... means any number of additional dimensions.
+    The indices tensor is expected to be of shape (batch_size, num_indices), where num_indices is the number of indices to select for each element in the batch.
+    The output tensor is of shape (batch_size, num_indices, ...), where ... means any number of additional dimensions that were present in the input tensor.
+
+    Arguments:
+        input {torch.tensor} -- Input tensor
+        dim {int} -- Dimension along which to select values
+        index {torch.tensor} -- Tensor containing the indices to select
+
+    Returns:
+        {torch.tensor} -- Output tensor
+    """
     for ii in range(1, len(input.shape)):
         if ii != dim:
             index = index.unsqueeze(ii)

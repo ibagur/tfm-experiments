@@ -1,7 +1,9 @@
 import numpy as np
 import torch
-from torch import nn
+import torch.nn.functional as F
+
 from einops import rearrange
+from torch import nn
 from utils import Module
 
 from htm_pytorch import HTMAttention, HTMBlock, HTMBlockReLU
@@ -89,12 +91,10 @@ class MultiHeadAttention(nn.Module):
 class HTMTransformerBlock(Module):
     def __init__(self, embed_dim, num_heads, config):
         """Transformer Block made of LayerNorms, Multi Head Attention and one fully connected feed forward projection.
-        
         Arguments:
             embed_dim {int} -- Size of the embeddding dimension
             num_heads {int} -- Number of attention headds
-            attention_norm {str} -- Whether to apply LayerNorm "pre" or "post" attention
-            projection_norm {str} -- Whether to apply LayerNorm "pre" or "post" the feed forward projection
+            config {dict} -- General config
         """
         super(HTMTransformerBlock, self).__init__()
 
@@ -109,6 +109,7 @@ class HTMTransformerBlock(Module):
             self.norm_kv = nn.LayerNorm(embed_dim)
 
         # Feed forward projection
+        #self.fc = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.ReLU())
         self.fc = nn.Sequential(
             nn.Linear(embed_dim, embed_dim), 
             nn.ReLU(),
@@ -120,8 +121,8 @@ class HTMTransformerBlock(Module):
 
         # HTM Block
 
-        if self.imr == True:
-            self.htmblock = HTMBlockReLU(
+        if self.imr:
+            self.htmblock = HTMBlock(
                 dim = embed_dim,
                 topk_mems = config["topk_mems"],
                 mem_chunk_size = config["mem_chunk_size"],
@@ -133,66 +134,79 @@ class HTMTransformerBlock(Module):
                 topk_mems = config["topk_mems"],
                 mem_chunk_size = config["mem_chunk_size"],
                 heads = num_heads
-            )           
+            )
 
-        # ReLU activation 
-        self.relu = nn.ReLU()
+        #TEST Flag to select type of transformer architecture
+        self.script_test = config["script_test"]          
 
+    #def forward(self, query, memories, mask):
     def forward(self, value, key, query, mask):
         """
-        Transformer Block forward pass.
-        
         Arguments:
             values {torch.tensor} -- Value in shape of (N, L, D)
             keys {torch.tensor} -- Keys in shape of (N, L, D)
             query {torch.tensor} -- Queries in shape of (N, L, D)
             mask {torch.tensor} -- Attention mask in shape of (N, L)
-            
         Returns:
-            {torch.tensor} -- Output
-            {torch.tensor} -- Attention weights
+            torch.tensor -- Output
+            torch.tensor -- Attention weights
         """
         # Apply pre-layer norm across the attention input
         if self.layer_norm == "pre":
             query_ = self.norm1(query)
             value = self.norm_kv(value)
             key = value
+            memories = value
         else:
             query_ = query
 
         # Forward MultiHeadAttention
-        attention, attention_weights = self.attention(value, key, query_, mask)
+        #TEST transformer architecture
+        if self.script_test != 3:
+            attention, attention_weights = self.attention(value, key, query_, mask)
+        else:
+            attention, attention_weights = self.attention(query_, query_, query_, mask)
 
         # Add skip connection and run through normalization
-        if self.layer_norm == "pre" and self.imr == True:
-            # we insert ReLU as we have 2 consecutive linear transformations
-            h = self.relu(attention) + query
+        if self.layer_norm == "pre":
+            if self.imr:
+                # we insert ReLU as we have 2 consecutive linear transformations
+                h = F.relu(attention) + query
+            else:
+                h = attention + query
         else:
-            h = attention + query
+            h = attention + query         
         
         # Apply post-layer norm across the attention output (i.e. projection input)
         if self.layer_norm == "post":
             h = self.norm1(h)
 
-        ##TODO Add here the HTM Block. Find what exactly put under 'memories'
+        ##TODO Add here the HTM Block. Check if memories should come from the input to the block or not
         #TODO check if ReLU needed in htmblock skip connection
-        h = self.htmblock(h, h, mask = mask)
- 
+        #TEST transformer architecture
+        if self.script_test == 2:
+            h = self.htmblock(h, h, mask = mask)
+        else:
+            h = self.htmblock(h, memories, mask = mask)
+
         # Apply pre-layer norm across the projection input (i.e. attention output)
         if self.layer_norm == "pre":
             h_ = self.norm2(h)
         else:
             h_ = h
-            
+
         # Forward projection
         forward = self.fc(h_)
 
         # Add skip connection and run through normalization
-        if self.layer_norm == "pre" and self.imr == True:
-            out = self.relu(forward) + h
+        if self.layer_norm == "pre":
+            if self.imr:
+                out = F.relu(forward) + h
+            else:
+                out = forward + h
         else:
             out = forward + h
-        
+
         # Apply post-layer norm across the projection output
         if self.layer_norm == "post":
             out = self.norm2(out)
@@ -243,7 +257,7 @@ class HTMTransformer(nn.Module):
             pass    # No positional encoding is used
         
         # Instantiate transformer blocks
-        self.htmtransformer_blocks = nn.ModuleList([
+        self.transformer_blocks = nn.ModuleList([
             HTMTransformerBlock(self.embed_dim, self.num_heads, config) 
             for _ in range(self.num_blocks)])
 
@@ -251,12 +265,12 @@ class HTMTransformer(nn.Module):
         """
         Arguments:
             h {torch.tensor} -- Input (query)
-            memories {torch.tensor} -- Whole episoded memories of shape (N, L, num blocks, D)
+            memories {torch.tesnor} -- Whole episoded memories of shape (N, L, num blocks, D)
             mask {torch.tensor} -- Attention mask (dtype: bool) of shape (N, L)
             memory_indices {torch.tensor} -- Memory window indices (dtype: long) of shape (N, L)
         Returns:
-            torch.tensor -- Output of the entire transformer encoder
-            torch.tensor -- Out memories (i.e. inputs to the transformer blocks)
+            {torch.tensor} -- Output of the entire transformer encoder
+            {torch.tensor} -- Out memories (i.e. inputs to the transformer blocks)
         """
         # Feed embedding layer and activate
         h = self.activation(self.linear_embedding(h))
@@ -272,10 +286,11 @@ class HTMTransformer(nn.Module):
 
         # Forward transformer blocks
         out_memories = []
-        for i, block in enumerate(self.htmtransformer_blocks):
+        for i, block in enumerate(self.transformer_blocks):
             out_memories.append(h.detach())
             h, attention_weights = block(memories[:, :, i], memories[:, :, i], h.unsqueeze(1), mask) # args: value, key, query, mask
             h = h.squeeze()
             if len(h.shape) == 1:
                 h = h.unsqueeze(0)
         return h, torch.stack(out_memories, dim=1)
+    

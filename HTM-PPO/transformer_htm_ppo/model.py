@@ -1,9 +1,12 @@
 import numpy as np
 import torch
-from torch import nn
+
 from torch.distributions import Categorical
+from torch import nn
 from torch.nn import functional as F
+
 from transformer import Transformer
+from transformer_htm import HTMTransformer
 
 class ActorCriticModel(nn.Module):
     def __init__(self, config, observation_space, action_space_shape, max_episode_length):
@@ -13,6 +16,7 @@ class ActorCriticModel(nn.Module):
             config {dict} -- Configuration and hyperparameters of the environment, trainer and model.
             observation_space {box} -- Properties of the agent's observation space
             action_space_shape {tuple} -- Dimensions of the action space
+            max_episode_length {int} -- The maximum number of steps in an episode
         """
         super().__init__()
         self.hidden_size = config["hidden_layer_size"]
@@ -42,7 +46,10 @@ class ActorCriticModel(nn.Module):
         nn.init.orthogonal_(self.lin_hidden.weight, np.sqrt(2))
 
         # Transformer Blocks
-        self.transformer = Transformer(config["transformer"], self.memory_layer_size, self.max_episode_length)
+        if config["transformer"]["htm"]:
+            self.transformer = HTMTransformer(config["transformer"], self.memory_layer_size, self.max_episode_length)
+        else:
+            self.transformer = Transformer(config["transformer"], self.memory_layer_size, self.max_episode_length)  
 
         # Decouple policy from value
         # Hidden layer of the policy
@@ -70,12 +77,13 @@ class ActorCriticModel(nn.Module):
 
         Arguments:
             obs {torch.tensor} -- Batch of observations
-            recurrent_cell {torch.tensor} -- Memory cell of the recurrent layer
+            memory {torch.tensor} -- Episodic memory window
+            memory_mask {torch.tensor} -- Mask to prevent the model from attending to the padding
             memory_indices {torch.tensor} -- Indices to select the positional encoding that matches the memory window
 
         Returns:
             {Categorical} -- Policy: Categorical distribution
-            {torch.tensor} -- Value Function: Value
+            {torch.tensor} -- Value function: Value
         """
         # Set observation as input to the model
         h = obs
@@ -158,5 +166,7 @@ class ActorCriticModel(nn.Module):
         grads = []
         for module in modules:
             for name, parameter in module.named_parameters():
-                grads.append(parameter.grad.view(-1))
+                #TEST transformer architecture
+                if parameter.grad is not None:
+                    grads.append(parameter.grad.view(-1))            
         return torch.linalg.norm(torch.cat(grads)).item() if len(grads) > 0 else None

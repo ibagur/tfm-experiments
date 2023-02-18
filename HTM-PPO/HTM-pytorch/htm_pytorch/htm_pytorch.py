@@ -130,7 +130,7 @@ class HTMAttention(nn.Module):
 
         memories = pad_to_multiple(memories, mem_chunk_size, dim = -2, value = 0.)
         memories = rearrange(memories, 'b (n c) d -> b n c d', c = mem_chunk_size)
-
+ 
         if exists(mask):
             mask = pad_to_multiple(mask, mem_chunk_size, dim = -1, value = False)
             mask = rearrange(mask, 'b (n c) -> b n c', c = mem_chunk_size)

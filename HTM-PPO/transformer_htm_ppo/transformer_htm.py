@@ -119,12 +119,12 @@ class HTMTransformerBlock(Module):
             self.norm_kv = nn.LayerNorm(embed_dim)
 
         # Feed forward projection
-        #self.fc = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.ReLU())
-        self.fc = nn.Sequential(
-            nn.Linear(embed_dim, embed_dim), 
-            nn.ReLU(),
-            nn.Linear(embed_dim, embed_dim),
-            )
+        self.fc = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.ReLU())
+        # self.fc = nn.Sequential(
+        #     nn.Linear(embed_dim, embed_dim), 
+        #     nn.ReLU(),
+        #     nn.Linear(embed_dim, embed_dim),
+        #     )
         
         # Use ReLU for Identity Map Reordering (Parisotto et al., 2019)
         self.imr = config["identity_map_reordering"]
@@ -172,8 +172,10 @@ class HTMTransformerBlock(Module):
         if self.input_attention:
             # Forward MultiHeadAttention
             if self.script_test == 2:
+                # Input similar to TrXL
                 attention, attention_weights = self.attention(value, key, query_, mask)
             else:
+                # Standard self-attention
                 attention, attention_weights = self.attention(query_, query_, query_, mask)
 
             # Add skip connection and run through normalization
@@ -204,9 +206,14 @@ class HTMTransformerBlock(Module):
             h = self.norm1(h)
 
         #Add here the HTM Block. Check if memories should come from the input to the block or not
-        if self.script_test == 2:
-            h = self.htmblock(h, h, mask = mask)
+        if self.input_attention:
+            if self.script_test == 2:
+                # Memories already included in h
+                h = self.htmblock(h, h, mask = mask)
+            else:
+                h = self.htmblock(h, memories, mask = mask)
         else:
+            # This in case we use a simple FF for the input, to collect the memories
             h = self.htmblock(h, memories, mask = mask)
 
         # Apply pre-layer norm across the projection input (i.e. attention output)

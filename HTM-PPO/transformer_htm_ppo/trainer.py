@@ -215,6 +215,7 @@ class PPOTrainer:
                     # Break the reference to the worker's memory
                     mem_index = self.buffer.memory_index[w, t]
                     self.buffer.memories[mem_index] = self.buffer.memories[mem_index].clone()
+                    #TEST Check what happens if not reset between episodes
                     # Reset episodic memory
                     self.memory[w] = torch.zeros((self.max_episode_length, self.num_blocks, self.embed_dim), dtype=torch.float32)
                     if t < self.config["worker_steps"] - 1:

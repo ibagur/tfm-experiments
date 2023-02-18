@@ -199,7 +199,9 @@ class HTMTransformerBlock(Module):
                 else:
                     h = forward_input + query
             else:
-                h = forward_input + query      
+                h = forward_input + query
+            # To avoid output errors
+            attention_weights = None               
         
         # Apply post-layer norm across the attention output (i.e. projection input)
         if self.layer_norm == "post":

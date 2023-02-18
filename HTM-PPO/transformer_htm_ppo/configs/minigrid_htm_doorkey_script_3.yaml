@@ -23,6 +23,7 @@ transformer:
     positional_encoding: "" # options: "" "relative" "learned"
     layer_norm: "pre" # options: "" "pre" "post"
     htm: True
+    htm_activation: True
     identity_map_reordering: True
     topk_mems: 4
     mem_chunk_size: 32

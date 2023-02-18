@@ -24,7 +24,7 @@ transformer:
     layer_norm: "pre" # options: "" "pre" "post"
     htm: True
     htm_activation: False
-    identity_map_reordering: False
+    identity_map_reordering: True
     topk_mems: 4
     mem_chunk_size: 32
     script_test: 3

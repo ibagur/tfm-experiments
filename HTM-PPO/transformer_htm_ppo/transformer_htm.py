@@ -117,12 +117,12 @@ class HTMTransformerBlock(Module):
             )
 
         # Use ReLU for Identity Map Reordering (Parisotto et al., 2019)
-        self.imr = config["identity_map_reordering"]
+        self.htm_activation = config["htm_activation"]
 
         # HTM Block
 
-        if self.imr:
-            self.htmblock = HTMBlock(
+        if self.htm_activation:
+            self.htmblock = HTMBlockReLU(
                 dim = embed_dim,
                 topk_mems = config["topk_mems"],
                 mem_chunk_size = config["mem_chunk_size"],

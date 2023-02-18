@@ -115,14 +115,17 @@ class HTMTransformerBlock(Module):
             nn.ReLU(),
             nn.Linear(embed_dim, embed_dim),
             )
+        
+        # Activations
+        self.relu1 = nn.ReLU()
+        self.relu2 = nn.ReLU()
 
         # Use ReLU for Identity Map Reordering (Parisotto et al., 2019)
         self.imr = config["identity_map_reordering"]
 
         # HTM Block
-        self.htm_activation = config["htm_activation"]
-        
-        if self.htm_activation:
+
+        if self.imr:
             self.htmblock = HTMBlockReLU(
                 dim = embed_dim,
                 topk_mems = config["topk_mems"],
@@ -172,7 +175,7 @@ class HTMTransformerBlock(Module):
         if self.layer_norm == "pre":
             if self.imr:
                 # we insert ReLU as we have 2 consecutive linear transformations
-                h = F.relu(attention) + query
+                h = self.relu1(attention) + query
             else:
                 h = attention + query
         else:
@@ -202,7 +205,7 @@ class HTMTransformerBlock(Module):
         # Add skip connection and run through normalization
         if self.layer_norm == "pre":
             if self.imr:
-                out = F.relu(forward) + h
+                out = self.relu2(forward) + h
             else:
                 out = forward + h
         else:

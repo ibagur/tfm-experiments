@@ -136,8 +136,6 @@ class HTMTransformerBlock(Module):
                 heads = num_heads
             )
 
-        #TEST Flag to select type of transformer architecture
-        self.script_test = config["script_test"]          
 
     #def forward(self, query, memories, mask):
     def forward(self, value, key, query, mask):
@@ -161,11 +159,7 @@ class HTMTransformerBlock(Module):
             query_ = query
 
         # Forward MultiHeadAttention
-        #TEST transformer architecture
-        if self.script_test != 3:
-            attention, attention_weights = self.attention(value, key, query_, mask)
-        else:
-            attention, attention_weights = self.attention(query_, query_, query_, mask)
+        attention, attention_weights = self.attention(query_, query_, query_, mask)
 
         # Add skip connection and run through normalization
         if self.layer_norm == "pre":
@@ -181,13 +175,8 @@ class HTMTransformerBlock(Module):
         if self.layer_norm == "post":
             h = self.norm1(h)
 
-        ##TODO Add here the HTM Block. Check if memories should come from the input to the block or not
-        #TODO check if ReLU needed in htmblock skip connection
-        #TEST transformer architecture
-        if self.script_test == 2:
-            h = self.htmblock(h, h, mask = mask)
-        else:
-            h = self.htmblock(h, memories, mask = mask)
+        #Add here the HTM Block. Check if memories should come from the input to the block or not
+        h = self.htmblock(h, memories, mask = mask)
 
         # Apply pre-layer norm across the projection input (i.e. attention output)
         if self.layer_norm == "pre":

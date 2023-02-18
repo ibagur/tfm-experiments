@@ -31,7 +31,9 @@ class Minigrid:
                 self._env = ViewSizeWrapper(self._env, view_size)
                 self._env = RGBImgPartialObsWrapper(self._env, tile_size = self.tile_size)
 
-        if wrapper != "flat":
+        if wrapper == "flat":
+            self._observation_space = self._env._observation_space
+        else:
             self._env = ImgObsWrapper(self._env)
             self._observation_space = spaces.Box(
                     low = 0,

@@ -20,7 +20,7 @@ transformer:
     embed_dim: 384
     num_heads: 4
     memory_length: 128
-    positional_encoding: "" # options: "" "relative" "learned"
+    positional_encoding: "learned" # options: "" "relative" "learned"
     layer_norm: "pre" # options: "" "pre" "post"
     htm: True
     input_attention: True

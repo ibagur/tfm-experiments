@@ -10,6 +10,8 @@ class Minigrid:
         self._env = gym.make(name)
         # Decrease the agent's view size to raise the agent's memory challenge
         # On MiniGrid-Memory-S7-v0, the default view size is too large to actually demand a recurrent policy.
+        self.wrapper = wrapper
+
         if "Memory" in name:
             view_size = 3
             self.tile_size = 28
@@ -25,13 +27,13 @@ class Minigrid:
             self.max_episode_steps = self._env.max_steps
             #self.max_episode_steps = 64
             self._action_space = self._env.action_space
-            if wrapper == "flat":
+            if self.wrapper == "flat":
                 self._env = FlatObsWrapper(self._env)
             else:
                 self._env = ViewSizeWrapper(self._env, view_size)
                 self._env = RGBImgPartialObsWrapper(self._env, tile_size = self.tile_size)
 
-        if wrapper == "flat":
+        if self.wrapper == "flat":
             self._observation_space = self._env._observation_space
         else:
             self._env = ImgObsWrapper(self._env)
@@ -58,9 +60,10 @@ class Minigrid:
         obs = self._env.reset()
         obs = obs.astype(np.float32) / 255.
 
-        # To conform PyTorch requirements, the channel dimension has to be first.
-        obs = np.swapaxes(obs, 0, 2)
-        obs = np.swapaxes(obs, 2, 1)
+        if self.wrapper != "flat":
+            # To conform PyTorch requirements, the channel dimension has to be first.
+            obs = np.swapaxes(obs, 0, 2)
+            obs = np.swapaxes(obs, 2, 1)
         return obs
 
     def step(self, action):
@@ -76,9 +79,10 @@ class Minigrid:
                     "length": len(self._rewards)}
         else:
             info = None
-        # To conform PyTorch requirements, the channel dimension has to be first.
-        obs = np.swapaxes(obs, 0, 2)
-        obs = np.swapaxes(obs, 2, 1)
+        if self.wrapper != "flat":
+            # To conform PyTorch requirements, the channel dimension has to be first.
+            obs = np.swapaxes(obs, 0, 2)
+            obs = np.swapaxes(obs, 2, 1)
         self.t += 1
         return obs, reward, done, info
 

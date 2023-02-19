@@ -171,6 +171,7 @@ class HTMTransformerBlock(Module):
 
         if self.input_attention:
             # Forward MultiHeadAttention
+            #TEST architecture #2
             if self.script_test == 2:
                 # Input similar to TrXL
                 attention, attention_weights = self.attention(value, key, query_, mask)
@@ -209,6 +210,7 @@ class HTMTransformerBlock(Module):
 
         #Add here the HTM Block. Check if memories should come from the input to the block or not
         if self.input_attention:
+            #TEST architecture #2
             if self.script_test == 2:
                 # Memories already included in h
                 h = self.htmblock(h, h, mask = mask)
@@ -216,7 +218,13 @@ class HTMTransformerBlock(Module):
                 h = self.htmblock(h, memories, mask = mask)
         else:
             # This in case we use a simple FF for the input, to collect the memories
-            h = self.htmblock(h, memories, mask = mask)
+            #TEST architecture #2
+            if self.script_test == 2:
+                # Memories already included in h
+                h = self.htmblock(h, h, mask = mask)
+            else:
+                h = self.htmblock(h, memories, mask = mask)
+
 
         # Apply pre-layer norm across the projection input (i.e. attention output)
         if self.layer_norm == "pre":

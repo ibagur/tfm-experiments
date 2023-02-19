@@ -1,0 +1,45 @@
+environment:
+    type: "Minigrid"
+    name: "MiniGrid-DoorKey-6x6-v0"
+    #name: "MiniGrid-Empty-Random-6x6-v0"
+    wrapper: "flat"
+gamma: 0.99
+lamda: 0.95
+updates: 2000
+num_env_steps: 5e5
+epochs: 8 #4 #8
+n_workers: 16
+worker_steps: 512 #128 #512
+n_mini_batch: 8 #256 #8
+value_loss_coefficient: 0.5 #0.25
+hidden_layer_size: 384
+max_grad_norm: 0.5
+optimizer: "AdamW"
+transformer:
+    num_blocks: 1
+    embed_dim: 384
+    num_heads: 4
+    memory_length: 128
+    positional_encoding: "" # options: "" "relative" "learned"
+    layer_norm: "pre" # options: "" "pre" "post"
+    htm: True
+    input_attention: False
+    identity_map_reordering: True
+    topk_mems: 4
+    mem_chunk_size: 32
+    script_test: 3
+learning_rate_schedule:
+    initial: 2e-4
+    final: 2e-4
+    power: 1.0
+    max_decay_steps: 500
+beta_schedule:
+    initial: 0.01 #0.001
+    final: 0.01 #0.001
+    power: 1.0
+    max_decay_steps: 300
+clip_range_schedule:
+    initial: 0.2
+    final: 0.2
+    power: 1.0
+    max_decay_steps: 300

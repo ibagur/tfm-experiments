@@ -63,9 +63,7 @@ class PPOTrainer:
         if config["optimizer"] == "AdamW":
             self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr_schedule["initial"])
         elif config["optimizer"] == "Adam":
-            self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr_schedule["initial"])
-        else:
-            self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr_schedule["initial"])    
+            self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr_schedule["initial"])   
 
         # Init workers
         print("Step 4: Init environment workers")

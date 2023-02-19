@@ -2,7 +2,7 @@ environment:
     type: "Minigrid"
     name: "MiniGrid-DoorKey-6x6-v0"
     #name: "MiniGrid-Empty-Random-6x6-v0"
-    wrapper: "flat"
+    wrapper: ""
 gamma: 0.99
 lamda: 0.95
 updates: 2000
@@ -14,7 +14,7 @@ n_mini_batch: 8 #256 #8
 value_loss_coefficient: 0.5 #0.25
 hidden_layer_size: 384
 max_grad_norm: 0.5
-optimizer: "Adam"
+optimizer: "AdamW"
 transformer:
     num_blocks: 1
     embed_dim: 384

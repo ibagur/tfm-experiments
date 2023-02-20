@@ -105,11 +105,12 @@ class HTMTransformerBlock(Module):
             self.attention = MultiHeadAttention(embed_dim, num_heads)
         else:
             # Input Feed forward projection (to replace Input Attention)
-            self.fc_input = nn.Sequential(
-                nn.Linear(embed_dim, embed_dim), 
-                nn.ReLU(),
-                nn.Linear(embed_dim, embed_dim),
-                )  
+            # self.fc_input = nn.Sequential(
+            #     nn.Linear(embed_dim, embed_dim), 
+            #     nn.ReLU(),
+            #     nn.Linear(embed_dim, embed_dim),
+            #     )
+            self.fc_input = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.ReLU()) 
 
         # LayerNorms
         self.layer_norm = config["layer_norm"]

@@ -105,12 +105,12 @@ class HTMTransformerBlock(Module):
             self.attention = MultiHeadAttention(embed_dim, num_heads)
         else:
             # Input Feed forward projection (to replace Input Attention)
-            # self.fc_input = nn.Sequential(
-            #     nn.Linear(embed_dim, embed_dim), 
-            #     nn.ReLU(),
-            #     nn.Linear(embed_dim, embed_dim),
-            #     )
-            self.fc_input = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.ReLU()) 
+            self.fc_input = nn.Sequential(
+                nn.Linear(embed_dim, embed_dim), 
+                nn.ReLU(),
+                nn.Linear(embed_dim, embed_dim),
+                )
+            #self.fc_input = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.ReLU()) 
 
         # LayerNorms
         self.layer_norm = config["layer_norm"]
@@ -120,12 +120,12 @@ class HTMTransformerBlock(Module):
             self.norm_kv = nn.LayerNorm(embed_dim)
 
         # Feed forward projection
-        self.fc = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.ReLU())
-        # self.fc = nn.Sequential(
-        #     nn.Linear(embed_dim, embed_dim), 
-        #     nn.ReLU(),
-        #     nn.Linear(embed_dim, embed_dim),
-        #     )
+        #self.fc = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.ReLU())
+        self.fc = nn.Sequential(
+            nn.Linear(embed_dim, embed_dim), 
+            nn.ReLU(),
+            nn.Linear(embed_dim, embed_dim),
+            )
         
         # Use ReLU for Identity Map Reordering (Parisotto et al., 2019)
         self.imr = config["identity_map_reordering"]

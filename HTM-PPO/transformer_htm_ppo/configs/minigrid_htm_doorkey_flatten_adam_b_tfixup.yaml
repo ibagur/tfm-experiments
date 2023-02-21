@@ -17,7 +17,7 @@ max_grad_norm: 0.5
 optimizer: "Adam"
 tfixup: True
 transformer:
-    num_blocks: 1
+    num_blocks: 2
     embed_dim: 384
     num_heads: 4
     memory_length: 128

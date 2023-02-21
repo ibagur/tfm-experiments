@@ -7,6 +7,7 @@ from torch.nn import functional as F
 
 from transformer import Transformer
 from transformer_htm import HTMTransformer
+from transformer_htm_noln import HTMTransformerNoLN
 
 class ActorCriticModel(nn.Module):
     def __init__(self, config, observation_space, action_space_shape, max_episode_length):
@@ -47,14 +48,48 @@ class ActorCriticModel(nn.Module):
 
         # Transformer Blocks
         if config["transformer"]["htm"]:
-            self.transformer = HTMTransformer(config["transformer"], self.memory_layer_size, self.max_episode_length)
+            if config["tfixup"]:
+                self.transformer = HTMTransformerNoLN(config["transformer"], self.memory_layer_size, self.max_episode_length)
+            else:
+                self.transformer = HTMTransformer(config["transformer"], self.memory_layer_size, self.max_episode_length)
         else:
             self.transformer = Transformer(config["transformer"], self.memory_layer_size, self.max_episode_length)
         
-        #TEST Xavier initialitation
-        # for p in self.transformer.parameters():
-        #     if p.dim() > 1:
-        #         torch.nn.init.xavier_uniform_(p)
+        #TEST T-fixup (from: https://github.com/luckeciano/transformers-metarl/blob/trmrl-torch/src/garage/torch/policies/gaussian_transformer_encoder_policy.py)
+        # use tfixup with Adam!
+        if config["tfixup"]:
+            # Xavier initialization  for all parameters excluding input embeddings
+            for p in self.transformer.transformer_blocks.parameters():
+                if p.dim() > 1:
+                    torch.nn.init.xavier_uniform_(p)
+            # Gaussian initialization for input embeddings
+            for p in self.transformer.linear_embedding.parameters():
+                if p.dim() > 1:
+                    torch.nn.init.normal_(p, 0, config["transformer"]["embed_dim"] ** (- 1. / 2.))            
+            # Scale input embeddings in encoder
+            temp_state_dic = {}
+            for name, param in self.transformer.linear_embedding.named_parameters():
+                if 'weight' in name:
+                    temp_state_dic[name] = ((9* config["transformer"]["num_blocks"]) ** (- 1. / 4.)) * param
+
+            for name in self.transformer.linear_embedding.state_dict():
+                if name not in temp_state_dic:
+                    temp_state_dic[name] = self.transformer.linear_embedding.state_dict()[name]
+            self.transformer.linear_embedding.load_state_dict(temp_state_dic)
+
+            temp_state_dic = {}
+            # Scale v and w matrics in encoder attention block and weight matrices in encoder MLP block
+            for name, param in self.transformer.transformer_blocks.named_parameters():
+                if any(s in name for s in ["fc.0.weight", "fc_input.0.weight", "fc_input.2.weight", "attn.to_out.weight"]):
+                    temp_state_dic[name] = (0.67 * config["transformer"]["num_blocks"] ** (- 1. / 4.)) * param
+                elif any(s in name for s in ["attn.to_summary_queries.weight", "attn.to_summary_keys.weight", "attn.attn.to_q.weight", "attn.attn.to_kv.weight"]):
+                #elif "self_attn.in_proj_weight" in name:
+                    temp_state_dic[name] = (0.67 * config["transformer"]["num_blocks"] ** (- 1. / 4.)) * (param * (2**0.5))
+
+            for name in self.transformer.transformer_blocks.state_dict():
+                if name not in temp_state_dic:
+                    temp_state_dic[name] = self.transformer.transformer_blocks.state_dict()[name]
+            self.transformer.transformer_blocks.load_state_dict(temp_state_dic)            
 
         # Decouple policy from value
         # Hidden layer of the policy

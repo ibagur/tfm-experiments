@@ -239,3 +239,33 @@ class HTMBlockReLU(nn.Module):
         queries = self.norm(queries)
         out = self.relu(self.attn(queries, memories, **kwargs)) + queries
         return out
+
+# HTM Block with no LayerNorm 
+
+class HTMBlockNoLN(nn.Module):
+    def __init__(self, dim, **kwargs):
+        super().__init__()
+        self.attn = HTMAttention(dim = dim, **kwargs)
+    def forward(
+        self,
+        queries,
+        memories,
+        **kwargs
+    ):
+        out = self.attn(queries, memories, **kwargs) + queries
+
+# HTM Block with ReLU and no LayerNorm
+
+class HTMBlockReLUNoLN(nn.Module):
+    def __init__(self, dim, **kwargs):
+        super().__init__()
+        self.attn = HTMAttention(dim = dim, **kwargs)
+        self.relu = nn.ReLU()
+    def forward(
+        self,
+        queries,
+        memories,
+        **kwargs
+    ):
+        out = self.relu(self.attn(queries, memories, **kwargs)) + queries
+        return out

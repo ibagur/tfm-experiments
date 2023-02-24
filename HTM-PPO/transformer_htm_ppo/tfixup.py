@@ -1,12 +1,15 @@
 self._transformer_module = nn.TransformerEncoder(encoder_layers, num_encoder_layers)
 
 # these are the equivalent to my self.transformer_blocks
+# self.transformer.transformer_blocks
 for p in self._transformer_module.parameters():
     if p.dim() > 1:
         torch.nn.init.xavier_uniform_(p)
 
 if tfixup:
     # this is the equivalent to my self.linear_embedding
+    # self.transformer.linear_embedding
+    # d_model is size of the embedded dimension
     for p in self._obs_embedding.parameters():
         if p.dim() > 1:
             torch.nn.init.normal_(p, 0, d_model ** (- 1. / 2.))

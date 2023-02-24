@@ -21,7 +21,7 @@ transformer:
     memory_length: 128
     positional_encoding: "relative" # options: "" "relative" "learned"
     layer_norm: "pre" # options: "" "pre" "post"
-    gtrxl: False
+    gtrxl: True
     gtrxl_bias: 0.0
 learning_rate_schedule:
     initial: 2.0e-4

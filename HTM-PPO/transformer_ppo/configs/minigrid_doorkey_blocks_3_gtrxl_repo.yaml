@@ -1,8 +1,9 @@
 environment:
     type: "Minigrid"
+    #name: MiniGrid-MemoryS9-v0
     name: "MiniGrid-DoorKey-6x6-v0"
-    wrapper: "flat"
-gamma: 0.99
+    wrapper: ""
+gamma: 0.995
 lamda: 0.95
 updates: 100
 num_env_steps: 5e5
@@ -18,19 +19,19 @@ transformer:
     num_blocks: 3
     embed_dim: 384
     num_heads: 4
-    memory_length: 128
+    memory_length: 64
     positional_encoding: "relative" # options: "" "relative" "learned"
     layer_norm: "pre" # options: "" "pre" "post"
     gtrxl: True
     gtrxl_bias: 0.0
 learning_rate_schedule:
-    initial: 2.0e-4
-    final: 2.0e-4
+    initial: 3.5e-4
+    final: 1.0e-4
     power: 1.0
     max_decay_steps: 250
 beta_schedule:
-    initial: 0.01
-    final: 0.01
+    initial: 0.001
+    final: 0.001
     power: 1.0
     max_decay_steps: 10000
 clip_range_schedule:

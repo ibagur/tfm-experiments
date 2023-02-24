@@ -10,6 +10,8 @@ class Minigrid:
         self._env = gym.make(name)
         # Decrease the agent's view size to raise the agent's memory challenge
         # On MiniGrid-Memory-S7-v0, the default view size is too large to actually demand a recurrent policy.
+        self.wrapper = wrapper
+        
         if "Memory" in name:
             view_size = 3
             self.tile_size = 28

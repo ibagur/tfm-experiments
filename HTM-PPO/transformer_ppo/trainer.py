@@ -60,7 +60,10 @@ class PPOTrainer:
         print("Step 3: Init model and optimizer")
         self.model = ActorCriticModel(self.config, observation_space, self.action_space_shape, self.max_episode_length).to(self.device)
         self.model.train()
-        self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr_schedule["initial"])
+        if config["optimizer"] == "AdamW":
+            self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr_schedule["initial"])
+        elif config["optimizer"] == "Adam":
+            self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr_schedule["initial"])  
 
         # Init workers
         print("Step 4: Init environment workers")
@@ -108,6 +111,7 @@ class PPOTrainer:
         # Store episode results for monitoring statistics
         episode_infos = deque(maxlen=100)
 
+        start = time.time()
         #for update in range(self.config["updates"]):
         for update in range(self.num_updates):
             # Decay hyperparameters polynomially based on the provided config
@@ -131,15 +135,16 @@ class PPOTrainer:
 
             # Calculate current steps
             total_num_steps = (update + 1) * self.num_workers * self.worker_steps
+            end = time.time()
 
             # Print training statistics
             if "success_percent" in episode_result:
-                result = "U {} timesteps:{} reward={:.2f} std={:.2f} length={:.1f} std={:.2f} success={:.2f} pi_loss={:3f} v_loss={:3f} entropy={:.3f} loss={:3f} value={:.3f} advantage={:.3f}".format(
-                    update, total_num_steps, episode_result["reward_mean"], episode_result["reward_std"], episode_result["length_mean"], episode_result["length_std"], episode_result["success_percent"],
+                result = "U {} timesteps:{} FPS:{} reward={:.2f} std={:.2f} length={:.1f} std={:.2f} success={:.2f} pi_loss={:3f} v_loss={:3f} entropy={:.3f} loss={:3f} value={:.3f} advantage={:.3f}".format(
+                    update, total_num_steps, int(total_num_steps / (end - start)), episode_result["reward_mean"], episode_result["reward_std"], episode_result["length_mean"], episode_result["length_std"], episode_result["success_percent"],
                     training_stats[0], training_stats[1], training_stats[3], training_stats[2], torch.mean(self.buffer.values), torch.mean(self.buffer.advantages))
             else:
-                result = "U {} timesteps:{} reward={:.2f} std={:.2f} length={:.1f} std={:.2f} pi_loss={:3f} v_loss={:3f} entropy={:.3f} loss={:3f} value={:.3f} advantage={:.3f}".format(
-                    update, total_num_steps, episode_result["reward_mean"], episode_result["reward_std"], episode_result["length_mean"], episode_result["length_std"], 
+                result = "U {} timesteps:{} FPS:{} reward={:.2f} std={:.2f} length={:.1f} std={:.2f} pi_loss={:3f} v_loss={:3f} entropy={:.3f} loss={:3f} value={:.3f} advantage={:.3f}".format(
+                    update, total_num_steps, int(total_num_steps / (end - start)),episode_result["reward_mean"], episode_result["reward_std"], episode_result["length_mean"], episode_result["length_std"], 
                     training_stats[0], training_stats[1], training_stats[3], training_stats[2], torch.mean(self.buffer.values), torch.mean(self.buffer.advantages))
             print(result)
 

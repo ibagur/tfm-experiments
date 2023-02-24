@@ -113,18 +113,7 @@ class ActorCriticModel(nn.Module):
         nn.init.orthogonal_(self.value.weight, 1)
 
     def forward(self, obs:torch.tensor, memory:torch.tensor, memory_mask:torch.tensor, memory_indices:torch.tensor):
-        """Forward pass of the model
 
-        Arguments:
-            obs {torch.tensor} -- Batch of observations
-            memory {torch.tensor} -- Episodic memory window
-            memory_mask {torch.tensor} -- Mask to prevent the model from attending to the padding
-            memory_indices {torch.tensor} -- Indices to select the positional encoding that matches the memory window
-
-        Returns:
-            {Categorical} -- Policy: Categorical distribution
-            {torch.tensor} -- Value function: Value
-        """
         # Set observation as input to the model
         h = obs
         # Forward observation encoder

@@ -6,7 +6,7 @@ environment:
 gamma: 0.99
 lamda: 0.95
 updates: 2000
-num_env_steps: 5e5
+num_env_steps: 1e6
 epochs: 8 #4 #8
 n_workers: 16
 worker_steps: 512 #128 #512

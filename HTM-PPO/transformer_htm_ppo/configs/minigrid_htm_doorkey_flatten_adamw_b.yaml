@@ -6,7 +6,7 @@ environment:
 gamma: 0.99
 lamda: 0.95
 updates: 2000
-num_env_steps: 5e5
+num_env_steps: 1e6
 epochs: 8 #4 #8
 n_workers: 16
 worker_steps: 512 #128 #512
@@ -30,13 +30,13 @@ transformer:
     mem_chunk_size: 32
     script_test: 3
 learning_rate_schedule:
-    initial: 2e-4
-    final: 2e-4
+    initial: 2.5e-4
+    final: 2.5e-4
     power: 1.0
     max_decay_steps: 500
 beta_schedule:
-    initial: 0.01 #0.001
-    final: 0.01 #0.001
+    initial: 0.001 #0.001
+    final: 0.001 #0.001
     power: 1.0
     max_decay_steps: 300
 clip_range_schedule:

@@ -30,8 +30,8 @@ transformer:
     mem_chunk_size: 32
     script_test: 3
 learning_rate_schedule:
-    initial: 2e-4
-    final: 2e-4
+    initial: 3e-4
+    final: 3e-4
     power: 1.0
     max_decay_steps: 500
 beta_schedule:

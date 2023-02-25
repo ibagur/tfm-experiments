@@ -35,8 +35,8 @@ learning_rate_schedule:
     power: 1.0
     max_decay_steps: 500
 beta_schedule:
-    initial: 0.001 #0.001
-    final: 0.001 #0.001
+    initial: 0.01 #0.001
+    final: 0.01 #0.001
     power: 1.0
     max_decay_steps: 300
 clip_range_schedule:

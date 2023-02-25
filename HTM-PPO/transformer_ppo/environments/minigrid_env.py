@@ -60,9 +60,10 @@ class Minigrid:
         obs = self._env.reset()
         obs = obs.astype(np.float32) / 255.
 
-        # To conform PyTorch requirements, the channel dimension has to be first.
-        obs = np.swapaxes(obs, 0, 2)
-        obs = np.swapaxes(obs, 2, 1)
+        if self.wrapper != "flat":
+            # To conform PyTorch requirements, the channel dimension has to be first.
+            obs = np.swapaxes(obs, 0, 2)
+            obs = np.swapaxes(obs, 2, 1)
         return obs
 
     def step(self, action):
@@ -78,9 +79,10 @@ class Minigrid:
                     "length": len(self._rewards)}
         else:
             info = None
-        # To conform PyTorch requirements, the channel dimension has to be first.
-        obs = np.swapaxes(obs, 0, 2)
-        obs = np.swapaxes(obs, 2, 1)
+        if self.wrapper != "flat":
+            # To conform PyTorch requirements, the channel dimension has to be first.
+            obs = np.swapaxes(obs, 0, 2)
+            obs = np.swapaxes(obs, 2, 1)
         self.t += 1
         return obs, reward, done, info
 

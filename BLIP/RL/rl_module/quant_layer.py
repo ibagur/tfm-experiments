@@ -53,6 +53,9 @@ class Linear_Q(nn.Linear):
         self.register_buffer('bit_alloc_w', torch.zeros_like(self.weight, dtype=torch.int64))
         self.register_buffer('Fisher_w', torch.zeros_like(self.weight))
         self.register_buffer('Fisher_w_old', self.F_prior*torch.ones_like(self.weight))
+        #TEST for BLIP+EWC loss estimation
+        self.register_buffer('Fisher_w_current', torch.zeros_like(self.weight))
+        self.register_buffer('Fisher_w_prev', self.F_prior*torch.ones_like(self.weight))
         # switch to orthogonal initialization
         nn.init.orthogonal_(self.weight.data, gain=nn.init.calculate_gain('relu'))
         # self.weight.data.normal_(0.0, math.sqrt(1/in_features))
@@ -62,6 +65,9 @@ class Linear_Q(nn.Linear):
             self.register_buffer('bit_alloc_b', torch.zeros_like(self.bias, dtype=torch.int64))
             self.register_buffer('Fisher_b', torch.zeros_like(self.bias))
             self.register_buffer('Fisher_b_old', self.F_prior*torch.ones_like(self.bias))
+            #TEST for BLIP+EWC loss estimation
+            self.register_buffer('Fisher_b_current', torch.zeros_like(self.bias))
+            self.register_buffer('Fisher_b_prev', self.F_prior*torch.ones_like(self.bias))
             self.bias.data.zero_()
 
     # synchronize continuous weight with quantized weight
@@ -105,6 +111,27 @@ class Linear_Q(nn.Linear):
                 self.bit_alloc_b.add_(bit_grow_b)
                 self.bit_alloc_b.clamp_(max=self.max_bit)
 
+    # update bits according to info gain
+    # C is a hyper parameter on scale translate between info gain and actual bit length
+    # default is 0.5 according to our derivation
+    def update_bits_floor(self, task, C=0.5/math.log(2)):
+        # modified
+        with torch.no_grad():
+            info_gain_w = C*torch.log((self.Fisher_w + self.Fisher_w_old*(task+1))/(self.Fisher_w_old*(task+2)))
+            # info_gain_w = C*torch.log((self.Fisher_w + self.Fisher_w_old)/self.Fisher_w_old)
+            bit_grow_w = torch.floor(info_gain_w).long()
+            bit_grow_w.clamp_(min=0)
+            self.bit_alloc_w.add_(bit_grow_w)
+            self.bit_alloc_w.clamp_(max=self.max_bit)
+
+            if self.bias is not None:
+                info_gain_b = C*torch.log((self.Fisher_b + self.Fisher_b_old*(task+1))/(self.Fisher_b_old*(task+2)))
+                # info_gain_b = C*torch.log((self.Fisher_b + self.Fisher_b_old)/(self.Fisher_b_old))
+                bit_grow_b = torch.floor(info_gain_b).long()
+                bit_grow_b.clamp_(min=0)
+                self.bit_alloc_b.add_(bit_grow_b)
+                self.bit_alloc_b.clamp_(max=self.max_bit)
+
     # actively clipping the parameters to the accepted range
     # should be called after every optimizer.step()
     def clipping(self):
@@ -131,11 +158,17 @@ class Linear_Q(nn.Linear):
                 self.bias.data.clamp_(-range_data, range_data)
 
     def update_fisher(self, task):
+        #TEST keep this for BLIP+EWC loss
+        self.Fisher_w_current = self.Fisher_w.clone()
+        self.Fisher_w_prev = self.Fisher_w_old.clone()
         # modified
         self.Fisher_w_old.data.mul_(task+1).add_(self.Fisher_w.data).div_(task+2)
         # self.Fisher_w_old.data.add_(self.Fisher_w.data)
         self.Fisher_w.zero_()
         if self.bias is not None:
+            #TEST keep this for BLIP+EWC loss
+            self.Fisher_b_current = self.Fisher_b.clone()
+            self.Fisher_b_prev = self.Fisher_b_old.clone()
             self.Fisher_b_old.data.mul_(task+1).add_(self.Fisher_b.data).div_(task+2)
             # self.Fisher_b_old.data.add_(self.Fisher_b.data)
             self.Fisher_b.zero_()
@@ -214,6 +247,27 @@ class Conv2d_Q(nn.Conv2d):
                 bit_grow_b.clamp_(min=0)
                 self.bit_alloc_b.add_(bit_grow_b)
                 self.bit_alloc_b.clamp_(max=self.max_bit)
+
+    # update bits according to info gain
+    # C is a hyper parameter on scale translate between info gain and actual bit length
+    # default is 0.5 according to our derivation
+    def update_bits_floor(self, task, C=0.5/math.log(2)):
+        # modified
+        with torch.no_grad():
+            info_gain_w = C*torch.log((self.Fisher_w + self.Fisher_w_old*(task+1))/(self.Fisher_w_old*(task+2)))
+            # info_gain_w = C*torch.log((self.Fisher_w + self.Fisher_w_old)/self.Fisher_w_old)
+            bit_grow_w = torch.floor(info_gain_w).long()
+            bit_grow_w.clamp_(min=0)
+            self.bit_alloc_w.add_(bit_grow_w)
+            self.bit_alloc_w.clamp_(max=self.max_bit)
+
+            if self.bias is not None:
+                info_gain_b = C*torch.log((self.Fisher_b + self.Fisher_b_old*(task+1))/(self.Fisher_b_old*(task+2)))
+                # info_gain_b = C*torch.log((self.Fisher_b + self.Fisher_b_old)/(self.Fisher_b_old))
+                bit_grow_b = torch.floor(info_gain_b).long()
+                bit_grow_b.clamp_(min=0)
+                self.bit_alloc_b.add_(bit_grow_b)
+                self.bit_alloc_b.clamp_(max=self.max_bit) 
 
     # actively clipping the parameters to the accepted range
     # should be called after every optimizer.step()

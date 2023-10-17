@@ -76,6 +76,13 @@ def train_ppo(actor_critic, agent, rollouts, task_idx, env_name, tasks_sequence,
         rollouts.compute_returns(next_value, args.use_gae, args.gamma,
                                  args.gae_lambda, args.use_proper_time_limits)
 
+        # if task_idx == 1 and current_total_num_steps > 7.5e5: #CHECK
+        #     agent.flag_log = True
+        #     value_loss, action_loss, dist_entropy = agent.update(rollouts, task_idx)
+        # else:
+        #     agent.flag_log = False
+        #     value_loss, action_loss, dist_entropy = agent.update(rollouts, task_idx)
+
         value_loss, action_loss, dist_entropy = agent.update(rollouts, task_idx)
 
         rollouts.after_update()

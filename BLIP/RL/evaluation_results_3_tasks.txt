@@ -1,0 +1,44 @@
+BLIP-EWC with Fisher prev task and BLIP floor. Lambda = 5000:
+
+Task  0 : median reward (3 eval)  0.5165500000000001
+Task  1 : median reward (3 eval)  0.9305
+Task  2 : median reward (3 eval)  0.7819999999999999
+
+BLIP-EWC with Fisher prev task and BLIP ceil. Lambda = 5000:
+
+Task  0 : median reward (3 eval)  0.549825
+Task  1 : median reward (3 eval)  0.9326875
+Task  2 : median reward (3 eval)  0.0
+
+BLIP-EWC with Fisher prev task and BLIP floor. Lambda = 3000:
+
+Task  0 : median reward (3 eval)  0.5165500000000001
+Task  1 : median reward (3 eval)  0.9305
+Task  2 : median reward (3 eval)  0.7819999999999999
+
+
+BLIP-EWC with Fisher and BLIP floor (no explicit detach). Lambda = 2500:
+
+Task  0 : median reward (3 eval)  0.5165500000000001
+Task  1 : median reward (3 eval)  0.9305
+Task  2 : median reward (3 eval)  0.7819999999999999
+
+
+BLIP-EWC with Fisher cumul prev task and BLIP floor (no explicit detach).  Lambda = 5000:
+
+Task  0 : median reward (3 eval)  0.517325
+Task  1 : median reward (3 eval)  0.9385625000000001
+Task  2 : median reward (3 eval)  0.6333125
+
+
+EWC. Lambda = 3000:
+
+Task  0 : median reward (3 eval)  0.9683750000000001
+Task  1 : median reward (3 eval)  0.9033749999999999
+Task  2 : median reward (3 eval)  0.7509999999999997
+
+BLIP. F-prior = 1e-16:
+
+Task  0 : median reward (3 eval)  0.549825
+Task  1 : median reward (3 eval)  0.9326875
+Task  2 : median reward (3 eval)  0.0

@@ -42,9 +42,11 @@ def main():
     if args.approach == 'fine-tuning' or args.approach == 'ft-fix':
         log_name = '{}_{}_{}_{}'.format(args.date, args.experiment, args.approach,args.seed)
     elif args.approach == 'ewc' in args.approach:
-        log_name = '{}_{}_{}_{}_lamb_{}'.format(args.date, args.experiment, args.approach, args.seed, args.ewc_lambda)
+        log_name = '{}_{}_{}_{}_{}_lamb_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.ewc_lambda)
     elif args.approach == 'blip':
-        log_name = '{}_{}_{}_{}_F_prior_{}'.format(args.date, args.experiment, args.approach, args.seed, args.F_prior)
+        log_name = '{}_{}_{}_{}_{}_F_prior_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior)
+    elif args.approach == 'blip_spp':
+        log_name = '{}_{}_{}_{}_{}_F_prior_{}_spp_lamb_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior, args.spp_lambda)
 
     if args.experiment in conv_experiment:
         log_name = log_name + '_conv'
@@ -166,6 +168,13 @@ def main():
         actor_critic = QPolicy(obs_shape,
             taskcla,
             base_kwargs={'F_prior': args.F_prior, 'recurrent': args.recurrent_policy}).to(device)
+    elif args.approach == 'blip_spp':
+        from rl_module.ppo_model import QPolicy
+        print('using fisher prior of: ', args.F_prior)
+        print('using SPP lambda of: ', args.spp_lambda)
+        actor_critic = QPolicy(obs_shape,
+            taskcla,
+            base_kwargs={'F_prior': args.F_prior, 'recurrent': args.recurrent_policy}).to(device)
     else:
         from rl_module.ppo_model import Policy
         actor_critic = Policy(obs_shape,
@@ -220,6 +229,27 @@ def main():
             max_grad_norm=args.max_grad_norm,
             use_clipped_value_loss=True,
             optimizer=args.optimizer)
+        
+    elif args.approach == 'blip_spp':
+        from rl_module.ppo_blip_spp import PPO_BLIP_SPP as approach
+
+        agent = approach(
+            actor_critic,
+            args.clip_param,
+            args.ppo_epoch,
+            args.num_mini_batch,
+            args.value_loss_coef,
+            args.entropy_coef,
+            lr=args.lr,
+            eps=args.eps,
+            max_grad_norm=args.max_grad_norm,
+            use_clipped_value_loss=True,
+            ewc_lambda= args.ewc_lambda,
+            online = args.ewc_online,
+            optimizer=args.optimizer, 
+            loss_method=args.loss_method, 
+            spp_lambda=args.spp_lambda
+            )
 
     ########################################################################################################################
 
@@ -229,6 +259,7 @@ def main():
     print('Experiment: ', log_name)
     print('Length task sequence: ', len(tasks_sequence))
     print('Tasks: ', tasks_sequence, '\n')
+    print('Steps/task: ', args.num_env_steps, '\n')
 
     tr_reward_arr = []
     te_reward_arr = {}
@@ -301,6 +332,14 @@ def main():
             agent.ng_post_processing(rollouts, task_idx)
             # save the model here so that bit allocation is saved
             #save_path = os.path.join(args.save_dir, args.algo)
+            torch.save(actor_critic.state_dict(),
+                os.path.join(save_path, log_name + '_task_' + str(task_idx) + ".pth"))
+            envs.close()
+        elif args.approach == 'blip_spp':
+            agent.update_omega(rollouts, task_idx)
+            agent.ng_post_processing(rollouts, task_idx)
+            # save the model here so that bit allocation is saved
+            save_path = os.path.join(args.save_dir, args.algo)
             torch.save(actor_critic.state_dict(),
                 os.path.join(save_path, log_name + '_task_' + str(task_idx) + ".pth"))
             envs.close()

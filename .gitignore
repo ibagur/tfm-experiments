@@ -156,3 +156,19 @@ pytorch-a2c-ppo-acktr-gail/time_limit_logs/*
 *monitor.csv
 
 *.zip
+BLIP/RL/logs/9.monitor.csv
+BLIP/RL/logs/8.monitor.csv
+BLIP/RL/logs/7.monitor.csv
+BLIP/RL/logs/6.monitor.csv
+BLIP/RL/logs/5.monitor.csv
+BLIP/RL/logs/4.monitor.csv
+BLIP/RL/logs/3.monitor.csv
+BLIP/RL/logs/2.monitor.csv
+BLIP/RL/logs/15.monitor.csv
+BLIP/RL/logs/14.monitor.csv
+BLIP/RL/logs/13.monitor.csv
+BLIP/RL/logs/12.monitor.csv
+BLIP/RL/logs/11.monitor.csv
+BLIP/RL/logs/10.monitor.csv
+BLIP/RL/logs/1.monitor.csv
+BLIP/RL/logs/0.monitor.csv

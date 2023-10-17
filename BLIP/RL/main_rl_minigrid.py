@@ -45,6 +45,8 @@ def main():
         log_name = '{}_{}_{}_{}_{}_lamb_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.ewc_lambda)
     elif args.approach == 'blip':
         log_name = '{}_{}_{}_{}_{}_F_prior_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior)
+    elif args.approach == 'blip_ewc':
+        log_name = '{}_{}_{}_{}_{}_F_prior_{}_lamb_{}_F_term_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior, args.ewc_lambda, args.fisher_term)
     elif args.approach == 'blip_spp':
         log_name = '{}_{}_{}_{}_{}_F_prior_{}_spp_lamb_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior, args.spp_lambda)
 
@@ -168,6 +170,13 @@ def main():
         actor_critic = QPolicy(obs_shape,
             taskcla,
             base_kwargs={'F_prior': args.F_prior, 'recurrent': args.recurrent_policy}).to(device)
+    elif args.approach == 'blip_ewc':
+        from rl_module.ppo_model import QPolicy
+        print('using fisher prior of: ', args.F_prior)
+        print('using EWC lambda of: ', args.ewc_lambda)
+        actor_critic = QPolicy(obs_shape,
+            taskcla,
+            base_kwargs={'F_prior': args.F_prior, 'recurrent': args.recurrent_policy}).to(device)
     elif args.approach == 'blip_spp':
         from rl_module.ppo_model import QPolicy
         print('using fisher prior of: ', args.F_prior)
@@ -230,6 +239,24 @@ def main():
             use_clipped_value_loss=True,
             optimizer=args.optimizer)
         
+    elif args.approach == 'blip_ewc':
+        from rl_module.ppo_blip_ewc import PPO_BLIP_EWC as approach
+
+        agent = approach(
+            actor_critic,
+            args.clip_param,
+            args.ppo_epoch,
+            args.num_mini_batch,
+            args.value_loss_coef,
+            args.entropy_coef,
+            lr=args.lr,
+            eps=args.eps,
+            max_grad_norm=args.max_grad_norm,
+            use_clipped_value_loss=True,
+            ewc_lambda= args.ewc_lambda,
+            online = args.ewc_online,
+            optimizer=args.optimizer)
+ 
     elif args.approach == 'blip_spp':
         from rl_module.ppo_blip_spp import PPO_BLIP_SPP as approach
 
@@ -332,6 +359,13 @@ def main():
             agent.ng_post_processing(rollouts, task_idx)
             # save the model here so that bit allocation is saved
             #save_path = os.path.join(args.save_dir, args.algo)
+            torch.save(actor_critic.state_dict(),
+                os.path.join(save_path, log_name + '_task_' + str(task_idx) + ".pth"))
+            envs.close()
+        elif args.approach == 'blip_ewc':
+            agent.ng_post_processing(rollouts, task_idx)
+            # save the model here so that bit allocation is saved
+            save_path = os.path.join(args.save_dir, args.algo)
             torch.save(actor_critic.state_dict(),
                 os.path.join(save_path, log_name + '_task_' + str(task_idx) + ".pth"))
             envs.close()

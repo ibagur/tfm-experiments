@@ -160,3 +160,4 @@ BLIP/RL/result_data_*/*
 BLIP/RL/*(old)*
 BLIP/RL/trained_models_*/*
 BLIP/RL/logs/*
+BLIP/RL/*copy*

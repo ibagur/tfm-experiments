@@ -7,11 +7,13 @@ def get_args():
     parser = argparse.ArgumentParser(description='RL')
     parser.add_argument(
         '--algo', default='ppo', help='algorithm to use: a2c | ppo | acktr')
-    parser.add_argument('--approach', default='blip', type=str, required=True,
+    parser.add_argument('--approach', default='fine-tuning', type=str, required=True,
                     choices=['fine-tuning',
                              'ft-fix', 
                              'ewc', 
-                             'blip'], 
+                             'blip',
+                             'blip_ewc',
+                             'blip_spp'], 
                     help='(default=%(default)s)')
     parser.add_argument('--experiment', default='atari', type=str, required=True,
                 help='Name of the experiment')
@@ -57,7 +59,7 @@ def get_args():
     parser.add_argument(
         '--use-gae',
         action='store_true',
-        default=True,
+        default=False,
         help='use generalized advantage estimation')
     parser.add_argument(
         '--gae-lambda',
@@ -94,18 +96,18 @@ def get_args():
     parser.add_argument(
         '--num-steps',
         type=int,
-        default=5,
-        help='number of forward steps in A2C (default: 64)')
+        default=128,
+        help='number of forward steps in PPO/A2C (default: 128 for PPO)')
     parser.add_argument(
         '--ppo-epoch',
         type=int,
         default=4,
-        help='number of ppo epochs (default: 10)')
+        help='number of ppo epochs (default: 4)')
     parser.add_argument(
         '--num-mini-batch',
         type=int,
-        default=32,
-        help='number of batches for ppo (default: 64)')
+        default=256,
+        help='number of batches for ppo (default: 256)')
     parser.add_argument(
         '--clip-param',
         type=float,
@@ -115,22 +117,22 @@ def get_args():
         '--log-interval',
         type=int,
         default=10,
-        help='log interval, one log per n updates (default: 100)')
+        help='log interval, one log per n updates (default: 10)')
     parser.add_argument(
         '--save-interval',
         type=int,
-        default=100,
-        help='save interval, one save per n updates (default: 100)')
+        default=10,
+        help='save interval, one save per n updates (default: 10)')
     parser.add_argument(
         '--eval-interval',
         type=int,
         default=10,
-        help='eval interval, one eval per n updates (default: None)')
+        help='eval interval, one eval per n updates (default: 10)')
     parser.add_argument(
         '--num-env-steps',
         type=int,
-        default=10e6,
-        help='number of environment steps to train (default: 5000000)')
+        default=5e5,
+        help='number of environment steps to train (default: 500000)')
     parser.add_argument(
         '--env-name',
         default='PongNoFrameskip-v4',
@@ -138,7 +140,7 @@ def get_args():
     parser.add_argument(
         '--log-dir',
         default='./logs/',
-        help='directory to save agent logs (default: /tmp/gym)')
+        help='directory to save agent logs (default: /logs/)')
     parser.add_argument(
         '--save-dir',
         default='./trained_models/',
@@ -170,7 +172,7 @@ def get_args():
         help='lambda for EWC')
     parser.add_argument(
         '--ewc-online',
-        default=False,
+        default=True,
         help='True == online EWC')
     parser.add_argument(
         '--ewc-epochs',
@@ -189,7 +191,7 @@ def get_args():
     parser.add_argument(
         '--date',
         default=date.today(),
-        help='savename for tensorboard')
+        help='date (default: today)')
     parser.add_argument(
         '--task_id',
         default=None,
@@ -203,8 +205,24 @@ def get_args():
     parser.add_argument(
         '--F-prior',
         type=float,
-        default=5e-18, #1e-15,
+        default=1e-16, #5e-18,#1e-15,
         help='prior of Fisher information')
+    # for BLIP+EWC and BLIP+SBB approaches
+    parser.add_argument('--fisher-term',
+        type=str,
+        default='f0t',
+        help='Use either Fisher t or Fisher 0:t)',
+        choices=['f0t','ft'])
+    parser.add_argument('--update-bits-rounding',
+        type=str,
+        default='floor',
+        help='Use either floor or ceil)',
+        choices=['floor','ceil'])
+    parser.add_argument(
+        '--spp-lambda',
+        type=float,
+        default=4.0,
+        help='lambda for SPP')
 
     parser.add_argument('--input-padding', action='store_true', default=False, help='apply no sampling')
     parser.add_argument('--sample', action='store_true', default=False, help='apply no sampling')
@@ -216,7 +234,7 @@ def get_args():
     parser.add_argument('--num-render-traj',        default=1000,  type=int, help='number of steps rendered')
 
     # evaluation arguments
-    parser.add_argument('--num-eval-episodes',        default=30,  type=int, help='number of episodes for evaluation')
+    parser.add_argument('--num-eval-episodes',        default=10,  type=int, help='number of episodes for evaluation')
     parser.add_argument('--tasks-sequence',        default=0,  type=int, help='Tasks sequence ID')
     parser.add_argument('--task-state',        default=None,  type=int, help='Load model state at given task')
     parser.add_argument(

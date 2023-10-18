@@ -26,9 +26,7 @@ class PPO_BLIP_EWC():
                  online = False,
                  optimizer='Adam', 
                  update_bits_rounding='floor', 
-                 fisher_term='f0t', 
-                 loss_method='ewc',
-                 spp_lambda=4
+                 fisher_term='f0t'
                  ):
 
         self.actor_critic = actor_critic
@@ -58,8 +56,6 @@ class PPO_BLIP_EWC():
         # new parameters to select different sup-approaches
         self.update_bits_rounding = update_bits_rounding
         self.fisher_term = fisher_term
-        self.loss_method = loss_method
-        self.spp_lambda = spp_lambda
 
         # to log variables content #CHECK
         logging.basicConfig(filename='reg_loss.log', level=logging.INFO)
@@ -121,11 +117,7 @@ class PPO_BLIP_EWC():
 
                 self.optimizer.zero_grad()
                 # add EWC or SPP loss
-                if self.loss_method == 'ewc':
-                    reg_loss = self.ewc_lambda * self.blip_ewc_loss(task_num)
-                elif self.loss_method == 'spp':
-                    reg_loss = self.spp_lambda * self.blip_spp_loss(task_num)
-
+                reg_loss = self.ewc_lambda * self.blip_ewc_loss(task_num)
 
                 (value_loss * self.value_loss_coef + action_loss -
                  dist_entropy * self.entropy_coef + reg_loss).backward()

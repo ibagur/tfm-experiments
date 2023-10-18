@@ -26,8 +26,6 @@ class PPO_BLIP_SPP():
                  online = False,
                  optimizer='Adam', 
                  update_bits_rounding='floor', 
-                 fisher_term='f0t', 
-                 loss_method='ewc',
                  spp_lambda=4
                  ):
 
@@ -57,8 +55,6 @@ class PPO_BLIP_SPP():
 
         # new parameters to select different sup-approaches
         self.update_bits_rounding = update_bits_rounding
-        self.fisher_term = fisher_term
-        self.loss_method = loss_method
         self.spp_lambda = spp_lambda
         self.omega_w = None
         self.omega_b = None
@@ -124,21 +120,7 @@ class PPO_BLIP_SPP():
                 self.optimizer.zero_grad()
 
                 # add SPP loss
-                if task_num == 2:#CHECK
-                    reg_loss = self.spp_lambda * self.blip_spp_loss(task_num)
-
-                    # Logging the details
-                    # requires_grad = reg_loss.requires_grad
-                    # grad_fn_value = reg_loss.grad_fn if requires_grad else None
-                    # self.logger.info(f"reg_loss requires gradient: {requires_grad}")
-                    # self.logger.info(f"reg_loss shape: {reg_loss.shape}")
-                    # self.logger.info(f"reg_loss value: {reg_loss}")
-                    # if grad_fn_value:
-                    #     self.logger.info(f"reg_loss grad_fn value: {grad_fn_value}")
-
-                else:
-                    reg_loss = self.spp_lambda * self.blip_spp_loss(task_num)
-
+                reg_loss = self.spp_lambda * self.blip_spp_loss(task_num)
 
                 (value_loss * self.value_loss_coef + action_loss -
                  dist_entropy * self.entropy_coef + reg_loss).backward()
@@ -310,29 +292,6 @@ class PPO_BLIP_SPP():
         importance_w = []
         importance_b = []
 
-        # for m in self.actor_critic.features.modules():
-        #     if isinstance(m, Linear_Q) or isinstance(m, Conv2d_Q):
-        #         # Information entropy
-        #         I = -torch.sum(log_probs.exp() * log_probs)
-        #         # Compute the gradients of the information entropy with respect to the current weights
-        #         grads_w = torch.autograd.grad(I, m.weight, retain_graph=True)[0]  # Set retain_graph=True
-        #         # Calculate the importance based on the given formula
-        #         term1_w = grads_w * (m.weight - m.prev_weight)
-        #         term2_w = 0.5 * (m.weight - m.prev_weight).pow(2) * grads_w.pow(2)
-        #         imp_w = torch.max(term1_w + term2_w, torch.tensor(0.0))
-        #         importance_w.append(torch.mean(imp_w))
-
-        #         if m.bias is not None:
-        #             # Compute the gradients of the information entropy with respect to the current biases                   
-        #             grads_b = torch.autograd.grad(I, m.bias, retain_graph=True)[0]  # Set retain_graph=True           
-        #             # Calculate the importance based on the given formula
-        #             term1_b = grads_b * (m.bias - m.prev_bias)
-        #             term2_b = 0.5 * (m.bias - m.prev_bias).pow(2) * grads_b.pow(2)
-        #             imp_b = torch.max(term1_b + term2_b, torch.tensor(0.0))
-        #             importance_b.append(torch.mean(imp_b))
-
-        # return importance_w, importance_b
-
         for m in self.actor_critic.features.modules():
             if isinstance(m, Linear_Q) or isinstance(m, Conv2d_Q):
                 I = -torch.sum(log_probs.exp() * log_probs)
@@ -371,9 +330,6 @@ class PPO_BLIP_SPP():
         
         omega_w = [sum(tensors) / batch_num for tensors in zip(*omega_w)]
         omega_b = [sum(tensors) / batch_num for tensors in zip(*omega_b)]
-
-        #om_w = torch.stack(omega_w).detach()
-        #om_b = torch.stack(omega_b).detach()
 
         om_w = torch.stack(omega_w)
         om_b = torch.stack(omega_b)

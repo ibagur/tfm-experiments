@@ -274,7 +274,6 @@ def main():
             ewc_lambda= args.ewc_lambda,
             online = args.ewc_online,
             optimizer=args.optimizer, 
-            loss_method=args.loss_method, 
             spp_lambda=args.spp_lambda
             )
 
@@ -285,7 +284,7 @@ def main():
     print('Date: ', args.date)
     print('Experiment: ', log_name)
     print('Length task sequence: ', len(tasks_sequence))
-    print('Tasks: ', tasks_sequence, '\n')
+    print('Tasks: ', tasks_sequence)
     print('Steps/task: ', args.num_env_steps, '\n')
 
     tr_reward_arr = []

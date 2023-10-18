@@ -1,0 +1,84 @@
+---
+- name: Run RL Experiments
+  hosts: localhost
+  tasks:
+    - name: BLIP+SPP seed 1 lamb 4
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 1 --spp-lambda 4.0
+
+    - name: BLIP+SPP seed 100 lamb 4
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 100 --spp-lambda 4.0
+
+    - name: BLIP+SPP seed 1000 lamb 4
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 1000 --spp-lambda 4.0
+
+    - name: BLIP+SPP seed 1 lamb 0.5
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 1 --spp-lambda 0.5
+
+    - name: BLIP+SPP seed 100 lamb 0.5
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 100 --spp-lambda 0.5
+
+    - name: BLIP+SPP seed 1000 lamb 0.5
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 1000 --spp-lambda 0.5
+
+    - name: BLIP+SPP seed 1 lamb 2
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 1 --spp-lambda 2.0
+
+    - name: BLIP+SPP seed 100 lamb 2
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 100 --spp-lambda 2.0
+
+    - name: BLIP+SPP seed 1000 lamb 2
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 1000 --spp-lambda 2.0
+
+    - name: BLIP+EWC seed 1 lamb 5000 fisher f0t
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1 --ewc-lambda 5000.0
+
+    - name: BLIP+EWC seed 100 lamb 5000 fisher f0t
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 100 --ewc-lambda 5000.0
+
+    - name: BLIP+EWC seed 1000 lamb 5000 fisher f0t
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1000 --ewc-lambda 5000.0
+
+    - name: BLIP+EWC seed 1 lamb 2500 fisher f0t
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1 --ewc-lambda 2500
+
+    - name: BLIP+EWC seed 100 lamb 2500 fisher f0t
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 100 --ewc-lambda 2500
+
+    - name: BLIP+EWC seed 1000 lamb 2500 fisher f0t
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1000 --ewc-lambda 2500
+
+    - name: BLIP+EWC seed 1 lamb 1000 fisher f0t
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1 --ewc-lambda 1000
+
+    - name: BLIP+EWC seed 100 lamb 1000 fisher f0t
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 100 --ewc-lambda 1000
+
+    - name: BLIP+EWC seed 1000 lamb 1000 fisher f0t
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1000 --ewc-lambda 1000
+
+    - name: BLIP+EWC seed 1 lamb 5000 fisher ft
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1 --ewc-lambda 5000.0 --fisher-term ft
+
+    - name: BLIP+EWC seed 100 lamb 5000 fisher ft
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 100 --ewc-lambda 5000.0 --fisher-term ft
+
+    - name: BLIP+EWC seed 1000 lamb 5000 fisher ft
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1000 --ewc-lambda 5000.0 --fisher-term ft
+
+    - name: BLIP+EWC seed 1 lamb 2500 fisher ft
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1 --ewc-lambda 2500 --fisher-term ft
+
+    - name: BLIP+EWC seed 100 lamb 2500 fisher ft
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 100 --ewc-lambda 2500 --fisher-term ft
+
+    - name: BLIP+EWC seed 1000 lamb 2500 fisher ft
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1000 --ewc-lambda 2500 --fisher-term ft
+
+    - name: BLIP+EWC seed 1 lamb 1000 fisher ft
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1 --ewc-lambda 1000 --fisher-term ft
+
+    - name: BLIP+EWC seed 100 lamb 1000 fisher ft
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 100 --ewc-lambda 1000 --fisher-term ft
+
+    - name: BLIP+EWC seed 1000 lamb 1000 fisher ft
+      command: python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_ewc --seed 1000 --ewc-lambda 1000 --fisher-term ft

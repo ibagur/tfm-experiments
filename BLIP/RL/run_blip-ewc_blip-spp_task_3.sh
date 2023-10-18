@@ -1,0 +1,3 @@
+python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 1 --spp-lambda 4.0 && \
+python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 100 --spp-lambda 4.0 && \
+python main_rl_minigrid.py --algo ppo --use-gae --tasks-sequence 3 --experiment minigrid-lavagap-doorkey-emptyrand-redbluedoor-wallgap --num-env-steps 500000 --no-cuda --approach blip_spp --seed 1000 --spp-lambda 4.0 && \

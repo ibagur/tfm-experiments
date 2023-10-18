@@ -159,3 +159,4 @@ pytorch-a2c-ppo-acktr-gail/time_limit_logs/*
 BLIP/RL/result_data_*/*
 BLIP/RL/*(old)*
 BLIP/RL/trained_models_*/*
+BLIP/RL/logs/*

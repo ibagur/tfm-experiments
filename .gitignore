@@ -156,7 +156,7 @@ pytorch-a2c-ppo-acktr-gail/time_limit_logs/*
 *monitor.csv
 
 *.zip
-BLIP/RL/result_data_012023/*
+BLIP/RL/result_data_*/*
 BLIP/RL/logs/*
 BLIP/RL/*(old)*
 BLIP/RL/trained_models_*/*

@@ -161,3 +161,4 @@ BLIP/RL/*(old)*
 BLIP/RL/trained_models_*/*
 BLIP/RL/logs/*
 BLIP/RL/*copy*
+.tmp.drivedownload/*

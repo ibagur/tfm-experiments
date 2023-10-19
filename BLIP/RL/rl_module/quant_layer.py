@@ -56,6 +56,7 @@ class Linear_Q(nn.Linear):
         #TEST for BLIP+EWC loss estimation
         self.register_buffer('Fisher_w_current', torch.zeros_like(self.weight))
         self.register_buffer('Fisher_w_prev', self.F_prior*torch.ones_like(self.weight))
+        self.register_buffer('Fisher_w_0_current', self.F_prior*torch.ones_like(self.weight))
         # switch to orthogonal initialization
         nn.init.orthogonal_(self.weight.data, gain=nn.init.calculate_gain('relu'))
         # self.weight.data.normal_(0.0, math.sqrt(1/in_features))
@@ -68,6 +69,7 @@ class Linear_Q(nn.Linear):
             #TEST for BLIP+EWC loss estimation
             self.register_buffer('Fisher_b_current', torch.zeros_like(self.bias))
             self.register_buffer('Fisher_b_prev', self.F_prior*torch.ones_like(self.bias))
+            self.register_buffer('Fisher_b_0_current', self.F_prior*torch.ones_like(self.bias))
             self.bias.data.zero_()
 
     # synchronize continuous weight with quantized weight
@@ -160,9 +162,10 @@ class Linear_Q(nn.Linear):
     def update_fisher(self, task):
         #TEST keep this for BLIP+EWC loss
         self.Fisher_w_current = self.Fisher_w.clone()
-        self.Fisher_w_prev = self.Fisher_w_old.clone()
         # modified
         self.Fisher_w_old.data.mul_(task+1).add_(self.Fisher_w.data).div_(task+2)
+        #TEST keep this for BLIP+EWC loss
+        self.Fisher_w_0_current = self.Fisher_w_old.clone()
         # self.Fisher_w_old.data.add_(self.Fisher_w.data)
         self.Fisher_w.zero_()
         if self.bias is not None:
@@ -170,6 +173,8 @@ class Linear_Q(nn.Linear):
             self.Fisher_b_current = self.Fisher_b.clone()
             self.Fisher_b_prev = self.Fisher_b_old.clone()
             self.Fisher_b_old.data.mul_(task+1).add_(self.Fisher_b.data).div_(task+2)
+            #TEST keep this for BLIP+EWC loss
+            self.Fisher_b_0_current = self.Fisher_b_old.clone()
             # self.Fisher_b_old.data.add_(self.Fisher_b.data)
             self.Fisher_b.zero_()
 

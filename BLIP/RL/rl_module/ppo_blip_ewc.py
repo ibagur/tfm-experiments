@@ -227,7 +227,7 @@ class PPO_BLIP_EWC():
                     diff_w = m.weight - m.prev_weight
                     #TEST use F_0_t
                     if self.fisher_term == 'f0t':
-                        fisher_w = (m.Fisher_w_current + m.Fisher_w_prev*(task+1))/(task+2)
+                        fisher_w = self.Fisher_w_0_current
                     elif self.fisher_term == 'ft':
                         #TEST using just F_t
                         fisher_w = m.Fisher_w_current
@@ -236,7 +236,7 @@ class PPO_BLIP_EWC():
                     if m.bias is not None:
                         diff_b = m.bias - m.prev_bias
                         if self.fisher_term == 'f0t':
-                            fisher_b = (m.Fisher_b_current + m.Fisher_b_prev*(task+1))/(task+2)
+                            fisher_b = self.Fisher_b_0_current
                         elif self.fisher_term == 'ft':
                             #TEST using just F_t
                             fisher_b = m.Fisher_b_current

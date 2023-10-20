@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
-import logging #CHECK
+# import logging #CHECK
 
 class PPO_EWC():
     def __init__(self,
@@ -49,8 +49,8 @@ class PPO_EWC():
         self.optimizer_type = optimizer
 
         # to log variables content #CHECK
-        logging.basicConfig(filename='reg_loss.log', level=logging.INFO)
-        self.logger = logging.getLogger(__name__)
+        # logging.basicConfig(filename='reg_loss.log', level=logging.INFO)
+        # self.logger = logging.getLogger(__name__)
 
 
     def renew_optimizer(self):
@@ -286,11 +286,11 @@ class PPO_EWC():
                         # fisher = fisher / self.divide_factor
                         # Calculate EWC-loss
                         losses.append((fisher * (p - mean) ** 2).sum())
-                        if self.flag_log == True: #CHECK
-                            # Logging the details
-                            self.logger.info(f"p: {p}")
-                            self.logger.info(f"mean: {mean}")
-                            self.logger.info(f"fisher: {fisher}")                          
+                        # if self.flag_log == True: #CHECK
+                        #     # Logging the details
+                        #     self.logger.info(f"p: {p}")
+                        #     self.logger.info(f"mean: {mean}")
+                        #     self.logger.info(f"fisher: {fisher}")                          
             # Sum EWC-loss from all parameters (and from all tasks, if "offline EWC")
             return (1. / 2) * sum(losses)
         else:

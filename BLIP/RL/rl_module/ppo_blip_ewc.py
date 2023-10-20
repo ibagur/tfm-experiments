@@ -7,7 +7,7 @@ import torch.optim as optim
 from .quant_layer import Conv2d_Q, Linear_Q
 from .ppo_blip_utils import update_fisher_exact
 
-import logging #CHECK
+#import logging #CHECK
 
 class PPO_BLIP_EWC():
     def __init__(self,
@@ -58,8 +58,8 @@ class PPO_BLIP_EWC():
         self.fisher_term = fisher_term
 
         # to log variables content #CHECK
-        logging.basicConfig(filename='reg_loss.log', level=logging.INFO)
-        self.logger = logging.getLogger(__name__)
+        #logging.basicConfig(filename='reg_loss.log', level=logging.INFO)
+        #self.logger = logging.getLogger(__name__)
 
     def renew_optimizer(self):
         #self.optimizer = optim.Adam(self.actor_critic.parameters(), lr=self.lr, eps=self.eps)

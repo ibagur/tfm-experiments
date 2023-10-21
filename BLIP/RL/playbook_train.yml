@@ -13,22 +13,22 @@
     tasks_sequences: 1
 
   tasks:
-    # - name: "Fine-Tuning seed {{ item }}"
-    #   command: "{{ base_command }} --approach fine-tuning --seed {{ item }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
-    #   with_items: "{{ seeds }}"
+    - name: "Fine-Tuning seed {{ item }}"
+      command: "{{ base_command }} --approach fine-tuning --seed {{ item }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+      with_items: "{{ seeds }}"
 
-    # - name: "BLIP+SPP seed {{ item[0] }} lamb {{ item[1] }}"
-    #   command: "{{ base_command }} --approach blip_spp --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
-    #   with_nested:
-    #     - "{{ seeds }}"
-    #     - "{{ blip_spp_lambdas }}"
+    - name: "BLIP+SPP seed {{ item[0] }} lamb {{ item[1] }}"
+      command: "{{ base_command }} --approach blip_spp --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+      with_nested:
+        - "{{ seeds }}"
+        - "{{ blip_spp_lambdas }}"
 
-    # - name: "BLIP+EWC seed {{ item[0] }} lamb {{ item[1] }} fisher {{ item[2] }}"
-    #   command: "{{ base_command }} --approach blip_ewc --seed {{ item[0] }} --ewc-lambda {{ item[1] }} --F-prior {{ f_prior }} --fisher-term {{ item[2] }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
-    #   with_nested:
-    #     - "{{ seeds }}"
-    #     - "{{ blip_ewc_lambdas }}"
-    #     - "{{ fisher_terms }}"
+    - name: "BLIP+EWC seed {{ item[0] }} lamb {{ item[1] }} fisher {{ item[2] }}"
+      command: "{{ base_command }} --approach blip_ewc --seed {{ item[0] }} --ewc-lambda {{ item[1] }} --F-prior {{ f_prior }} --fisher-term {{ item[2] }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+      with_nested:
+        - "{{ seeds }}"
+        - "{{ blip_ewc_lambdas }}"
+        - "{{ fisher_terms }}"
 
     - name: "EWC seed {{ item }}"
       command: "{{ base_command }} --approach ewc --seed {{ item }} --ewc-lambda {{ ewc_lambda }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"

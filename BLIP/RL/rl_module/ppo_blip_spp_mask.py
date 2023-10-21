@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from torch.optim.lr_scheduler import StepLR #TEST
 
 from .quant_layer import Conv2d_Q, Linear_Q
 from .ppo_blip_utils import update_fisher_exact
@@ -71,6 +72,21 @@ class PPO_BLIP_SPP():
             self.optimizer = optim.RMSprop(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps)
         else:
             self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps) 
+
+    def renew_optimizer_scheduler(self):
+    
+        if self.optimizer_type == 'Adam':
+            self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps)
+        elif self.optimizer_type == 'RMSProp':
+            self.optimizer = optim.RMSprop(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps)
+        else:
+            self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps) 
+        # Define the learning rate scheduler. We use StepLR which multiplies the learning rate by gamma every 'epoches' steps
+        self.scheduler = StepLR(self.optimizer, step_size=self.ppo_epoch, gamma=0.99)
+
+    
+    
+
 
     def update(self, rollouts, task_num):
         advantages = rollouts.returns[:-1] - rollouts.value_preds[:-1]
@@ -363,4 +379,54 @@ class PPO_BLIP_SPP():
             return sum(losses)
         else:
             return 0.
+        
+    # internal method
+    def _apply_mask1(self, omega, percent):
+        mask = omega.clone()
+        for i in range(len(omega[0])):
+            # Set all non-zero values to 1
+            mask[0][i][mask[0][i].abs() > 0] = 1
+            # Compute threshold as the given percentile
+            threshold = torch.quantile(omega[0][i], percent / 100.0)
+            # Set values below threshold to 0
+            mask[0][i][omega[0][i] < threshold] = 0
+        return mask
+
+    # Input here is the avg_omega
+    def get_mask_matrix1(self, omega_w, omega_b, percent):
+        mask_w = self._apply_mask1(omega_w, percent)
+        mask_b = self._apply_mask1(omega_b, percent)
+        return mask_w, mask_b         
+
+    # internal method
+    def _apply_mask2(self, mask_pre, silence, step_percent):
+        mask = silence.clone()
+        for i in range(len(mask_pre[0])):
+            m_a = torch.ones_like(mask_pre[0][i])
+            s2 = silence[0][i][mask_pre[0][i] == 0]
+            threshold_current = torch.quantile(s2, step_percent / 100.0)
+            m_a[(mask_pre[0][i] == 0) & (silence[0][i] <= threshold_current)] = 0
+            mask[0][i] = m_a
+        return mask
+
+    def get_mask_matrix2(self, mask_pre_w, mask_pre_b, silence_w, silence_b, step_percent):
+        mask_w = self._apply_mask2(mask_pre_w, silence_w, step_percent)
+        mask_b = self._apply_mask2(mask_pre_b, silence_b, step_percent)
+        return mask_w, mask_b
+    
+    def apply_prune_weights(self, mask_w, mask_b):
+        w_counter = 0  # Counter for modules with weights
+        b_counter = 0  # Counter for modules with biases
+        
+        for m in self.actor_critic.features.modules():
+            if isinstance(m, Linear_Q) or isinstance(m, Conv2d_Q):
+                m.weight.data.mul_(mask_w[0][w_counter])
+                w_counter += 1
+
+                if m.bias is not None:
+                    m.bias.data.mul_(mask_b[0][b_counter])
+                    b_counter += 1
+
+
+
 

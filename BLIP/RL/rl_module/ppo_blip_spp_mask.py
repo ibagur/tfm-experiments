@@ -10,7 +10,7 @@ from .ppo_blip_utils import update_fisher_exact
 #import logging
 
 
-class PPO_BLIP_SPP():
+class PPO_BLIP_SPP_MASK():
     def __init__(self,
                  actor_critic,
                  clip_param,
@@ -83,9 +83,6 @@ class PPO_BLIP_SPP():
             self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.actor_critic.parameters()), lr=self.lr, eps=self.eps) 
         # Define the learning rate scheduler. We use StepLR which multiplies the learning rate by gamma every 'epoches' steps
         self.scheduler = StepLR(self.optimizer, step_size=self.ppo_epoch, gamma=0.99)
-
-    
-    
 
 
     def update(self, rollouts, task_num):

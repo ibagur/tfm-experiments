@@ -13,7 +13,8 @@ def get_args():
                              'ewc', 
                              'blip',
                              'blip_ewc',
-                             'blip_spp'], 
+                             'blip_spp', 
+                             'blip_spp_mask'], 
                     help='(default=%(default)s)')
     parser.add_argument('--experiment', default='atari', type=str, required=True,
                 help='Name of the experiment')
@@ -223,6 +224,21 @@ def get_args():
         type=float,
         default=4.0,
         help='lambda for SPP')
+    parser.add_argument(
+        '--initial-prune-percent',
+        type=float,
+        default=30.0,
+        help='Initial mask prune percent')
+    parser.add_argument(
+        '--prune-percent-decay',
+        type=float,
+        default=0.8,
+        help='Prune percent decay')
+    parser.add_argument(
+        '--scheduler-flag',
+        action='store_true',
+        default=False,
+        help='use the linear scheduler in spp')
 
     parser.add_argument('--input-padding', action='store_true', default=False, help='apply no sampling')
     parser.add_argument('--sample', action='store_true', default=False, help='apply no sampling')

@@ -50,6 +50,7 @@ class Linear_Q(nn.Linear):
         # self.F_prior = F_prior*in_features
 
         self.register_buffer('prev_weight', torch.zeros_like(self.weight))
+        self.register_buffer('old_weight', torch.zeros_like(self.weight)) #TEST to preserve the previous task data after sync
         self.register_buffer('bit_alloc_w', torch.zeros_like(self.weight, dtype=torch.int64))
         self.register_buffer('Fisher_w', torch.zeros_like(self.weight))
         self.register_buffer('Fisher_w_old', self.F_prior*torch.ones_like(self.weight))
@@ -63,6 +64,7 @@ class Linear_Q(nn.Linear):
         self.weight.data.clamp_(-self.bound, self.bound)
         if self.bias is not None:
             self.register_buffer('prev_bias', torch.zeros_like(self.bias))
+            self.register_buffer('old_bias', torch.zeros_like(self.bias)) #TEST to preserve the previous task data after sync
             self.register_buffer('bit_alloc_b', torch.zeros_like(self.bias, dtype=torch.int64))
             self.register_buffer('Fisher_b', torch.zeros_like(self.bias))
             self.register_buffer('Fisher_b_old', self.F_prior*torch.ones_like(self.bias))
@@ -77,6 +79,7 @@ class Linear_Q(nn.Linear):
         with torch.no_grad():
             weight_q = uniform_quantize(self.bit_alloc_w, self.bound)(self.weight)
             self.weight.data.copy_(weight_q.data)
+            self.old_weight.data.copy_(self.prev_weight.data) #TEST to preserve the previous task data after sync
             self.prev_weight.data.copy_(weight_q.data)
 
             # add random perturbation to weight
@@ -86,6 +89,7 @@ class Linear_Q(nn.Linear):
             if self.bias is not None:
                 bias_q = uniform_quantize(self.bit_alloc_b, 1.0)(self.bias)
                 self.bias.data.copy_(bias_q.data)
+                self.old_bias.data.copy_(self.prev_bias.data) #TEST to preserve the previous task data after sync
                 self.prev_bias.data.copy_(bias_q.data)
 
                 # add random perturbation to bias

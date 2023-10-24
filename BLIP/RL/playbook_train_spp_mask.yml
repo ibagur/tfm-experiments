@@ -1,0 +1,26 @@
+---
+- name: Run RL Experiments
+  hosts: localhost
+  vars:
+    base_command: python main_rl_minigrid.py --algo ppo --use-gae --num-env-steps 500000 --no-cuda
+    seeds: [123456, 789012, 345678]
+    blip_spp_lambdas: [0.5, 2.0, 4.0]
+    blip_ewc_lambdas: [1000.0, 2500.0, 5000.0]
+    fisher_terms: ['f0t', 'ft']
+    ewc_lambda: 5000.0
+    f_prior: 1e-16
+    experiments: "minigrid-redbluedoor-lavagap-doorkey-wallgap"
+    tasks_sequences: 1
+
+  tasks:
+    - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler True"
+      command: "{{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --scheduler-flag"
+      with_nested:
+        - "{{ seeds }}"
+        - "{{ blip_spp_lambdas }}"
+
+    - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler False"
+      command: "{{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+      with_nested:
+        - "{{ seeds }}"
+        - "{{ blip_spp_lambdas }}"

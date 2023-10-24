@@ -49,6 +49,9 @@ def main():
         log_name = '{}_{}_{}_{}_{}_F_prior_{}_lamb_{}_F_term_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior, args.ewc_lambda, args.fisher_term)
     elif args.approach == 'blip_spp':
         log_name = '{}_{}_{}_{}_{}_F_prior_{}_spp_lamb_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior, args.spp_lambda)
+    elif args.approach == 'blip_spp_mask':
+        log_name = '{}_{}_{}_{}_{}_F_prior_{}_spp_lamb_{}_prune_{}_scheduler_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior, args.spp_lambda, args.initial_prune_percent, args.scheduler_flag)
+
 
     if args.experiment in conv_experiment:
         log_name = log_name + '_conv'
@@ -154,6 +157,8 @@ def main():
             (2, 'MiniGrid-LavaGapS6-v0'),
             (3, 'MiniGrid-RedBlueDoors-6x6-v0')       
             ]        
+        
+    args.num_tasks = len(tasks_sequence)
 
     # for FlatObsWrapper Minigrid environment
     if args.wrapper == 'flat':
@@ -184,6 +189,14 @@ def main():
         actor_critic = QPolicy(obs_shape,
             taskcla,
             base_kwargs={'F_prior': args.F_prior, 'recurrent': args.recurrent_policy}).to(device)
+    elif args.approach == 'blip_spp_mask':
+        from rl_module.ppo_model import QPolicy
+        print('using fisher prior of: ', args.F_prior)
+        print('using SPP lambda of: ', args.spp_lambda)
+        print('using initial prune of: ', args.initial_prune_percent)
+        actor_critic = QPolicy(obs_shape,
+            taskcla,
+            base_kwargs={'F_prior': args.F_prior, 'recurrent': args.recurrent_policy}).to(device) 
     else:
         from rl_module.ppo_model import Policy
         actor_critic = Policy(obs_shape,
@@ -276,6 +289,30 @@ def main():
             optimizer=args.optimizer, 
             spp_lambda=args.spp_lambda
             )
+    
+    elif args.approach == 'blip_spp_mask':
+        from rl_module.ppo_blip_spp_mask import PPO_BLIP_SPP_MASK as approach
+
+        agent = approach(
+            actor_critic,
+            args.clip_param,
+            args.ppo_epoch,
+            args.num_mini_batch,
+            args.value_loss_coef,
+            args.entropy_coef,
+            lr=args.lr,
+            eps=args.eps,
+            max_grad_norm=args.max_grad_norm,
+            use_clipped_value_loss=True,
+            ewc_lambda= args.ewc_lambda,
+            online = args.ewc_online,
+            optimizer=args.optimizer, 
+            spp_lambda=args.spp_lambda,
+            initial_prune_percent = args.initial_prune_percent,
+            prune_percent_decay = args.prune_percent_decay,
+            num_tasks = args.num_tasks,
+            scheduler_flag = args.scheduler_flag
+            )
 
     ########################################################################################################################
 
@@ -315,7 +352,10 @@ def main():
     for task_idx,env_name in tasks_sequence:
         print('Training task '+str(task_idx)+': '+env_name)
         # renew optimizer
-        agent.renew_optimizer()
+        if args.approach == 'blip_spp_mask':
+            agent.renew_optimizer_mask(task_idx)
+        else:
+            agent.renew_optimizer()
 
         # FlatObsWrapper for MiniGrid
         envs = make_vec_envs(env_name, args.seed, args.num_processes, args.gamma, args.log_dir, device, False, wrapper_class=wrapper_class)
@@ -376,6 +416,16 @@ def main():
             torch.save(actor_critic.state_dict(),
                 os.path.join(save_path, log_name + '_task_' + str(task_idx) + ".pth"))
             envs.close()
+        elif args.approach == 'blip_spp_mask':
+            agent.update_prune_mask(rollouts, task_idx)
+            agent.update_omega(rollouts, task_idx)
+            # add the pruning here
+            agent.ng_post_processing(rollouts, task_idx)
+            # save the model here so that bit allocation is saved
+            save_path = os.path.join(args.save_dir, args.algo)
+            torch.save(actor_critic.state_dict(),
+                os.path.join(save_path, log_name + '_task_' + str(task_idx) + ".pth"))
+        envs.close() 
 
     # Save full-model (for ewc evaluation)
     torch.save(actor_critic,

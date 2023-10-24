@@ -11,16 +11,19 @@
     f_prior: 1e-16
     experiments: "minigrid-redbluedoor-lavagap-doorkey-wallgap"
     tasks_sequences: 1
+    initial_prune_percent: [0., 30.]
 
   tasks:
     - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler True"
-      command: "{{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --scheduler-flag"
+      command: "{{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --initial-prune-percent {{ item[2] }} --scheduler-flag"
       with_nested:
         - "{{ seeds }}"
         - "{{ blip_spp_lambdas }}"
+        - "{{ initial_prune_percent }}"
 
     - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler False"
-      command: "{{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+      command: "{{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --initial-prune-percent {{ item[2] }}"
       with_nested:
         - "{{ seeds }}"
         - "{{ blip_spp_lambdas }}"
+        - "{{ initial_prune_percent }}"

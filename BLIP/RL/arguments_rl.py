@@ -235,10 +235,15 @@ def get_args():
         default=0.8,
         help='Prune percent decay')
     parser.add_argument(
-        '--scheduler-flag',
+        '--use-scheduler',
         action='store_true',
         default=False,
         help='use the linear scheduler in spp')
+    parser.add_argument(
+        '--prune-higher',
+        action='store_true',
+        default=False,
+        help='Use either lower or higher masking)')
 
     parser.add_argument('--input-padding', action='store_true', default=False, help='apply no sampling')
     parser.add_argument('--sample', action='store_true', default=False, help='apply no sampling')

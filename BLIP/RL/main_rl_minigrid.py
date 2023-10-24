@@ -50,7 +50,7 @@ def main():
     elif args.approach == 'blip_spp':
         log_name = '{}_{}_{}_{}_{}_F_prior_{}_spp_lamb_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior, args.spp_lambda)
     elif args.approach == 'blip_spp_mask':
-        log_name = '{}_{}_{}_{}_{}_F_prior_{}_spp_lamb_{}_prune_{}_scheduler_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior, args.spp_lambda, args.initial_prune_percent, args.scheduler_flag)
+        log_name = '{}_{}_{}_{}_{}_F_prior_{}_spp_lamb_{}_prune_{}_scheduler_{}_prune_higher_{}'.format(args.date, args.experiment, args.approach, args.seed, args.num_env_steps, args.F_prior, args.spp_lambda, args.initial_prune_percent, args.use_scheduler, args.prune_higher)
 
 
     if args.experiment in conv_experiment:
@@ -311,7 +311,8 @@ def main():
             initial_prune_percent = args.initial_prune_percent,
             prune_percent_decay = args.prune_percent_decay,
             num_tasks = args.num_tasks,
-            scheduler_flag = args.scheduler_flag
+            use_scheduler = args.use_scheduler,
+            prune_higher = args.prune_higher
             )
 
     ########################################################################################################################

@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from torch.optim.lr_scheduler import StepLR #TEST
+from torch.optim.lr_scheduler import StepLR #TEST scheduler
 
 from .quant_layer import Conv2d_Q, Linear_Q
 from .ppo_blip_utils import update_fisher_exact
@@ -31,7 +31,8 @@ class PPO_BLIP_SPP_MASK():
                  initial_prune_percent = 30.0,
                  prune_percent_decay = 0.8,
                  num_tasks = 3,
-                 scheduler_flag = False
+                 use_scheduler = False,
+                 prune_higher = False
                  ):
 
         self.actor_critic = actor_critic
@@ -76,7 +77,8 @@ class PPO_BLIP_SPP_MASK():
         self.num_tasks = num_tasks
         self.mask_pre_w = None
         self.mask_pre_b = None
-        self.scheduler_flag = scheduler_flag
+        self.use_scheduler = use_scheduler
+        self.prune_higher = prune_higher
 
         # to log variables content
         #logging.basicConfig(filename='reg_loss.log', level=logging.INFO)
@@ -103,7 +105,7 @@ class PPO_BLIP_SPP_MASK():
 
         if task_num == 0:
             # Define the learning rate scheduler. We use StepLR which multiplies the learning rate by gamma every 'epoches' steps
-            if self.scheduler_flag == True:
+            if self.use_scheduler == True:
                 self.scheduler = StepLR(self.optimizer, step_size=self.ppo_epoch, gamma=0.99)
         else:
 
@@ -116,7 +118,7 @@ class PPO_BLIP_SPP_MASK():
                 self.apply_prune_weights(mask_w_, mask_b_)
         
             # Define the learning rate scheduler. We use StepLR which multiplies the learning rate by gamma every 'epoches' steps
-            if self.scheduler_flag == True:
+            if self.use_scheduler == True:
                 self.scheduler = StepLR(self.optimizer, step_size=self.ppo_epoch, gamma=0.99)
 
             # Zero the gradients
@@ -144,7 +146,7 @@ class PPO_BLIP_SPP_MASK():
             # Step the optimizer
             self.optimizer.step()
             # Update learning rate
-            if self.scheduler_flag == True:
+            if self.use_scheduler == True:
                 self.scheduler.step()
 
     def update(self, rollouts, task_num):
@@ -214,7 +216,7 @@ class PPO_BLIP_SPP_MASK():
                 action_loss_epoch += action_loss.item()
                 dist_entropy_epoch += dist_entropy.item()
 
-        if self.scheduler_flag == True:
+        if self.use_scheduler == True:
                 self.scheduler.step()
 
         num_updates = self.ppo_epoch * self.num_mini_batch
@@ -452,13 +454,14 @@ class PPO_BLIP_SPP_MASK():
 
     # internal method
     def _apply_mask1(self, omega, percent):
-        mask = omega.clone()
-        # Convert all non-zero elements to 1
-        mask[torch.abs(mask) > 0] = 1
+        mask = torch.ones_like(omega)
         # Calculate the percentile threshold
         threshold = torch.quantile(omega.float(), percent / 100.0)
         # Zero out values below the threshold
-        mask[omega < threshold] = 0
+        if self.prune_higher == True: #TEST prune higher importance values (make mask = 0)
+            mask[omega >= threshold] = 0
+        else:
+            mask[omega < threshold] = 0
         
         return mask
 
@@ -480,7 +483,10 @@ class PPO_BLIP_SPP_MASK():
             # Calculate the step_percent percentile value of s2
             threshold_current = torch.quantile(s2.float(), step_percent / 100.0)
         # Set values in m_a to zero based on the conditions
-        mask[(mask_pre == 0) & (silence <= threshold_current)] = 0
+        if self.prune_higher == True:  #TEST prune higher importance values (make mask = 0)
+            mask[(mask_pre == 0) & (silence >= threshold_current)] = 0
+        else:
+            mask[(mask_pre == 0) & (silence < threshold_current)] = 0
 
         return mask
     

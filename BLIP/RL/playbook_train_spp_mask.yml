@@ -12,18 +12,29 @@
     experiments: "minigrid-redbluedoor-lavagap-doorkey-wallgap"
     tasks_sequences: 1
     initial_prune_percent: [0., 30.]
+    scheduler_states: [true, false]
+    prune_higher_states: [true, false]
 
   tasks:
-    - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler True"
-      command: "{{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --initial-prune-percent {{ item[2] }} --scheduler-flag"
-      with_nested:
-        - "{{ seeds }}"
-        - "{{ blip_spp_lambdas }}"
-        - "{{ initial_prune_percent }}"
+    # - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler {{ item[3] }} prune_higher {{ item[4] }}"
+    #   command: >
+    #     {{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --initial-prune-percent {{ item[2] }}
+    #     {{ ' --use-scheduler' if item[3] else '' }}
+    #     {{ ' --prune-higher' if item[4] else '' }}
+    #   with_nested:
+    #     - "{{ seeds }}"
+    #     - "{{ blip_spp_lambdas }}"
+    #     - "{{ initial_prune_percent }}"
+    #     - "{{ scheduler_states }}"
+    #     - "{{ prune_higher_states }}"
 
-    - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler False"
-      command: "{{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --initial-prune-percent {{ item[2] }}"
+    - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler {{ item[3] }} prune_higher {{ item[4] }}"
+      command: >
+        {{ base_command }} --approach blip_spp_mask --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --initial-prune-percent {{ item[2] }}
+        {{ ' --use-scheduler' if item[3] else '' }}
+        --prune-higher
       with_nested:
         - "{{ seeds }}"
         - "{{ blip_spp_lambdas }}"
         - "{{ initial_prune_percent }}"
+        - "{{ scheduler_states }}"

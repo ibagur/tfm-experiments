@@ -17,30 +17,29 @@
 
   tasks:
     - name: "Fine-Tuning EVAL"
-      command: "{{ base_command }} --approach fine-tuning --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-18"
+      shell: "{{ base_command }} --approach fine-tuning --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-18 >> eval_log.txt"
 
     - name: "EWC EVAL"
-      command: "{{ base_command }} --approach ewc --ewc-lambda {{ ewc_lambda }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-20"
+      shell: "{{ base_command }} --approach ewc --ewc-lambda {{ ewc_lambda }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-20 >> eval_log.txt"
 
     - name: "BLIP EVAL"
-      command: "{{ base_command }} --approach blip --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-21"
+      shell: "{{ base_command }} --approach blip --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-21 >> eval_log.txt"
 
     - name: "BLIP+EWC EVAL lamb {{ item[0] }} fisher {{ item[1] }}"
-      command: "{{ base_command }} --approach blip_ewc --ewc-lambda {{ item[0] }} --F-prior {{ f_prior }} --fisher-term {{ item[1] }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-20"
+      shell: "{{ base_command }} --approach blip_ewc --ewc-lambda {{ item[0] }} --F-prior {{ f_prior }} --fisher-term {{ item[1] }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-20 >> eval_log.txt"
       with_nested:
         - "{{ blip_ewc_lambdas }}"
-        - "{{ fisher_terms }}"
-        
-    - name: "BLIP+SPP EVAL lamb {{ item[1] }}"
-      command: "{{ base_command }} --approach blip_spp --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-19"
-      with_nested:
-        - "{{ blip_spp_lambdas }}"
+        - "{{ fisher_terms }}"     
+
+    - name: "BLIP+SPP EVAL lamb {{ item }}"
+      shell: "{{ base_command }} --approach blip_spp --spp-lambda {{ item }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-10-19 >> eval_log.txt"
+      with_items: "{{ blip_spp_lambdas }}"
 
     - name: "BLIP+SPP+MASK EVAL lamb {{ item[0] }} prune {{ item[1] }} scheduler {{ item[2] }} prune_higher {{ item[3] }}"
-      command: >
+      shell: >
         {{ base_command }} --approach blip_spp_mask --spp-lambda {{ item[0] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --initial-prune-percent {{ item[1] }}
         {{ ' --use-scheduler' if item[2] else '' }}
-        {{ ' --prune-higher' if item[3] else '' }}  --date 2023-10-24
+        {{ ' --prune-higher' if item[3] else '' }}  --date 2023-10-24 >> eval_log.txt
       with_nested:
         - "{{ blip_spp_lambdas }}"
         - "{{ initial_prune_percent }}"

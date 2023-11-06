@@ -4,42 +4,44 @@
   vars:
     base_command: python main_rl_minigrid.py --algo ppo --use-gae --num-env-steps 500000 --no-cuda
     seeds: [123456, 789012, 345678]
-    blip_spp_lambdas: [0.5, 2.0, 4.0]
+    # blip_spp_lambdas: [0.5, 2.0, 4.0]
+    blip_spp_lambdas: [0.5, 2.0]
     blip_ewc_lambdas: [1000.0, 2500.0, 5000.0]
     fisher_terms: ['f0t', 'ft']
     ewc_lambda: 5000.0
-    f_prior: 1e-16
+    f_prior: 5e-18
     experiments: "minigrid-redbluedoor-lavagap-doorkey-wallgap"
     tasks_sequences: 1
     initial_prune_percent: [0., 30.]
     scheduler_states: [true, false]
-    prune_higher_states: [true, false]    
+    # prune_higher_states: [true, false]   
+    prune_higher_states: false    
 
   tasks:
-    - name: "Fine-Tuning seed {{ item }}"
-      command: "{{ base_command }} --approach fine-tuning --seed {{ item }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
-      with_items: "{{ seeds }}"
+    # - name: "Fine-Tuning seed {{ item }}"
+    #   command: "{{ base_command }} --approach fine-tuning --seed {{ item }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+    #   with_items: "{{ seeds }}"
 
-    - name: "EWC seed {{ item }}"
-      command: "{{ base_command }} --approach ewc --seed {{ item }} --ewc-lambda {{ ewc_lambda }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
-      with_items: "{{ seeds }}"
+    # - name: "EWC seed {{ item }}"
+    #   command: "{{ base_command }} --approach ewc --seed {{ item }} --ewc-lambda {{ ewc_lambda }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+    #   with_items: "{{ seeds }}"
 
     - name: "BLIP seed {{ item }}"
       command: "{{ base_command }} --approach blip --seed {{ item }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
       with_items: "{{ seeds }}"
 
-    - name: "BLIP+EWC seed {{ item[0] }} lamb {{ item[1] }} fisher {{ item[2] }}"
-      command: "{{ base_command }} --approach blip_ewc --seed {{ item[0] }} --ewc-lambda {{ item[1] }} --F-prior {{ f_prior }} --fisher-term {{ item[2] }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
-      with_nested:
-        - "{{ seeds }}"
-        - "{{ blip_ewc_lambdas }}"
-        - "{{ fisher_terms }}"
-        
-    - name: "BLIP+SPP seed {{ item[0] }} lamb {{ item[1] }}"
-      command: "{{ base_command }} --approach blip_spp --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
-      with_nested:
-        - "{{ seeds }}"
-        - "{{ blip_spp_lambdas }}"
+    # - name: "BLIP+EWC seed {{ item[0] }} lamb {{ item[1] }} fisher {{ item[2] }}"
+    #   command: "{{ base_command }} --approach blip_ewc --seed {{ item[0] }} --ewc-lambda {{ item[1] }} --F-prior {{ f_prior }} --fisher-term {{ item[2] }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+    #   with_nested:
+    #     - "{{ seeds }}"
+    #     - "{{ blip_ewc_lambdas }}"
+    #     - "{{ fisher_terms }}"
+
+    # - name: "BLIP+SPP seed {{ item[0] }} lamb {{ item[1] }}"
+    #   command: "{{ base_command }} --approach blip_spp --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+    #   with_nested:
+    #     - "{{ seeds }}"
+    #     - "{{ blip_spp_lambdas }}"
 
     - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler {{ item[3] }} prune_higher {{ item[4] }}"
       command: >

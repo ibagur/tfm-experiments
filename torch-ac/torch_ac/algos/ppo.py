@@ -11,7 +11,7 @@ class PPOAlgo(BaseAlgo):
     def __init__(self, envs, acmodel, device=None, num_frames_per_proc=None, discount=0.99, lr=0.001, gae_lambda=0.95,
                  entropy_coef=0.01, value_loss_coef=0.5, max_grad_norm=0.5, recurrence=4,
                  adam_eps=1e-8, clip_eps=0.2, epochs=4, batch_size=256, preprocess_obss=None,
-                 reshape_reward=None):
+                 reshape_reward=None, optimizer_type='adam'):
         num_frames_per_proc = num_frames_per_proc or 128
 
         super().__init__(envs, acmodel, device, num_frames_per_proc, discount, lr, gae_lambda, entropy_coef,
@@ -24,17 +24,19 @@ class PPOAlgo(BaseAlgo):
         self.optim_eps = adam_eps
 
         assert self.batch_size % self.recurrence == 0
+        # for use in renew_optimizer()
+        self.optimizer_type = optimizer_type
 
-        self.optimizer = torch.optim.Adam(self.acmodel.parameters(), lr, eps=adam_eps)
+        #self.optimizer = torch.optim.Adam(self.acmodel.parameters(), lr, eps=adam_eps)
         self.batch_num = 0
 
     # Added renew_optimizer between tasks
     def renew_optimizer(self):
         # self.optimizer = optim.Adam(self.actor_critic.parameters(), lr=self.lr, eps=self.eps)
         if self.optimizer_type == 'adam':
-            self.optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, self.acmodels.parameters()), lr=self.lr, eps=self.optim_eps)
+            self.optimizer = torch.optim.Adam(self.acmodel.parameters(), lr=self.lr, eps=self.optim_eps)
         elif self.optimizer_type == 'rmsprop':
-            self.optimizer = torch.optim.RMSprop(filter(lambda p: p.requires_grad, self.acmodels.parameters()), lr=self.lr, eps=self.optim_eps)
+            self.optimizer = torch.optim.RMSprop(self.acmodel.parameters(), lr=self.lr, eps=self.optim_eps)
 
 
     def update_parameters(self, exps):

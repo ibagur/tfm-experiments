@@ -1654,3 +1654,417 @@ Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.000
 
 Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.93250, std 0.02401 
 
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP
+Experiment: minigrid-redbluedoor-lavagap-doorkey-wallgap
+Tasks: [(0, 'MiniGrid-RedBlueDoors-6x6-v0'), (1, 'MiniGrid-LavaGapS6-v0'), (2, 'MiniGrid-DoorKey-6x6-v0'), (3, 'MiniGrid-WallGapS6-v0')]
+Evaluating tasks:
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_123456_500000_F_prior_5e-18_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.68583, std 0.44901 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.78292, std 0.35079 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.18550, std 0.37179 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93271, std 0.02728 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_789012_500000_F_prior_5e-18_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.71938, std 0.43381 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.12750, std 0.32506 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.73033, std 0.40328 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93688, std 0.03126 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_345678_500000_F_prior_5e-18_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.58825, std 0.48033 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.81979, std 0.27677 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.09267, std 0.27864 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.94125, std 0.01927 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.68583, std 0.44901 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.78292, std 0.35079 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.18550, std 0.37179 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.93688, std 0.03126 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_SPP_MASK
+Experiment: minigrid-redbluedoor-lavagap-doorkey-wallgap
+Tasks: [(0, 'MiniGrid-RedBlueDoors-6x6-v0'), (1, 'MiniGrid-LavaGapS6-v0'), (2, 'MiniGrid-DoorKey-6x6-v0'), (3, 'MiniGrid-WallGapS6-v0')]
+Evaluating tasks:
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_0.5_prune_0.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.81183, std 0.36312 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.93813, std 0.02346 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.94033, std 0.03646 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.92896, std 0.03523 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_0.5_prune_0.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.78333, std 0.39170 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.89917, std 0.07791 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93875, std 0.02797 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_0.5_prune_0.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.52750, std 0.46140 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.08883, std 0.26781 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.92563, std 0.03285 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.78333, std 0.39170 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.89917, std 0.07791 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.08883, std 0.26781 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.92896, std 0.03523 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_SPP_MASK
+Experiment: minigrid-redbluedoor-lavagap-doorkey-wallgap
+Tasks: [(0, 'MiniGrid-RedBlueDoors-6x6-v0'), (1, 'MiniGrid-LavaGapS6-v0'), (2, 'MiniGrid-DoorKey-6x6-v0'), (3, 'MiniGrid-WallGapS6-v0')]
+Evaluating tasks:
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_0.5_prune_0.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.68583, std 0.44901 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.70333, std 0.33565 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.19075, std 0.38151 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93896, std 0.02472 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_0.5_prune_0.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.71938, std 0.43381 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.55021, std 0.41771 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.06433, std 0.19491 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93417, std 0.03048 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_0.5_prune_0.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.58817, std 0.48026 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.62917, std 0.44530 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93458, std 0.03334 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.68583, std 0.44901 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.62917, std 0.44530 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.06433, std 0.19491 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.93458, std 0.03334 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_SPP_MASK
+Experiment: minigrid-redbluedoor-lavagap-doorkey-wallgap
+Tasks: [(0, 'MiniGrid-RedBlueDoors-6x6-v0'), (1, 'MiniGrid-LavaGapS6-v0'), (2, 'MiniGrid-DoorKey-6x6-v0'), (3, 'MiniGrid-WallGapS6-v0')]
+Evaluating tasks:
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.81183, std 0.36312 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.56938, std 0.46493 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.70200, std 0.42342 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.92188, std 0.04515 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.78392, std 0.39198 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.01283, std 0.06911 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93625, std 0.02969 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.40437, std 0.46322 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.47000, std 0.47020 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.78392, std 0.39198 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.40437, std 0.46322 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.01283, std 0.06911 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.92188, std 0.04515 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_SPP_MASK
+Experiment: minigrid-redbluedoor-lavagap-doorkey-wallgap
+Tasks: [(0, 'MiniGrid-RedBlueDoors-6x6-v0'), (1, 'MiniGrid-LavaGapS6-v0'), (2, 'MiniGrid-DoorKey-6x6-v0'), (3, 'MiniGrid-WallGapS6-v0')]
+Evaluating tasks:
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.68583, std 0.44901 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.89729, std 0.07777 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93604, std 0.02430 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.71938, std 0.43381 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.42750, std 0.45997 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.63950, std 0.42722 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93583, std 0.03227 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.58825, std 0.48033 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.65521, std 0.42957 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.43358, std 0.46473 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93812, std 0.01703 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.68583, std 0.44901 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.65521, std 0.42957 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.43358, std 0.46473 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.93604, std 0.02430 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_SPP_MASK
+Experiment: minigrid-redbluedoor-lavagap-doorkey-wallgap
+Tasks: [(0, 'MiniGrid-RedBlueDoors-6x6-v0'), (1, 'MiniGrid-LavaGapS6-v0'), (2, 'MiniGrid-DoorKey-6x6-v0'), (3, 'MiniGrid-WallGapS6-v0')]
+Evaluating tasks:
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_2.0_prune_0.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.81183, std 0.36312 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.46896, std 0.44450 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.57104, std 0.46660 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_2.0_prune_0.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.78333, std 0.39170 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.94375, std 0.02213 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_2.0_prune_0.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.49313, std 0.46219 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.11042, std 0.29066 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.91938, std 0.05004 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.78333, std 0.39170 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.46896, std 0.44450 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.91938, std 0.05004 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_SPP_MASK
+Experiment: minigrid-redbluedoor-lavagap-doorkey-wallgap
+Tasks: [(0, 'MiniGrid-RedBlueDoors-6x6-v0'), (1, 'MiniGrid-LavaGapS6-v0'), (2, 'MiniGrid-DoorKey-6x6-v0'), (3, 'MiniGrid-WallGapS6-v0')]
+Evaluating tasks:
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_2.0_prune_0.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.68583, std 0.44901 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.06308, std 0.23612 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.94083, std 0.02343 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_2.0_prune_0.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.71938, std 0.43381 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.03167, std 0.17053 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.02383, std 0.09441 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93771, std 0.02624 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_2.0_prune_0.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.58825, std 0.48033 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.22771, std 0.37991 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.03242, std 0.17457 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93521, std 0.02352 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.68583, std 0.44901 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.03167, std 0.17053 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.03242, std 0.17457 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.93771, std 0.02624 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_SPP_MASK
+Experiment: minigrid-redbluedoor-lavagap-doorkey-wallgap
+Tasks: [(0, 'MiniGrid-RedBlueDoors-6x6-v0'), (1, 'MiniGrid-LavaGapS6-v0'), (2, 'MiniGrid-DoorKey-6x6-v0'), (3, 'MiniGrid-WallGapS6-v0')]
+Evaluating tasks:
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_2.0_prune_30.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.77946, std 0.38978 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93500, std 0.02765 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_2.0_prune_30.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.78392, std 0.39198 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.05500, std 0.20579 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.94188, std 0.02311 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_2.0_prune_30.0_scheduler_True_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.43333, std 0.46353 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.13400, std 0.30289 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.92125, std 0.03925 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.77946, std 0.38978 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.05500, std 0.20579 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.93500, std 0.02765 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_SPP_MASK
+Experiment: minigrid-redbluedoor-lavagap-doorkey-wallgap
+Tasks: [(0, 'MiniGrid-RedBlueDoors-6x6-v0'), (1, 'MiniGrid-LavaGapS6-v0'), (2, 'MiniGrid-DoorKey-6x6-v0'), (3, 'MiniGrid-WallGapS6-v0')]
+Evaluating tasks:
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_2.0_prune_30.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.68583, std 0.44901 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.51521, std 0.42195 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.65375, std 0.42856 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_2.0_prune_30.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.71938, std 0.43381 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.03167, std 0.17053 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.92604, std 0.03670 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_2.0_prune_30.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.58825, std 0.48033 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.24917, std 0.41367 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.93358, std 0.04053 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93521, std 0.02907 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.68583, std 0.44901 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.24917, std 0.41367 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.03167, std 0.17053 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.92604, std 0.03670 
+

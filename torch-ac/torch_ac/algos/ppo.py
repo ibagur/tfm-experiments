@@ -20,11 +20,22 @@ class PPOAlgo(BaseAlgo):
         self.clip_eps = clip_eps
         self.epochs = epochs
         self.batch_size = batch_size
+        self.lr = lr
+        self.optim_eps = adam_eps
 
         assert self.batch_size % self.recurrence == 0
 
         self.optimizer = torch.optim.Adam(self.acmodel.parameters(), lr, eps=adam_eps)
         self.batch_num = 0
+
+    # Added renew_optimizer between tasks
+    def renew_optimizer(self):
+        # self.optimizer = optim.Adam(self.actor_critic.parameters(), lr=self.lr, eps=self.eps)
+        if self.optimizer_type == 'adam':
+            self.optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, self.acmodels.parameters()), lr=self.lr, eps=self.optim_eps)
+        elif self.optimizer_type == 'rmsprop':
+            self.optimizer = torch.optim.RMSprop(filter(lambda p: p.requires_grad, self.acmodels.parameters()), lr=self.lr, eps=self.optim_eps)
+
 
     def update_parameters(self, exps):
         # Collect experiences

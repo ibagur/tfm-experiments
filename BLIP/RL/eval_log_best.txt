@@ -1,0 +1,55 @@
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.58825, std 0.48033 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.65521, std 0.42957 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.43358, std 0.46473 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93812, std 0.01703 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.68583, std 0.44901 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.65521, std 0.42957 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.43358, std 0.46473 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.93604, std 0.02430 
+
+
+Model: ./trained_models/ppo/2023-10-20_minigrid-redbluedoor-lavagap-doorkey-wallgap_ewc_345678_500000_lamb_5000.0_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.65350, std 0.46211 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.94604, std 0.00748 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.61550, std 0.43898 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.65250, std 0.42805 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.65350, std 0.46211 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.90708, std 0.17021 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.61550, std 0.43898 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.65250, std 0.42805 
+
+
+Model: ./trained_models/ppo/2023-11-06_minigrid-redbluedoor-lavagap-doorkey-wallgap_blip_345678_500000_F_prior_5e-18_fullmodel_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.58825, std 0.48033 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.81979, std 0.27677 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.09267, std 0.27864 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.94125, std 0.01927 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.68583, std 0.44901 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.78292, std 0.35079 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.18550, std 0.37179 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.93688, std 0.03126 

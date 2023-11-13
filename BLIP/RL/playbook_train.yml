@@ -42,11 +42,11 @@
         - "{{ blip_ewc_lambdas }}"
         - "{{ fisher_terms }}"
         
-    # - name: "BLIP+SPP seed {{ item[0] }} lamb {{ item[1] }}"
-    #   command: "{{ base_command }} --approach blip_spp --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
-    #   with_nested:
-    #     - "{{ seeds }}"
-    #     - "{{ blip_spp_lambdas }}"
+    - name: "BLIP+SPP seed {{ item[0] }} lamb {{ item[1] }}"
+      command: "{{ base_command }} --approach blip_spp --seed {{ item[0] }} --spp-lambda {{ item[1] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }}"
+      with_nested:
+        - "{{ seeds }}"
+        - "{{ blip_spp_lambdas }}"
 
     - name: "BLIP+SPP+MASK seed {{ item[0] }} lamb {{ item[1] }} scheduler {{ item[3] }} prune_higher {{ item[4] }}"
       command: >

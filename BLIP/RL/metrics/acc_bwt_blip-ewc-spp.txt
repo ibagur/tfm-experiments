@@ -1,0 +1,25 @@
+Experiment: minigrid-wallgap-doorkey-redbluedoor-crossing
+
+Approach: blip
+ACC: (0.7072, 0.4087)
+BWT: (-0.0012, 0.0009)
+
+Approach: ewc
+ACC: (0.7081, 0.4092)
+BWT: (0.0008, 0.0012)
+
+Approach: fine-tuning
+ACC: (0.2377, 0.4117)
+BWT: (-0.637, 0.4504)
+
+Approach: blip_ewc_1
+ACC: (0.4765, 0.4766)
+BWT: (-0.0006, 0.0009)
+
+Approach: blip_ewc_2
+ACC: (0.478, 0.478)
+BWT: (-0.0004, 0.0011)
+
+Approach: blip_spp_mask
+ACC: (0.7136, 0.4121)
+BWT: (0.3213, 0.4557)

@@ -2,7 +2,7 @@
 - name: Run RL Experiments
   hosts: localhost
   vars:
-    base_command: python evaluate_rl_minigrid_new.py --algo ppo --use-gae --num-eval-episodes 30
+    base_command: python evaluate_rl_minigrid_new.py --algo ppo --use-gae --num-eval-episodes 100
     seeds: [123456, 789012, 345678]
     blip_spp_lambdas: [0.5]
     blip_ewc_lambdas: [1000.0, 2500.0]

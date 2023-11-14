@@ -279,12 +279,12 @@ def main():
         df_file = os.path.join(args.metrics_dir, exp_name + ".pkl")
         df.to_pickle(df_file)
 
-    r_val_file = os.path.join(args.metrics_dir, exp_name + "final_r_val.pkl")
+    r_val_file = os.path.join(args.metrics_dir, exp_name + "_final_r_val.pkl")
     with open(r_val_file, 'wb') as f:
         pickle.dump(r_val, f)
 
-    r_val_file = os.path.join(args.metrics_dir, exp_name + "final_r_std.pkl")
-    with open(r_val_file, 'wb') as f:
+    r_std_file = os.path.join(args.metrics_dir, exp_name + "_final_r_std.pkl")
+    with open(r_std_file, 'wb') as f:
         pickle.dump(r_std, f)
     
 if __name__ == '__main__':

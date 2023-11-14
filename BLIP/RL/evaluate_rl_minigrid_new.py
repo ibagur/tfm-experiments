@@ -219,8 +219,11 @@ def main():
                 actor_critic = torch.load(model_path, map_location=torch.device(device))
             # in case loading state-dict at a given task, including final task
             else:
-                model_path = os.path.join(save_path, log_name + '_task_' + str(args.task_state) + ".pth") 
-                actor_critic = Policy(obs_shape, taskcla, base_kwargs={'recurrent': args.recurrent_policy}).to(device)
+                model_path = os.path.join(save_path, log_name + '_task_' + str(args.task_state) + ".pth")
+                if args.approach == "fine-tuning" or args.approach == 'ft-fix' or args.approach == 'ewc':
+                    actor_critic = Policy(obs_shape, taskcla, base_kwargs={'recurrent': args.recurrent_policy}).to(device)
+                else:
+                    actor_critic =  QPolicy(obs_shape,taskcla, base_kwargs={'F_prior': args.F_prior, 'recurrent': args.recurrent_policy}).to(device)
                 # force strict=false to avoid errors with loading EWC state-dict          
                 actor_critic.load_state_dict(torch.load(model_path, map_location=torch.device(device)), strict=False)     
             

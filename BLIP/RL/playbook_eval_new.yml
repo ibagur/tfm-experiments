@@ -1,0 +1,43 @@
+---
+- name: Run RL Experiments
+  hosts: localhost
+  vars:
+    base_command: python evaluate_rl_minigrid_new.py --algo ppo --use-gae --num-eval-episodes 30
+    seeds: [123456, 789012, 345678]
+    blip_spp_lambdas: [0.5]
+    blip_ewc_lambdas: [1000.0, 2500.0]
+    fisher_terms: ['ft']
+    ewc_lambda: 5000.0
+    f_prior: 5e-18
+    experiments: "minigrid-wallgap-doorkey-redbluedoor-crossing"
+    tasks_sequences: 7
+    initial_prune_percent: [30.]
+    scheduler_states: [false]
+    prune_higher_states: false 
+
+  tasks:
+    - name: "Fine-Tuning EVAL"
+      shell: "{{ base_command }} --approach fine-tuning --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-11-13 >> eval_log.txt"
+
+    - name: "EWC EVAL"
+      shell: "{{ base_command }} --approach ewc --ewc-lambda {{ ewc_lambda }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-11-13 >> eval_log.txt"
+
+    - name: "BLIP EVAL F-prior {{ f_prior }}"
+      shell: "{{ base_command }} --approach blip --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-11-13 >> eval_log.txt"
+
+    - name: "BLIP+EWC EVAL lamb {{ item[0] }} fisher {{ item[1] }}"
+      shell: "{{ base_command }} --approach blip_ewc --ewc-lambda {{ item[0] }} --F-prior {{ f_prior }} --fisher-term {{ item[1] }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --date 2023-11-13 >> eval_log.txt"
+      with_nested:
+        - "{{ blip_ewc_lambdas }}"
+        - "{{ fisher_terms }}"     
+
+    - name: "BLIP+SPP+MASK EVAL lamb {{ item[0] }} prune {{ item[1] }} scheduler {{ item[2] }} prune_higher {{ item[3] }}"
+      shell: >
+        {{ base_command }} --approach blip_spp_mask --spp-lambda {{ item[0] }} --F-prior {{ f_prior }} --tasks-sequence {{ tasks_sequences }} --experiment {{ experiments }} --initial-prune-percent {{ item[1] }}
+        {{ ' --use-scheduler' if item[2] else '' }}
+        {{ ' --prune-higher' if item[3] else '' }}  --date 2023-11-13 >> eval_log.txt
+      with_nested:
+        - "{{ blip_spp_lambdas }}"
+        - "{{ initial_prune_percent }}"
+        - "{{ scheduler_states }}"
+        - "{{ prune_higher_states }}"

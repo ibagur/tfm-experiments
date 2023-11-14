@@ -174,8 +174,12 @@ def main():
     print('Approach:', args.approach.upper())
     print('Experiment:', args.experiment)
     print('Tasks:', tasks_sequence)
+    print('Episodes:', args.num_eval_episodes)
     ob_rms = None
     seed_list = [123456, 789012, 345678]
+
+    r_val = np.zeros([len(tasks_sequence), len(tasks_sequence)])
+    r_std = np.zeros([len(tasks_sequence), len(tasks_sequence)])
 
     print('Evaluating tasks:')
         
@@ -183,9 +187,6 @@ def main():
 
         tot_eval_episode_mean_rewards = []
         tot_eval_episode_std_rewards = []
-
-        r_val = np.zeros([len(tasks_sequence), len(tasks_sequence)])
-        r_std = np.zeros([len(tasks_sequence), len(tasks_sequence)])
 
         args.task_state = task_state
         print("Task state: ", task_state)
@@ -273,22 +274,18 @@ def main():
         elif args.approach == 'blip_spp':
             exp_name = '{}_{}_{}_F_prior_{}_spp_lamb_{}_tr_{}'.format(args.date, args.experiment, args.approach, args.F_prior, args.spp_lambda, task_state)
         elif args.approach == 'blip_spp_mask':
-            if args.prune_higher:
-                exp_name = '{}_{}_{}_F_prior_{}_spp_lamb_{}_prune_{}_scheduler_{}_prune_higher_{}_tr_{}'.format(args.date, args.experiment, args.approach, args.F_prior, args.spp_lambda, args.initial_prune_percent, args.use_scheduler, args.prune_higher, task_state)
-            else:
-                exp_name = '{}_{}_{}_F_prior_{}_spp_lamb_{}_prune_{}_scheduler_{}_tr_{}'.format(args.date, args.experiment, args.approach, args.F_prior, args.spp_lambda, args.initial_prune_percent, args.use_scheduler, task_state)
-
+            exp_name = '{}_{}_{}_F_prior_{}_spp_lamb_{}_prune_{}_scheduler_{}_prune_higher_{}_tr_{}'.format(args.date, args.experiment, args.approach, args.F_prior, args.spp_lambda, args.initial_prune_percent, args.use_scheduler, args.prune_higher, task_state)
 
         df_file = os.path.join(args.metrics_dir, exp_name + ".pkl")
         df.to_pickle(df_file)
 
-        r_val_file = os.path.join(args.metrics_dir, exp_name + "_r_val.pkl")
-        with open(r_val_file, 'wb') as f:
-            pickle.dump(r_val, f)
+    r_val_file = os.path.join(args.metrics_dir, exp_name + "final_r_val.pkl")
+    with open(r_val_file, 'wb') as f:
+        pickle.dump(r_val, f)
 
-        r_val_file = os.path.join(args.metrics_dir, exp_name + "_r_std.pkl")
-        with open(r_val_file, 'wb') as f:
-            pickle.dump(r_std, f)
+    r_val_file = os.path.join(args.metrics_dir, exp_name + "final_r_std.pkl")
+    with open(r_val_file, 'wb') as f:
+        pickle.dump(r_std, f)
     
 if __name__ == '__main__':
     main()

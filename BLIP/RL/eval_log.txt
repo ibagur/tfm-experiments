@@ -1,0 +1,1056 @@
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: FINE-TUNING
+Experiment: minigrid-wallgap-doorkey-redbluedoor-crossing
+Tasks: [(0, 'MiniGrid-WallGapS6-v0'), (1, 'MiniGrid-DoorKey-6x6-v0'), (2, 'MiniGrid-RedBlueDoors-6x6-v0'), (3, 'MiniGrid-SimpleCrossingS9N1-v0')]
+Episodes: 30
+Evaluating tasks:
+Task state:  0
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_123456_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94771, std 0.01734 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_789012_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94958, std 0.01745 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_345678_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94979, std 0.01439 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94958, std 0.01745 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: FINE-TUNING
+Experiment: minigrid-wallgap-doorkey-redbluedoor-crossing
+Tasks: [(0, 'MiniGrid-WallGapS6-v0'), (1, 'MiniGrid-DoorKey-6x6-v0'), (2, 'MiniGrid-RedBlueDoors-6x6-v0'), (3, 'MiniGrid-SimpleCrossingS9N1-v0')]
+Episodes: 30
+Evaluating tasks:
+Task state:  0
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_123456_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94771, std 0.01734 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_789012_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94958, std 0.01745 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_345678_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94979, std 0.01439 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94958, std 0.01745 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  1
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_123456_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.68188, std 0.39940 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96675, std 0.00759 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_789012_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.53979, std 0.47246 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96467, std 0.00732 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_345678_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.44833, std 0.47936 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.53979, std 0.47246 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.96467, std 0.00732 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  2
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_123456_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.40396, std 0.45927 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.72013, std 0.43426 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_789012_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.12979, std 0.33091 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_345678_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.16062, std 0.35921 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.16062, std 0.35921 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  3
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_123456_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.06542, std 0.24477 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.09800, std 0.29400 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.94472, std 0.01910 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_789012_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.60021, std 0.45725 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.03383, std 0.12659 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.94731, std 0.01817 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_fine-tuning_345678_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.19208, std 0.38424 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.94991, std 0.01212 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.19208, std 0.38424 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.94731, std 0.01817 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: EWC
+Experiment: minigrid-wallgap-doorkey-redbluedoor-crossing
+Tasks: [(0, 'MiniGrid-WallGapS6-v0'), (1, 'MiniGrid-DoorKey-6x6-v0'), (2, 'MiniGrid-RedBlueDoors-6x6-v0'), (3, 'MiniGrid-SimpleCrossingS9N1-v0')]
+Episodes: 30
+Evaluating tasks:
+Task state:  0
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_123456_500000_lamb_5000.0_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94771, std 0.01734 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_789012_500000_lamb_5000.0_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94958, std 0.01745 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_345678_500000_lamb_5000.0_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94979, std 0.01439 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94958, std 0.01745 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  1
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_123456_500000_lamb_5000.0_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94792, std 0.01741 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96525, std 0.00822 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_789012_500000_lamb_5000.0_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94958, std 0.01745 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96542, std 0.00759 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_345678_500000_lamb_5000.0_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94979, std 0.01439 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.03242, std 0.17457 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94958, std 0.01745 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.96525, std 0.00822 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  2
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_123456_500000_lamb_5000.0_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94771, std 0.01734 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96450, std 0.00941 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_789012_500000_lamb_5000.0_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94958, std 0.01745 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96508, std 0.00749 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_345678_500000_lamb_5000.0_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94979, std 0.01439 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.03242, std 0.17457 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94958, std 0.01745 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.96450, std 0.00941 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  3
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_123456_500000_lamb_5000.0_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94688, std 0.01781 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96550, std 0.00792 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.89472, std 0.10503 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_789012_500000_lamb_5000.0_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94958, std 0.01745 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96542, std 0.00759 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.72306, std 0.37216 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_ewc_345678_500000_lamb_5000.0_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94979, std 0.01439 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.03242, std 0.17457 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.53935, std 0.45387 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94958, std 0.01745 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.96542, std 0.00759 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.72306, std 0.37216 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP
+Experiment: minigrid-wallgap-doorkey-redbluedoor-crossing
+Tasks: [(0, 'MiniGrid-WallGapS6-v0'), (1, 'MiniGrid-DoorKey-6x6-v0'), (2, 'MiniGrid-RedBlueDoors-6x6-v0'), (3, 'MiniGrid-SimpleCrossingS9N1-v0')]
+Episodes: 30
+Evaluating tasks:
+Task state:  0
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_123456_500000_F_prior_5e-18_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_789012_500000_F_prior_5e-18_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_345678_500000_F_prior_5e-18_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  1
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_123456_500000_F_prior_5e-18_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.12475, std 0.28855 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_789012_500000_F_prior_5e-18_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.55417, std 0.46170 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_345678_500000_F_prior_5e-18_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96725, std 0.00740 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.55417, std 0.46170 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  2
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_123456_500000_F_prior_5e-18_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.12475, std 0.28855 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_789012_500000_F_prior_5e-18_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.55417, std 0.46170 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_345678_500000_F_prior_5e-18_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96725, std 0.00740 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.55417, std 0.46170 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  3
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_123456_500000_F_prior_5e-18_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.12475, std 0.28855 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.53130, std 0.46542 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_789012_500000_F_prior_5e-18_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.55417, std 0.46170 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.92065, std 0.05548 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_345678_500000_F_prior_5e-18_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96725, std 0.00740 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.06417, std 0.24009 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.55417, std 0.46170 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.53130, std 0.46542 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_EWC
+Experiment: minigrid-wallgap-doorkey-redbluedoor-crossing
+Tasks: [(0, 'MiniGrid-WallGapS6-v0'), (1, 'MiniGrid-DoorKey-6x6-v0'), (2, 'MiniGrid-RedBlueDoors-6x6-v0'), (3, 'MiniGrid-SimpleCrossingS9N1-v0')]
+Episodes: 30
+Evaluating tasks:
+Task state:  0
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_123456_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_789012_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_345678_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  1
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_123456_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.94733, std 0.03179 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_789012_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_345678_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94375, std 0.01833 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.94758, std 0.04924 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.94733, std 0.03179 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  2
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_123456_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.94750, std 0.03174 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_789012_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_345678_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.95333, std 0.04036 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.94750, std 0.03174 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  3
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_123456_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.94750, std 0.03174 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.57630, std 0.42138 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_789012_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.62880, std 0.44516 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_345678_500000_F_prior_5e-18_lamb_1000.0_F_term_ft_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94375, std 0.01833 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.95333, std 0.04036 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.14722, std 0.33495 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.94750, std 0.03174 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.57630, std 0.42138 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_EWC
+Experiment: minigrid-wallgap-doorkey-redbluedoor-crossing
+Tasks: [(0, 'MiniGrid-WallGapS6-v0'), (1, 'MiniGrid-DoorKey-6x6-v0'), (2, 'MiniGrid-RedBlueDoors-6x6-v0'), (3, 'MiniGrid-SimpleCrossingS9N1-v0')]
+Episodes: 30
+Evaluating tasks:
+Task state:  0
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_123456_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_789012_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_345678_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  1
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_123456_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96125, std 0.01543 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_789012_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96575, std 0.00956 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_345678_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.95717, std 0.01905 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.96125, std 0.01543 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  2
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_123456_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96125, std 0.01543 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_789012_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96575, std 0.00956 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_345678_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.95717, std 0.01905 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.96125, std 0.01543 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  3
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_123456_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96125, std 0.01543 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.15861, std 0.35478 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_789012_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96575, std 0.00956 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.20444, std 0.38327 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_ewc_345678_500000_F_prior_5e-18_lamb_2500.0_F_term_ft_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.95717, std 0.01905 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.96125, std 0.01543 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.15861, std 0.35478 
+
+Inits...
+[CUDA unavailable]
+Device:  cpu
+Approach: BLIP_SPP_MASK
+Experiment: minigrid-wallgap-doorkey-redbluedoor-crossing
+Tasks: [(0, 'MiniGrid-WallGapS6-v0'), (1, 'MiniGrid-DoorKey-6x6-v0'), (2, 'MiniGrid-RedBlueDoors-6x6-v0'), (3, 'MiniGrid-SimpleCrossingS9N1-v0')]
+Episodes: 30
+Evaluating tasks:
+Task state:  0
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_0.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  1
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.95900, std 0.01460 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_1.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96700, std 0.00969 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.95900, std 0.01460 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  2
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.95892, std 0.01454 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.13837, std 0.32255 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_2.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96700, std 0.00969 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.95892, std 0.01454 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task state:  3
+Seed:  123456
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_123456_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94562, std 0.02086 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.95900, std 0.01460 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.56787, std 0.46388 
+
+Seed:  789012
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_789012_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94833, std 0.01976 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.13812, std 0.32236 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.93269, std 0.02835 
+
+Seed:  345678
+Model: ./trained_models/ppo/2023-11-13_minigrid-wallgap-doorkey-redbluedoor-crossing_blip_spp_mask_345678_500000_F_prior_5e-18_spp_lamb_0.5_prune_30.0_scheduler_False_prune_higher_False_task_3.pth
+Task 0: Evaluation using 30 episodes: mean reward 0.94354, std 0.01871 
+
+Task 1: Evaluation using 30 episodes: mean reward 0.96700, std 0.00969 
+
+Task 2: Evaluation using 30 episodes: mean reward 0.00000, std 0.00000 
+
+Task 3: Evaluation using 30 episodes: mean reward 0.15537, std 0.34762 
+
+Final evaluation
+Task 0: Evaluation (3 seeds) using 30 episodes: median reward 0.94562, std 0.02086 
+
+Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.95900, std 0.01460 
+
+Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.00000, std 0.00000 
+
+Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.56787, std 0.46388 
+

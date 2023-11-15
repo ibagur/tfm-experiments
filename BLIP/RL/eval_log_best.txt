@@ -53,3 +53,31 @@ Task 1: Evaluation (3 seeds) using 30 episodes: median reward 0.78292, std 0.350
 Task 2: Evaluation (3 seeds) using 30 episodes: median reward 0.18550, std 0.37179 
 
 Task 3: Evaluation (3 seeds) using 30 episodes: median reward 0.93688, std 0.03126 
+
+
+Experiment: minigrid-wallgap-doorkey-redbluedoor-crossing 
+(using eval Q-Policy for Blip related)
+
+Approach: fine-tuning
+ACC: (0.29201, 0.098)
+BWT: (-0.56598, 0.13079)
+
+Approach: ewc
+ACC: (0.61541, 0.11525)
+BWT: (0.17525, 0.16087)
+
+Approach: blip
+ACC: (0.46271, 0.16051)
+BWT: (0.0, 0.21832)
+
+Approach: blip_ewc_1
+ACC: (0.44815, 0.16383)
+BWT: (-4e-05, 0.21835)
+
+Approach: blip_ewc_2
+ACC: (0.51849, 0.10407)
+BWT: (-3e-05, 0.06876)
+
+Approach: blip_spp_mask
+ACC: (0.54105, 0.1462)
+BWT: (-2e-05, 0.1672)

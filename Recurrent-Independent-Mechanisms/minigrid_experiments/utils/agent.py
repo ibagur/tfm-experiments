@@ -11,7 +11,7 @@ class Agent:
     - to choose an action given an observation,
     - to analyze the feedback (i.e. reward and done state) of its action."""
 
-    def __init__(self, obs_space, action_space, model_dir, device=None, argmax=False, num_envs=1, use_memory=False, use_text=False, use_rim=False, num_units=4, k=2, input_heads=1):
+    def __init__(self, obs_space, action_space, model_dir, device=None, argmax=False, num_envs=1, use_memory=False, use_text=False, use_rim=False, num_units=4, k=2, input_heads=1, checkpoint=None):
         obs_space, self.preprocess_obss = utils.get_obss_preprocessor(obs_space)
         self.acmodel = ACModel(obs_space, action_space, use_memory=use_memory, use_text=use_text, use_rim = use_rim, num_units = num_units, k = k, input_heads=input_heads)
         self.device = device
@@ -20,12 +20,19 @@ class Agent:
 
         if self.acmodel.recurrent:
             self.memories = torch.zeros(self.num_envs, self.acmodel.memory_size).to(device)
+        if checkpoint is None:
+            self.acmodel.load_state_dict(utils.get_model_state(model_dir))
+        else:
+            self.acmodel.load_state_dict(utils.get_model_state_checkpoint(model_dir, checkpoint))
 
-        self.acmodel.load_state_dict(utils.get_model_state(model_dir))
         self.acmodel.to(self.device)
         self.acmodel.eval()
+        
         if hasattr(self.preprocess_obss, "vocab"):
-            self.preprocess_obss.vocab.load_vocab(utils.get_vocab(model_dir))
+            if checkpoint is None:
+                self.preprocess_obss.vocab.load_vocab(utils.get_vocab(model_dir))
+            else:
+                self.preprocess_obss.vocab.load_vocab(utils.get_vocab_checkpoint(model_dir, checkpoint))
 
     def get_actions(self, obss):
         preprocessed_obss = self.preprocess_obss(obss, device=self.device)

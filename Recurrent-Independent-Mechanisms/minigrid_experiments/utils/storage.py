@@ -34,6 +34,11 @@ def get_status(model_dir):
     path = get_status_path(model_dir)
     return torch.load(path)
 
+def get_status_checkpoint(model_dir, checkpoint):
+    path = get_status_path_task(model_dir, checkpoint)
+    print(path)
+    return torch.load(path)
+
 
 def save_status(status, model_dir, index):
     path = get_status_path(model_dir)
@@ -47,10 +52,15 @@ def save_status(status, model_dir, index):
 def get_vocab(model_dir):
     return get_status(model_dir)["vocab"]
 
+def get_vocab_checkpoint(model_dir, checkpoint):
+    return get_status_checkpoint(model_dir, checkpoint)["vocab"]
+
 
 def get_model_state(model_dir):
     return get_status(model_dir)["model_state"]
 
+def get_model_state_checkpoint(model_dir, checkpoint):
+    return get_status_checkpoint(model_dir, checkpoint)["model_state"]
 
 def get_txt_logger(model_dir):
     path = os.path.join(model_dir, "log.txt")

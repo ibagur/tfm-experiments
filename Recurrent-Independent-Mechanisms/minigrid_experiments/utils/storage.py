@@ -27,7 +27,7 @@ def get_status_path(model_dir):
     return os.path.join(model_dir, "status.pt")
 
 def get_status_path_task(model_dir,index):
-    return os.path.join(model_dir, "status", str(index), ".pt")
+    return os.path.join(model_dir, "status"+str(index)+".pt")
 
 
 def get_status(model_dir):

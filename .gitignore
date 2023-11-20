@@ -163,3 +163,5 @@ BLIP/RL/logs/*
 BLIP/RL/*copy*
 .tmp.drivedownload/*
 BLIP/RL/.virtual_documents/*
+.DS_Store
+

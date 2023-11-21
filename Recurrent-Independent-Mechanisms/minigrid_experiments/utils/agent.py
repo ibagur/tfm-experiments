@@ -20,19 +20,13 @@ class Agent:
 
         if self.acmodel.recurrent:
             self.memories = torch.zeros(self.num_envs, self.acmodel.memory_size).to(device)
-        if checkpoint is None:
-            self.acmodel.load_state_dict(utils.get_model_state(model_dir))
-        else:
-            self.acmodel.load_state_dict(utils.get_model_state_checkpoint(model_dir, checkpoint))
+        self.acmodel.load_state_dict(utils.get_model_state(model_dir, checkpoint))
 
         self.acmodel.to(self.device)
         self.acmodel.eval()
         
         if hasattr(self.preprocess_obss, "vocab"):
-            if checkpoint is None:
-                self.preprocess_obss.vocab.load_vocab(utils.get_vocab(model_dir))
-            else:
-                self.preprocess_obss.vocab.load_vocab(utils.get_vocab_checkpoint(model_dir, checkpoint))
+            self.preprocess_obss.vocab.load_vocab(utils.get_vocab(model_dir, checkpoint))
 
     def get_actions(self, obss):
         preprocessed_obss = self.preprocess_obss(obss, device=self.device)

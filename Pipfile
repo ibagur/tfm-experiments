@@ -4,20 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-ipykernel = "*"
-numpy = "*"
-pandas = "*"
-matplotlib = "*"
-torch = "*"
-tensorboard = "*"
-tensorboardx = "*"
-pyglet = "*"
-tqdm = "*"
-gym = {version = "==0.21", extras = ["atari"]}
-autorom = "*"
-array2gif = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"

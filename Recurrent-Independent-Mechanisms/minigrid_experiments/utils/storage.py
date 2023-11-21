@@ -23,44 +23,35 @@ def get_model_dir(model_name):
     return os.path.join(get_storage_dir(), model_name)
 
 
-def get_status_path(model_dir):
-    return os.path.join(model_dir, "status.pt")
+def get_status_path(model_dir, index=None):
+    if index is None:
+        return os.path.join(model_dir, "status.pt")
+    else:
+        return os.path.join(model_dir, "status"+str(index)+".pt")
 
-def get_status_path_task(model_dir,index):
-    return os.path.join(model_dir, "status"+str(index)+".pt")
 
-
-def get_status(model_dir):
-    path = get_status_path(model_dir)
-    return torch.load(path)
-
-def get_status_checkpoint(model_dir, checkpoint):
-    path = get_status_path_task(model_dir, checkpoint)
-    print(path)
+def get_status(model_dir, index=None):
+    path = get_status_path(model_dir, index)
     return torch.load(path)
 
 
-def save_status(status, model_dir, index):
+def save_status(status, model_dir, index=None):
     path = get_status_path(model_dir)
-    path_task = get_status_path_task(model_dir, index)
     utils.create_folders_if_necessary(path)
-    utils.create_folders_if_necessary(path_task)
     torch.save(status, path)
-    torch.save(status, path_task)
+    if index is not None:
+        path_task = get_status_path(model_dir, index)
+        utils.create_folders_if_necessary(path_task)
+        torch.save(status, path_task)
 
 
-def get_vocab(model_dir):
-    return get_status(model_dir)["vocab"]
-
-def get_vocab_checkpoint(model_dir, checkpoint):
-    return get_status_checkpoint(model_dir, checkpoint)["vocab"]
+def get_vocab(model_dir, index=None): 
+    return get_status(model_dir, index)["vocab"]
 
 
-def get_model_state(model_dir):
-    return get_status(model_dir)["model_state"]
+def get_model_state(model_dir, index=None): 
+    return get_status(model_dir, index)["model_state"]
 
-def get_model_state_checkpoint(model_dir, checkpoint):
-    return get_status_checkpoint(model_dir, checkpoint)["model_state"]
 
 def get_txt_logger(model_dir):
     path = os.path.join(model_dir, "log.txt")
